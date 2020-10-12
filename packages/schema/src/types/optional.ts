@@ -1,5 +1,11 @@
 import { Schema } from '../schema';
 
+/**
+ * Create an optional schema.
+ *
+ * The optional schema allows 'undefined' or the values allowed by the given
+ * 'schema'.
+ */
 export function optional<T, S>(
   schema: Schema<T, S>
 ): Schema<T | undefined, S | undefined> {

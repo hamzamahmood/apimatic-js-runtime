@@ -30,6 +30,12 @@ export type ObjectType<
   }
 >;
 
+/**
+ * Create strict-object type schema.
+ *
+ * A strict-object does not allow additional properties during mapping or
+ * unmapping. Additional properties will result in a validation error.
+ */
 export function strictObject<
   V extends string,
   T extends Record<string, [V, Schema<any, any>]>
@@ -53,6 +59,12 @@ export function strictObject<
   };
 }
 
+/**
+ * Create an object schema.
+ *
+ * The object schema allows additional properties during mapping and unmapping. The
+ * additional properties are copied over as is.
+ */
 export function object<
   V extends string,
   T extends Record<string, [V, Schema<any, any>]>

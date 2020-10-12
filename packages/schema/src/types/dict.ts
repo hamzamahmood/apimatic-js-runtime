@@ -1,6 +1,11 @@
 import { Schema, SchemaContextCreator, SchemaValidationError } from '../schema';
 import { objectEntries } from '../utils';
 
+/**
+ * Create a dictionary schema.
+ *
+ * This can be used to map/unmap a type like Record<string, something>.
+ */
 export function dict<T, S>(
   itemSchema: Schema<T, S>
 ): Schema<Record<string, T>, Record<string, S>> {

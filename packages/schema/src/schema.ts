@@ -1,5 +1,8 @@
 import flatten from 'lodash.flatten';
 
+/**
+ * Schema defines a type and its validation and mapping functions.
+ */
 export interface Schema<T, S = unknown> {
   type: string;
   validateBeforeMap: (
@@ -14,12 +17,21 @@ export interface Schema<T, S = unknown> {
   unmap: (value: T, ctxt: SchemaContextCreator) => S;
 }
 
+/**
+ * Type for a Schema
+ */
 export type SchemaType<T extends Schema<any, any>> = ReturnType<T['map']>;
 
+/**
+ * Mapped type for the Schema
+ */
 export type SchemaMappedType<T extends Schema<any, any>> = ReturnType<
   T['unmap']
 >;
 
+/**
+ * Schema context when validating or mapping
+ */
 export interface SchemaContext {
   readonly value: unknown;
   readonly type: string;
@@ -27,6 +39,10 @@ export interface SchemaContext {
   readonly path: Array<string | number>;
 }
 
+/**
+ * SchemaContextCreator provides schema context as well as utility methods for
+ * interacting with the context from inside the validation or mapping methods.
+ */
 export interface SchemaContextCreator extends SchemaContext {
   createChild<T, S extends Schema<any, any>>(
     key: any,
@@ -46,14 +62,28 @@ export interface SchemaContextCreator extends SchemaContext {
   fail(message?: string): SchemaValidationError[];
 }
 
+/**
+ * Validation result after running validation.
+ */
 export type ValidationResult<T> =
   | { errors: false; result: T }
   | { errors: SchemaValidationError[] };
 
+/**
+ * Schema validation error
+ */
 export interface SchemaValidationError extends SchemaContext {
   readonly message?: string;
 }
 
+/**
+ * Validate and map the value using the given schema.
+ *
+ * This method should be used after JSON deserialization.
+ *
+ * @param value Value to map
+ * @param schema Schema for type
+ */
 export function validateAndMap<T extends Schema<any, any>>(
   value: SchemaMappedType<T>,
   schema: T
@@ -69,6 +99,14 @@ export function validateAndMap<T extends Schema<any, any>>(
   }
 }
 
+/**
+ * Valudate and unmap the value using the given schema.
+ *
+ * This method should be used before JSON serializatin.
+ *
+ * @param value Value to unmap
+ * @param schema Schema for type
+ */
 export function validateAndUnmap<T extends Schema<any, any>>(
   value: SchemaType<T>,
   schema: T
@@ -84,6 +122,9 @@ export function validateAndUnmap<T extends Schema<any, any>>(
   }
 }
 
+/**
+ * Create a new schema context using the given value and type.
+ */
 function createNewSchemaContext(value: unknown, type: string): SchemaContext {
   return {
     value,
@@ -93,6 +134,9 @@ function createNewSchemaContext(value: unknown, type: string): SchemaContext {
   };
 }
 
+/**
+ * Create a new SchemaContextCreator for the given SchemaContext.
+ */
 function createSchemaContextCreator(
   currentContext: SchemaContext
 ): SchemaContextCreator {

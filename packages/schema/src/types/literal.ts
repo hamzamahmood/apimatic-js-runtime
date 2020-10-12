@@ -1,6 +1,12 @@
 import { Schema } from '../schema';
 import { createSymmetricSchema, literalToString, toValidator } from '../utils';
 
+/**
+ * Create a literal schema.
+ *
+ * This schema always unmaps/maps to the constant value provided in the schema,
+ * regardless of the value being mapped/unmapped. The validation always passes.
+ */
 export function literal<T extends boolean>(literalValue: T): Schema<T, T>;
 export function literal<T extends number>(literalValue: T): Schema<T, T>;
 export function literal<T extends string>(literalValue: T): Schema<T, T>;

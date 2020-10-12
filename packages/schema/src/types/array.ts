@@ -1,6 +1,12 @@
 import { Schema } from '../schema';
 import { arrayEntries } from '../utils';
 
+/**
+ * Create an array schema.
+ *
+ * The array must be a homogenous array confirming to the itemsSchema. Each item
+ * will be mapped/unmapped using the itemsSchema.
+ */
 export function array<T, S>(itemsSchema: Schema<T, S>): Schema<T[], S[]> {
   return {
     type: `Array<${itemsSchema.type}>`,
