@@ -21,6 +21,14 @@ export function defaults<M, U, V extends M & U>(
       shouldDefault(v, defaultValue) ? defaultValue : schema.map(v, ctxt),
     unmap: (v, ctxt) =>
       shouldDefault(v, defaultValue) ? defaultValue : schema.unmap(v, ctxt),
+    validateBeforeMapXml: (v, ctxt) =>
+      shouldDefault(v, defaultValue)
+        ? []
+        : schema.validateBeforeMapXml(v, ctxt),
+    mapXml: (v, ctxt) =>
+      shouldDefault(v, defaultValue) ? defaultValue : schema.mapXml(v, ctxt),
+    unmapXml: (v, ctxt) =>
+      shouldDefault(v, defaultValue) ? defaultValue : schema.unmapXml(v, ctxt),
   };
 }
 

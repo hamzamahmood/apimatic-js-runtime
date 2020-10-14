@@ -15,7 +15,10 @@ export function string(): Schema<string, string> {
 }
 
 function isValidNumberValue(value: unknown): value is number {
-  return typeof value === 'number';
+  return (
+    typeof value === 'number' ||
+    (typeof value === 'string' && !isNaN(value as any))
+  );
 }
 
 /** Create a number schema. */
@@ -23,12 +26,16 @@ export function number(): Schema<number, number> {
   return createSymmetricSchema({
     type: 'number',
     validate: toValidator(isValidNumberValue),
-    map: identityFn,
+    map: (value: string | number) =>
+      typeof value === 'number' ? value : +value,
   });
 }
 
 function isValidBooleanValue(value: unknown): boolean {
-  return typeof value === 'boolean';
+  return (
+    typeof value === 'boolean' ||
+    (typeof value === 'string' && (value === 'true' || value === 'false'))
+  );
 }
 
 /** Create a boolean schema. */
@@ -36,6 +43,6 @@ export function boolean(): Schema<boolean, boolean> {
   return createSymmetricSchema({
     type: 'boolean',
     validate: toValidator(isValidBooleanValue),
-    map: identityFn,
+    map: value => (typeof value === 'boolean' ? value : value === 'true'),
   });
 }

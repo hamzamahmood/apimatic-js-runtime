@@ -10,7 +10,10 @@ export function dict<T, S>(
   itemSchema: Schema<T, S>
 ): Schema<Record<string, T>, Record<string, S>> {
   const validate = (
-    validateFn: 'validateBeforeMap' | 'validateBeforeUnmap',
+    validateFn:
+      | 'validateBeforeMap'
+      | 'validateBeforeUnmap'
+      | 'validateBeforeMapXml',
     value: unknown,
     ctxt: SchemaContextCreator
   ): SchemaValidationError[] => {
@@ -49,6 +52,36 @@ export function dict<T, S>(
         if (Object.prototype.hasOwnProperty.call(value, key)) {
           const propValue = value[key];
           output[key] = itemSchema.unmap(
+            propValue,
+            ctxt.createChild(key, propValue, itemSchema)
+          );
+        }
+      }
+      return output;
+    },
+    validateBeforeMapXml: (...args) =>
+      validate('validateBeforeMapXml', ...args),
+    mapXml: (value, ctxt) => {
+      const output: Record<string, T> = {};
+      for (const key in value) {
+        /* istanbul ignore else */
+        if (Object.prototype.hasOwnProperty.call(value, key)) {
+          const propValue = value[key];
+          output[key] = itemSchema.mapXml(
+            propValue,
+            ctxt.createChild(key, propValue, itemSchema)
+          );
+        }
+      }
+      return output;
+    },
+    unmapXml: (value, ctxt) => {
+      const output: Record<string, S> = {};
+      for (const key in value) {
+        /* istanbul ignore else */
+        if (Object.prototype.hasOwnProperty.call(value, key)) {
+          const propValue = value[key];
+          output[key] = itemSchema.unmapXml(
             propValue,
             ctxt.createChild(key, propValue, itemSchema)
           );

@@ -3,7 +3,7 @@ import flatten from 'lodash.flatten';
 /**
  * Schema defines a type and its validation and mapping functions.
  */
-export interface Schema<T, S = unknown> {
+export interface Schema<T, S = any> {
   type: string;
   validateBeforeMap: (
     value: unknown,
@@ -15,6 +15,13 @@ export interface Schema<T, S = unknown> {
   ) => SchemaValidationError[];
   map: (value: S, ctxt: SchemaContextCreator) => T;
   unmap: (value: T, ctxt: SchemaContextCreator) => S;
+
+  validateBeforeMapXml: (
+    value: unknown,
+    ctxt: SchemaContextCreator
+  ) => SchemaValidationError[];
+  mapXml: (value: any, ctxt: SchemaContextCreator) => T;
+  unmapXml: (value: T, ctxt: SchemaContextCreator) => any;
 }
 
 /**
@@ -117,6 +124,52 @@ export function validateAndUnmap<T extends Schema<any, any>>(
   const validationResult = schema.validateBeforeUnmap(value, contextCreator);
   if (validationResult.length === 0) {
     return { errors: false, result: schema.unmap(value, contextCreator) };
+  } else {
+    return { errors: validationResult };
+  }
+}
+
+/**
+ * Validate and map the value using the given schema.
+ *
+ * This method should be used after XML deserialization.
+ *
+ * @param value Value to map
+ * @param schema Schema for type
+ */
+export function validateAndMapXml<T extends Schema<any, any>>(
+  value: unknown,
+  schema: T
+): ValidationResult<SchemaType<T>> {
+  const contextCreator = createSchemaContextCreator(
+    createNewSchemaContext(value, schema.type)
+  );
+  const validationResult = schema.validateBeforeMapXml(value, contextCreator);
+  if (validationResult.length === 0) {
+    return { errors: false, result: schema.mapXml(value, contextCreator) };
+  } else {
+    return { errors: validationResult };
+  }
+}
+
+/**
+ * Valudate and unmap the value using the given schema.
+ *
+ * This method should be used before XML serialization.
+ *
+ * @param value Value to unmap
+ * @param schema Schema for type
+ */
+export function validateAndUnmapXml<T extends Schema<any, any>>(
+  value: SchemaType<T>,
+  schema: T
+): ValidationResult<unknown> {
+  const contextCreator = createSchemaContextCreator(
+    createNewSchemaContext(value, schema.type)
+  );
+  const validationResult = schema.validateBeforeUnmap(value, contextCreator);
+  if (validationResult.length === 0) {
+    return { errors: false, result: schema.unmapXml(value, contextCreator) };
   } else {
     return { errors: validationResult };
   }

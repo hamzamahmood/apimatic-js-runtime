@@ -8,3 +8,4 @@ export * from './types/optional';
 export * from './types/unknown';
 export * from './types/dict';
 export * from './types/defaults';
+export * from './types/lazy';

@@ -58,11 +58,35 @@ export interface SymmetricSchema<T> {
 export function createSymmetricSchema<T>(
   schema: SymmetricSchema<T>
 ): Schema<T, T> {
-  return {
+  return createBasicSchema({
     type: schema.type,
     validateBeforeMap: schema.validate,
     validateBeforeUnmap: schema.validate,
     map: schema.map,
     unmap: schema.map,
+  });
+}
+
+interface BasicSchema<T, S = unknown> {
+  type: string;
+  validateBeforeMap: (
+    value: unknown,
+    ctxt: SchemaContextCreator
+  ) => SchemaValidationError[];
+  validateBeforeUnmap: (
+    value: unknown,
+    ctxt: SchemaContextCreator
+  ) => SchemaValidationError[];
+  map: (value: S, ctxt: SchemaContextCreator) => T;
+  unmap: (value: T, ctxt: SchemaContextCreator) => S;
+}
+
+/** Create a basic schema where XML mapping and validation is the same as for JSON */
+function createBasicSchema<T, S>(basicSchema: BasicSchema<T, S>): Schema<T, S> {
+  return {
+    ...basicSchema,
+    validateBeforeMapXml: basicSchema.validateBeforeUnmap,
+    mapXml: basicSchema.map,
+    unmapXml: basicSchema.unmap,
   };
 }

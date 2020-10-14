@@ -19,5 +19,11 @@ export function optional<T, S>(
       value === undefined ? undefined : schema.map(value, ctxt),
     unmap: (value, ctxt) =>
       value === undefined ? undefined : schema.unmap(value, ctxt),
+    validateBeforeMapXml: (value, ctxt) =>
+      value === undefined ? [] : schema.validateBeforeMapXml(value, ctxt),
+    mapXml: (value, ctxt) =>
+      value === undefined ? undefined : schema.mapXml(value, ctxt),
+    unmapXml: (value, ctxt) =>
+      value === undefined ? undefined : schema.unmapXml(value, ctxt),
   };
 }
