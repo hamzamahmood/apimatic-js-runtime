@@ -104,21 +104,27 @@ export function discriminatedObject<
   discriminatorMappedPropName: TDiscrimMappedProp,
   discriminatorPropName: TDiscrimProp,
   discriminatorMap: TDiscrimMap,
-  defaultDiscriminator: keyof TDiscrimMap
+  defaultDiscriminator: keyof TDiscrimMap,
+  xmlOptions?: ObjectXmlOptions
 ): Schema<any, any> {
   const schemaSelector = (
     value: unknown,
-    discriminatorProp: TDiscrimProp | TDiscrimMappedProp
+    discriminatorProp: string | TDiscrimProp | TDiscrimMappedProp,
+    isAttr: boolean = false
   ) => {
     if (
       typeof value === 'object' &&
       value !== null &&
-      (discriminatorProp as string) in value
+      ((isAttr && xmlObjectHasAttribute(value, discriminatorProp as string)) ||
+        (!isAttr && (discriminatorProp as string) in value))
     ) {
-      const discriminatorValue = (value as Record<
-        typeof discriminatorProp,
-        unknown
-      >)[discriminatorProp];
+      const discriminatorValue = isAttr
+        ? (value as { $: Record<string, unknown> })['$'][
+            discriminatorProp as string
+          ]
+        : (value as Record<typeof discriminatorProp, unknown>)[
+            discriminatorProp
+          ];
       if (
         typeof discriminatorValue === 'string' &&
         discriminatorValue in discriminatorMap
@@ -149,15 +155,28 @@ export function discriminatedObject<
         ctxt
       ),
     mapXml: (value, ctxt) =>
-      schemaSelector(value, discriminatorPropName).mapXml(value, ctxt),
+      schemaSelector(
+        value,
+        xmlOptions?.xmlName ?? discriminatorPropName,
+        xmlOptions?.isAttr
+      ).mapXml(value, ctxt),
     unmapXml: (value, ctxt) =>
       schemaSelector(value, discriminatorMappedPropName).unmapXml(value, ctxt),
     validateBeforeMapXml: (value, ctxt) =>
-      schemaSelector(value, discriminatorPropName).validateBeforeMapXml(
+      schemaSelector(
         value,
-        ctxt
-      ),
+        xmlOptions?.xmlName ?? discriminatorPropName,
+        xmlOptions?.isAttr
+      ).validateBeforeMapXml(value, ctxt),
   };
+}
+
+function xmlObjectHasAttribute(value: object, prop: string): boolean {
+  return (
+    '$' in value &&
+    typeof (value as { $: unknown })['$'] === 'object' &&
+    (prop as string) in (value as { $: Record<string, unknown> })['$']
+  );
 }
 
 function validateObjectBeforeMapXml(
