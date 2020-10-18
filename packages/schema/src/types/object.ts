@@ -36,10 +36,21 @@ export interface ObjectXmlOptions {
   xmlName?: string;
 }
 
-export interface ObjectSchema<
+export interface StrictObjectSchema<
   V extends string,
   T extends Record<string, [V, Schema<any, any>, ObjectXmlOptions?]>
 > extends Schema<ObjectType<T>, MappedObjectType<T>> {
+  readonly objectSchema: T;
+}
+
+export interface ObjectSchema<
+  V extends string,
+  T extends Record<string, [V, Schema<any, any>]>
+>
+  extends Schema<
+    ObjectType<T> & { [key: string]: unknown },
+    MappedObjectType<T> & { [key: string]: unknown }
+  > {
   readonly objectSchema: T;
 }
 
@@ -52,7 +63,7 @@ export interface ObjectSchema<
 export function strictObject<
   V extends string,
   T extends Record<string, [V, Schema<any, any>, ObjectXmlOptions?]>
->(objectSchema: T): ObjectSchema<V, T> {
+>(objectSchema: T): StrictObjectSchema<V, T> {
   const keys = Object.keys(objectSchema);
   const reverseObjectSchema = createReverseObjectSchema<T>(objectSchema);
   const xmlMappingInfo = getMappingInfo(objectSchema);
@@ -89,10 +100,22 @@ export function extendStrictObject<
   A extends string,
   B extends Record<string, [A, Schema<any, any>, ObjectXmlOptions?]>
 >(
+  parentObjectSchema: StrictObjectSchema<V, T>,
+  objectSchema: B
+): StrictObjectSchema<string, T & B> {
+  return strictObject({ ...parentObjectSchema.objectSchema, ...objectSchema });
+}
+
+export function extendObject<
+  V extends string,
+  T extends Record<string, [V, Schema<any, any>]>,
+  A extends string,
+  B extends Record<string, [A, Schema<any, any>]>
+>(
   parentObjectSchema: ObjectSchema<V, T>,
   objectSchema: B
 ): ObjectSchema<string, T & B> {
-  return strictObject({ ...parentObjectSchema.objectSchema, ...objectSchema });
+  return object({ ...parentObjectSchema.objectSchema, ...objectSchema });
 }
 
 export function discriminatedObject<
@@ -407,12 +430,7 @@ function getMappingInfo(
 export function object<
   V extends string,
   T extends Record<string, [V, Schema<any, any>]>
->(
-  objectSchema: T
-): Schema<
-  ObjectType<T> & { [key: string]: unknown },
-  MappedObjectType<T> & { [key: string]: unknown }
-> {
+>(objectSchema: T): ObjectSchema<V, T> {
   const keys = Object.keys(objectSchema);
   const reverseObjectSchema = createReverseObjectSchema<T>(objectSchema);
   return {
@@ -436,6 +454,7 @@ export function object<
     ),
     mapXml: mapObject(objectSchema, 'mapXml', true),
     unmapXml: mapObject(reverseObjectSchema, 'unmapXml', true),
+    objectSchema: objectSchema,
   };
 }
 
