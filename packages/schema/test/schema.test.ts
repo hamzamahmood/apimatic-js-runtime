@@ -19,6 +19,8 @@ import {
   validateAndMapXml,
   validateAndUnmap,
   validateAndUnmapXml,
+  stringEnum,
+  numberEnum,
 } from '../src';
 import { Boss, bossSchema } from './bossSchema';
 
@@ -1856,6 +1858,196 @@ describe('Discriminated Object', () => {
         'type mapped': 'hello world',
         'base field': 123123,
       });
+    });
+  });
+});
+
+describe('String Enum', () => {
+  enum SampleStringEnum {
+    Hearts = '_hearts',
+    Spades = '_spades',
+    Clubs = '_clubs',
+    Diamonds = '_diamonds',
+  }
+  describe('Mapping', () => {
+    it('should map enum', () => {
+      const input = '_hearts';
+      const output = validateAndMap(input as any, stringEnum(SampleStringEnum));
+      expect(output.errors).toBeFalsy();
+      expect((output as any).result).toBe(SampleStringEnum.Hearts);
+    });
+
+    it('should fail on invalid value', () => {
+      const input = 'invalid value';
+      const output = validateAndMap(input as any, stringEnum(SampleStringEnum));
+      expect(output.errors).toBeTruthy();
+      expect(output.errors).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "branch": Array [
+              "invalid value",
+            ],
+            "message": undefined,
+            "path": Array [],
+            "type": "Enum<\\"_hearts\\",\\"_spades\\",\\"_clubs\\",\\"_diamonds\\">",
+            "value": "invalid value",
+          },
+        ]
+      `);
+    });
+  });
+  describe('Unmapping', () => {
+    it('should map enum', () => {
+      const input = SampleStringEnum.Hearts;
+      const output = validateAndUnmap(input, stringEnum(SampleStringEnum));
+      expect(output.errors).toBeFalsy();
+      expect((output as any).result).toBe('_hearts');
+    });
+
+    it('should fail on invalid value', () => {
+      const input = 'invalid value';
+      const output = validateAndUnmap(
+        input as any,
+        stringEnum(SampleStringEnum)
+      );
+      expect(output.errors).toBeTruthy();
+      expect(output.errors).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "branch": Array [
+              "invalid value",
+            ],
+            "message": undefined,
+            "path": Array [],
+            "type": "Enum<\\"_hearts\\",\\"_spades\\",\\"_clubs\\",\\"_diamonds\\">",
+            "value": "invalid value",
+          },
+        ]
+      `);
+    });
+  });
+});
+
+describe('Number Enum', () => {
+  enum SampleNumberEnum {
+    Hearts,
+    Spades,
+    Clubs,
+    Diamonds,
+  }
+  describe('Mapping', () => {
+    it('should map enum', () => {
+      const input = 0;
+      const output = validateAndMap(input as any, numberEnum(SampleNumberEnum));
+      expect(output.errors).toBeFalsy();
+      expect((output as any).result).toBe(SampleNumberEnum.Hearts);
+    });
+
+    it('should map enum from numeric string', () => {
+      const input = '0';
+      const output = validateAndMap(input as any, numberEnum(SampleNumberEnum));
+      expect(output.errors).toBeFalsy();
+      expect((output as any).result).toBe(SampleNumberEnum.Hearts);
+    });
+
+    it('should fail on invalid value', () => {
+      const input = 250;
+      const output = validateAndMap(input as any, numberEnum(SampleNumberEnum));
+      expect(output.errors).toBeTruthy();
+      expect(output.errors).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "branch": Array [
+              250,
+            ],
+            "message": undefined,
+            "path": Array [],
+            "type": "Enum<0,1,2,3>",
+            "value": 250,
+          },
+        ]
+      `);
+    });
+
+    it('should fail on enum string key', () => {
+      const input = 'Hearts';
+      const output = validateAndMap(input as any, numberEnum(SampleNumberEnum));
+      expect(output.errors).toBeTruthy();
+      expect(output.errors).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "branch": Array [
+              "Hearts",
+            ],
+            "message": undefined,
+            "path": Array [],
+            "type": "Enum<0,1,2,3>",
+            "value": "Hearts",
+          },
+        ]
+      `);
+    });
+  });
+  describe('Unmapping', () => {
+    it('should map enum', () => {
+      const input = SampleNumberEnum.Hearts;
+      const output = validateAndUnmap(input, numberEnum(SampleNumberEnum));
+      expect(output.errors).toBeFalsy();
+      expect((output as any).result).toBe(0);
+    });
+
+    it('should map enum from numeric string', () => {
+      const input = '0';
+      const output = validateAndUnmap(
+        input as any,
+        numberEnum(SampleNumberEnum)
+      );
+      expect(output.errors).toBeFalsy();
+      expect((output as any).result).toBe(SampleNumberEnum.Hearts);
+    });
+
+    it('should fail on invalid value', () => {
+      const input = 250;
+      const output = validateAndUnmap(
+        input as any,
+        numberEnum(SampleNumberEnum)
+      );
+      expect(output.errors).toBeTruthy();
+      expect(output.errors).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "branch": Array [
+              250,
+            ],
+            "message": undefined,
+            "path": Array [],
+            "type": "Enum<0,1,2,3>",
+            "value": 250,
+          },
+        ]
+      `);
+    });
+
+    it('should fail on enum string key', () => {
+      const input = 'Hearts';
+      const output = validateAndUnmap(
+        input as any,
+        numberEnum(SampleNumberEnum)
+      );
+      expect(output.errors).toBeTruthy();
+      expect(output.errors).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "branch": Array [
+              "Hearts",
+            ],
+            "message": undefined,
+            "path": Array [],
+            "type": "Enum<0,1,2,3>",
+            "value": "Hearts",
+          },
+        ]
+      `);
     });
   });
 });

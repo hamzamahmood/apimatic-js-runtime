@@ -1,5 +1,11 @@
 import { Schema } from '../schema';
-import { createSymmetricSchema, identityFn, toValidator } from '../utils';
+import {
+  createSymmetricSchema,
+  identityFn,
+  isNumericString,
+  toValidator,
+  coerceNumericStringToNumber,
+} from '../utils';
 
 function isValidStringValue(value: unknown): value is string {
   return typeof value === 'string';
@@ -14,20 +20,12 @@ export function string(): Schema<string, string> {
   });
 }
 
-function isValidNumberValue(value: unknown): value is number {
-  return (
-    typeof value === 'number' ||
-    (typeof value === 'string' && !isNaN(value as any))
-  );
-}
-
 /** Create a number schema. */
 export function number(): Schema<number, number> {
   return createSymmetricSchema({
     type: 'number',
-    validate: toValidator(isValidNumberValue),
-    map: (value: string | number) =>
-      typeof value === 'number' ? value : +value,
+    validate: toValidator(isNumericString),
+    map: coerceNumericStringToNumber,
   });
 }
 

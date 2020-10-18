@@ -90,3 +90,14 @@ function createBasicSchema<T, S>(basicSchema: BasicSchema<T, S>): Schema<T, S> {
     unmapXml: basicSchema.unmap,
   };
 }
+
+export function isNumericString(value: unknown): value is number | string {
+  return (
+    typeof value === 'number' ||
+    (typeof value === 'string' && !isNaN(value as any))
+  );
+}
+
+export function coerceNumericStringToNumber(value: number | string): number {
+  return typeof value === 'number' ? value : +value;
+}

@@ -9,3 +9,5 @@ export * from './types/unknown';
 export * from './types/dict';
 export * from './types/defaults';
 export * from './types/lazy';
+export * from './types/stringEnum';
+export * from './types/numberEnum';
