@@ -5,22 +5,24 @@ import {
   dict,
   discriminatedObject,
   extendStrictObject,
+  lazy,
   literal,
   nullable,
   number,
+  numberEnum,
   object,
   optional,
+  Schema,
   SchemaMappedType,
   SchemaType,
   strictObject,
   string,
+  stringEnum,
   unknown,
   validateAndMap,
   validateAndMapXml,
   validateAndUnmap,
   validateAndUnmapXml,
-  stringEnum,
-  numberEnum,
 } from '../src';
 import { Boss, bossSchema } from './bossSchema';
 
@@ -2049,6 +2051,29 @@ describe('Number Enum', () => {
         ]
       `);
     });
+  });
+});
+
+describe('Lazy', () => {
+  let spyFn: any;
+  let schema: Schema<string, string>;
+  beforeEach(() => {
+    spyFn = jest.fn(() => {
+      return string();
+    });
+    schema = lazy(spyFn);
+  });
+  it('should not call the schema provider fn immediately', () => {
+    expect(spyFn).not.toHaveBeenCalled();
+  });
+  it('should call the schema provider fn on validate', () => {
+    validateAndMap('test value', schema);
+    expect(spyFn).toBeCalledTimes(1);
+  });
+  it('should call the schema provider fn only once on multiple validate calls', () => {
+    validateAndMap('test value', schema);
+    validateAndMap('another value', schema);
+    expect(spyFn).toBeCalledTimes(1);
   });
 });
 

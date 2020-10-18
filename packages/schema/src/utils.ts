@@ -101,3 +101,16 @@ export function isNumericString(value: unknown): value is number | string {
 export function coerceNumericStringToNumber(value: number | string): number {
   return typeof value === 'number' ? value : +value;
 }
+
+export function once<Args extends any[], R>(
+  func: (...args: Args) => R
+): (...args: Args) => R {
+  var ran = false,
+    memo: R;
+  return function(this: any, ...args) {
+    if (ran) return memo;
+    ran = true;
+    memo = func.apply(this, args);
+    return memo;
+  };
+}
