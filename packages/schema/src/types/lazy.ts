@@ -1,5 +1,8 @@
 import { Schema } from '../schema';
 
+/**
+ * Create a schema that lazily delegates to the given schema.
+ */
 export function lazy<T, V>(schemaFn: () => Schema<T, V>): Schema<T, V> {
   return {
     // TODO: We might have to change type to a function if we want to return something better here
