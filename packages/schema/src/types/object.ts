@@ -72,6 +72,49 @@ export function strictObject<
 }
 
 /**
+ * Create an object schema.
+ *
+ * The object schema allows additional properties during mapping and unmapping. The
+ * additional properties are copied over as is.
+ */
+export function object<
+  V extends string,
+  T extends Record<string, [V, Schema<any, any>, ObjectXmlOptions?]>
+>(objectSchema: T): ObjectSchema<V, T> {
+  return internalObject(objectSchema, true, true);
+}
+
+/**
+ * Create a strict-object schema that extends an existing schema.
+ */
+export function extendStrictObject<
+  V extends string,
+  T extends Record<string, [V, Schema<any, any>, ObjectXmlOptions?]>,
+  A extends string,
+  B extends Record<string, [A, Schema<any, any>, ObjectXmlOptions?]>
+>(
+  parentObjectSchema: StrictObjectSchema<V, T>,
+  objectSchema: B
+): StrictObjectSchema<string, T & B> {
+  return strictObject({ ...parentObjectSchema.objectSchema, ...objectSchema });
+}
+
+/**
+ * Create an object schema that extends an existing schema.
+ */
+export function extendObject<
+  V extends string,
+  T extends Record<string, [V, Schema<any, any>, ObjectXmlOptions?]>,
+  A extends string,
+  B extends Record<string, [A, Schema<any, any>, ObjectXmlOptions?]>
+>(
+  parentObjectSchema: ObjectSchema<V, T>,
+  objectSchema: B
+): ObjectSchema<string, T & B> {
+  return object({ ...parentObjectSchema.objectSchema, ...objectSchema });
+}
+
+/**
  * Internal utility to create object schema with different options.
  */
 function internalObject<
@@ -84,7 +127,7 @@ function internalObject<
 ): StrictObjectSchema<V, T> {
   const keys = Object.keys(objectSchema);
   const reverseObjectSchema = createReverseObjectSchema<T>(objectSchema);
-  const xmlMappingInfo = getMappingInfo(objectSchema);
+  const xmlMappingInfo = getXmlPropMappingForObjectSchema(objectSchema);
   const xmlObjectSchema = createXmlObjectSchema(objectSchema);
   const reverseXmlObjectSchema = createReverseXmlObjectSchema(xmlObjectSchema);
   return {
@@ -112,117 +155,9 @@ function internalObject<
   };
 }
 
-export function extendStrictObject<
-  V extends string,
-  T extends Record<string, [V, Schema<any, any>, ObjectXmlOptions?]>,
-  A extends string,
-  B extends Record<string, [A, Schema<any, any>, ObjectXmlOptions?]>
->(
-  parentObjectSchema: StrictObjectSchema<V, T>,
-  objectSchema: B
-): StrictObjectSchema<string, T & B> {
-  return strictObject({ ...parentObjectSchema.objectSchema, ...objectSchema });
-}
-
-export function extendObject<
-  V extends string,
-  T extends Record<string, [V, Schema<any, any>, ObjectXmlOptions?]>,
-  A extends string,
-  B extends Record<string, [A, Schema<any, any>, ObjectXmlOptions?]>
->(
-  parentObjectSchema: ObjectSchema<V, T>,
-  objectSchema: B
-): ObjectSchema<string, T & B> {
-  return object({ ...parentObjectSchema.objectSchema, ...objectSchema });
-}
-
-export function discriminatedObject<
-  TSchema extends Schema<any, any>,
-  TDiscrimProp extends keyof SchemaType<TSchema>,
-  TDiscrimMappedProp extends keyof SchemaMappedType<TSchema>,
-  TDiscrimMap extends Record<string, TSchema>
->(
-  discriminatorMappedPropName: TDiscrimMappedProp,
-  discriminatorPropName: TDiscrimProp,
-  discriminatorMap: TDiscrimMap,
-  defaultDiscriminator: keyof TDiscrimMap,
-  xmlOptions?: ObjectXmlOptions
-): Schema<any, any> {
-  const schemaSelector = (
-    value: unknown,
-    discriminatorProp: string | TDiscrimProp | TDiscrimMappedProp,
-    isAttr: boolean = false
-  ) => {
-    if (
-      typeof value === 'object' &&
-      value !== null &&
-      ((isAttr && xmlObjectHasAttribute(value, discriminatorProp as string)) ||
-        (!isAttr && (discriminatorProp as string) in value))
-    ) {
-      const discriminatorValue = isAttr
-        ? (value as { $: Record<string, unknown> })['$'][
-            discriminatorProp as string
-          ]
-        : (value as Record<typeof discriminatorProp, unknown>)[
-            discriminatorProp
-          ];
-      if (
-        typeof discriminatorValue === 'string' &&
-        discriminatorValue in discriminatorMap
-      ) {
-        return discriminatorMap[discriminatorValue];
-      }
-    }
-    return discriminatorMap[defaultDiscriminator];
-  };
-  return {
-    type: `DiscriminatedUnion<${discriminatorPropName},[${objectEntries(
-      discriminatorMap
-    )
-      .map(([_, v]) => v.type)
-      .join(',')}]>`,
-    map: (value, ctxt) =>
-      schemaSelector(value, discriminatorPropName).map(value, ctxt),
-    unmap: (value, ctxt) =>
-      schemaSelector(value, discriminatorMappedPropName).unmap(value, ctxt),
-    validateBeforeMap: (value, ctxt) =>
-      schemaSelector(value, discriminatorPropName).validateBeforeMap(
-        value,
-        ctxt
-      ),
-    validateBeforeUnmap: (value, ctxt) =>
-      schemaSelector(value, discriminatorMappedPropName).validateBeforeUnmap(
-        value,
-        ctxt
-      ),
-    mapXml: (value, ctxt) =>
-      schemaSelector(
-        value,
-        xmlOptions?.xmlName ?? discriminatorPropName,
-        xmlOptions?.isAttr
-      ).mapXml(value, ctxt),
-    unmapXml: (value, ctxt) =>
-      schemaSelector(value, discriminatorMappedPropName).unmapXml(value, ctxt),
-    validateBeforeMapXml: (value, ctxt) =>
-      schemaSelector(
-        value,
-        xmlOptions?.xmlName ?? discriminatorPropName,
-        xmlOptions?.isAttr
-      ).validateBeforeMapXml(value, ctxt),
-  };
-}
-
-function xmlObjectHasAttribute(value: object, prop: string): boolean {
-  return (
-    '$' in value &&
-    typeof (value as { $: unknown })['$'] === 'object' &&
-    (prop as string) in (value as { $: Record<string, unknown> })['$']
-  );
-}
-
 function validateObjectBeforeMapXml(
   objectSchema: Record<string, [string, Schema<any>, ObjectXmlOptions?]>,
-  xmlMappingInfo: ReturnType<typeof getMappingInfo>,
+  xmlMappingInfo: ReturnType<typeof getXmlPropMappingForObjectSchema>,
   allowAdditionalProperties: boolean
 ) {
   const { elementsToProps, attributesToProps } = xmlMappingInfo;
@@ -265,43 +200,6 @@ function validateObjectBeforeMapXml(
         allowAdditionalProperties,
       }),
     ];
-  };
-}
-
-type XmlObjectSchema = {
-  elementsSchema: AnyObjectSchema;
-  attributesSchema: AnyObjectSchema;
-};
-
-function createXmlObjectSchema(objectSchema: AnyObjectSchema): XmlObjectSchema {
-  const elementsSchema: AnyObjectSchema = {};
-  const attributesSchema: AnyObjectSchema = {};
-  for (const key in objectSchema) {
-    /* istanbul ignore else */
-    if (Object.prototype.hasOwnProperty.call(objectSchema, key)) {
-      const element = objectSchema[key];
-      const [serializedName, schema, xmlOptions] = element;
-      const xmlObjectSchema = xmlOptions?.isAttr
-        ? attributesSchema
-        : elementsSchema;
-      xmlObjectSchema[key] = [
-        xmlOptions?.xmlName ?? serializedName,
-        schema,
-        xmlOptions,
-      ];
-    }
-  }
-  return { elementsSchema, attributesSchema };
-}
-
-function createReverseXmlObjectSchema(
-  xmlObjectSchema: XmlObjectSchema
-): XmlObjectSchema {
-  return {
-    attributesSchema: createReverseObjectSchema(
-      xmlObjectSchema.attributesSchema
-    ),
-    elementsSchema: createReverseObjectSchema(xmlObjectSchema.elementsSchema),
   };
 }
 
@@ -466,57 +364,6 @@ function validateValueObject({
   return errors;
 }
 
-function getMappingInfo(
-  objectSchema: Record<
-    string,
-    [string, Schema<any, unknown>, (ObjectXmlOptions | undefined)?]
-  >
-) {
-  const elementsToProps: Record<string, string> = {};
-  const attributesToProps: Record<string, string> = {};
-
-  for (const key in objectSchema) {
-    /* istanbul ignore else */
-    if (Object.prototype.hasOwnProperty.call(objectSchema, key)) {
-      const [propName, , xmlOptions] = objectSchema[key];
-      if (xmlOptions?.isAttr === true) {
-        attributesToProps[xmlOptions.xmlName ?? propName] = key;
-      } else {
-        elementsToProps[xmlOptions?.xmlName ?? propName] = key;
-      }
-    }
-  }
-
-  return { elementsToProps, attributesToProps };
-}
-
-/**
- * Create an object schema.
- *
- * The object schema allows additional properties during mapping and unmapping. The
- * additional properties are copied over as is.
- */
-export function object<
-  V extends string,
-  T extends Record<string, [V, Schema<any, any>, ObjectXmlOptions?]>
->(objectSchema: T): ObjectSchema<V, T> {
-  return internalObject(objectSchema, true, true);
-}
-
-function getPropMappingForObjectSchema(
-  objectSchema: AnyObjectSchema
-): Record<string, string> {
-  const propsMapping: Record<string, string> = {};
-  for (const key in objectSchema) {
-    /* istanbul ignore else */
-    if (Object.prototype.hasOwnProperty.call(objectSchema, key)) {
-      const propDef = objectSchema[key];
-      propsMapping[propDef[0]] = key;
-    }
-  }
-  return propsMapping;
-}
-
 function validateObject(
   objectSchema: AnyObjectSchema,
   validationMethod:
@@ -587,6 +434,39 @@ function mapObject<T extends AnyObjectSchema>(
   };
 }
 
+function getXmlPropMappingForObjectSchema(objectSchema: AnyObjectSchema) {
+  const elementsToProps: Record<string, string> = {};
+  const attributesToProps: Record<string, string> = {};
+
+  for (const key in objectSchema) {
+    /* istanbul ignore else */
+    if (Object.prototype.hasOwnProperty.call(objectSchema, key)) {
+      const [propName, , xmlOptions] = objectSchema[key];
+      if (xmlOptions?.isAttr === true) {
+        attributesToProps[xmlOptions.xmlName ?? propName] = key;
+      } else {
+        elementsToProps[xmlOptions?.xmlName ?? propName] = key;
+      }
+    }
+  }
+
+  return { elementsToProps, attributesToProps };
+}
+
+function getPropMappingForObjectSchema(
+  objectSchema: AnyObjectSchema
+): Record<string, string> {
+  const propsMapping: Record<string, string> = {};
+  for (const key in objectSchema) {
+    /* istanbul ignore else */
+    if (Object.prototype.hasOwnProperty.call(objectSchema, key)) {
+      const propDef = objectSchema[key];
+      propsMapping[propDef[0]] = key;
+    }
+  }
+  return propsMapping;
+}
+
 function createReverseObjectSchema<T extends AnyObjectSchema>(
   objectSchema: T
 ): AnyObjectSchema {
@@ -599,6 +479,43 @@ function createReverseObjectSchema<T extends AnyObjectSchema>(
     }
   }
   return reverseObjectSchema;
+}
+
+type XmlObjectSchema = {
+  elementsSchema: AnyObjectSchema;
+  attributesSchema: AnyObjectSchema;
+};
+
+function createXmlObjectSchema(objectSchema: AnyObjectSchema): XmlObjectSchema {
+  const elementsSchema: AnyObjectSchema = {};
+  const attributesSchema: AnyObjectSchema = {};
+  for (const key in objectSchema) {
+    /* istanbul ignore else */
+    if (Object.prototype.hasOwnProperty.call(objectSchema, key)) {
+      const element = objectSchema[key];
+      const [serializedName, schema, xmlOptions] = element;
+      const xmlObjectSchema = xmlOptions?.isAttr
+        ? attributesSchema
+        : elementsSchema;
+      xmlObjectSchema[key] = [
+        xmlOptions?.xmlName ?? serializedName,
+        schema,
+        xmlOptions,
+      ];
+    }
+  }
+  return { elementsSchema, attributesSchema };
+}
+
+function createReverseXmlObjectSchema(
+  xmlObjectSchema: XmlObjectSchema
+): XmlObjectSchema {
+  return {
+    attributesSchema: createReverseObjectSchema(
+      xmlObjectSchema.attributesSchema
+    ),
+    elementsSchema: createReverseObjectSchema(xmlObjectSchema.elementsSchema),
+  };
 }
 
 function objectKeyEncode(key: string): string {
