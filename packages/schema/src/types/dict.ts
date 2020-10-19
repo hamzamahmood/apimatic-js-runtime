@@ -123,7 +123,7 @@ export function dictWithXmlEntries<T, S>(
       entry: { $: { key: string }; _: unknown }[];
     };
 
-    // For single entry, the XML parser gives a single object instead of an array.
+    // For a single entry, the XML parser gives a single object instead of an array.
     // Make it an array for easier handling.
     if (!Array.isArray(entries)) {
       entries = [entries];
@@ -153,7 +153,7 @@ export function dictWithXmlEntries<T, S>(
     let entries = (value as { entry: object[] })['entry'];
 
     // Non-repeating XML elements are passed as a single-object instead of an array of objects.
-    // We normalize this behavior.
+    // We normalize this behavior of the XML parser.
     if (!Array.isArray(entries)) {
       entries = [entries];
     }
@@ -180,8 +180,8 @@ export function dictWithXmlEntries<T, S>(
       dictObj[typedEntry.$.key] = typedEntry._;
     }
 
-    // Check all entry values against item schema.
-    // TODO: Maintain context and path when delegating validatin
+    // Check all entry values against the item schema.
+    // TODO: Maintain context and path when delegating validation
     return dictSchema.validateBeforeMapXml(dictObj, ctxt);
   };
 
