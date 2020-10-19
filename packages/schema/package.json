@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0",
+  "version": "0.0.0",
   "license": "MIT",
   "sideEffects": false,
   "main": "dist/index.js",
@@ -32,16 +32,16 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "apimatic-js-sdk-runtime",
+  "name": "@apimatic/typescript-sdk-poc",
   "author": "Mehdi Jaffery",
-  "module": "dist/apimatic-js-sdk-runtime.esm.js",
+  "module": "dist/typescript-sdk-poc.esm.js",
   "size-limit": [
     {
-      "path": "dist/apimatic-js-sdk-runtime.cjs.production.min.js",
+      "path": "dist/typescript-sdk-poc.cjs.production.min.js",
       "limit": "5 KB"
     },
     {
-      "path": "dist/apimatic-js-sdk-runtime.esm.js",
+      "path": "dist/typescript-sdk-poc.esm.js",
       "limit": "5 KB"
     }
   ],
@@ -56,5 +56,12 @@
   },
   "dependencies": {
     "lodash.flatten": "^4.4.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:apimatic/typescript-sdk-validation.git"
   }
 }
