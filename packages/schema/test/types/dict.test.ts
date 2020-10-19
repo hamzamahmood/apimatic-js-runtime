@@ -25,7 +25,11 @@ describe('Dictionary', () => {
             "branch": Array [
               123123,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'Record<string,string>' but found 'number'.
+
+        Given value: 123123
+        Type: 'number'
+        Expected type: 'Record<string,string>'",
             "path": Array [],
             "type": "Record<string,string>",
             "value": 123123,
@@ -53,7 +57,12 @@ describe('Dictionary', () => {
               },
               false,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'string' but found 'boolean'.
+
+        Given value: false
+        Type: 'boolean'
+        Expected type: 'string'
+        Path: key2",
             "path": Array [
               "key2",
             ],
@@ -88,7 +97,11 @@ describe('Dictionary', () => {
             "branch": Array [
               123123,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'Record<string,string>' but found 'number'.
+
+        Given value: 123123
+        Type: 'number'
+        Expected type: 'Record<string,string>'",
             "path": Array [],
             "type": "Record<string,string>",
             "value": 123123,
@@ -116,7 +129,12 @@ describe('Dictionary', () => {
               },
               false,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'string' but found 'boolean'.
+
+        Given value: false
+        Type: 'boolean'
+        Expected type: 'string'
+        Path: key2",
             "path": Array [
               "key2",
             ],

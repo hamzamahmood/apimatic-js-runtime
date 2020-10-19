@@ -63,7 +63,11 @@ describe('XML', () => {
               "branch": Array [
                 123123,
               ],
-              "message": undefined,
+              "message": "Expected value to be of type 'StrictObject<{string-attr,number-attr,string-element,number-element}>' but found 'number'.
+
+          Given value: 123123
+          Type: 'number'
+          Expected type: 'StrictObject<{string-attr,number-attr,string-element,number-element}>'",
               "path": Array [],
               "type": "StrictObject<{string-attr,number-attr,string-element,number-element}>",
               "value": 123123,
@@ -101,7 +105,11 @@ describe('XML', () => {
               "branch": Array [
                 123123,
               ],
-              "message": undefined,
+              "message": "Expected value to be of type 'StrictObject<{string-attr,number-attr,string-element,number-element}>' but found 'number'.
+
+          Given value: 123123
+          Type: 'number'
+          Expected type: 'StrictObject<{string-attr,number-attr,string-element,number-element}>'",
               "path": Array [],
               "type": "StrictObject<{string-attr,number-attr,string-element,number-element}>",
               "value": 123123,
@@ -209,7 +217,11 @@ describe('XML', () => {
               "branch": Array [
                 123123,
               ],
-              "message": undefined,
+              "message": "Expected value to be of type 'Object<{string-attr,number-attr,string-element,number-element,...}>' but found 'number'.
+
+          Given value: 123123
+          Type: 'number'
+          Expected type: 'Object<{string-attr,number-attr,string-element,number-element,...}>'",
               "path": Array [],
               "type": "Object<{string-attr,number-attr,string-element,number-element,...}>",
               "value": 123123,
@@ -290,7 +302,11 @@ describe('XML', () => {
               "branch": Array [
                 123123,
               ],
-              "message": undefined,
+              "message": "Expected value to be of type 'Object<{string-attr,number-attr,string-element,number-element,...}>' but found 'number'.
+
+          Given value: 123123
+          Type: 'number'
+          Expected type: 'Object<{string-attr,number-attr,string-element,number-element,...}>'",
               "path": Array [],
               "type": "Object<{string-attr,number-attr,string-element,number-element,...}>",
               "value": 123123,

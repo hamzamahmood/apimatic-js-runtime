@@ -46,7 +46,11 @@ describe('Boolean', () => {
             "branch": Array [
               123123,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'boolean' but found 'number'.
+
+        Given value: 123123
+        Type: 'number'
+        Expected type: 'boolean'",
             "path": Array [],
             "type": "boolean",
             "value": 123123,
@@ -84,7 +88,11 @@ describe('Boolean', () => {
             "branch": Array [
               "hello world",
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'boolean' but found 'string'.
+
+        Given value: \\"hello world\\"
+        Type: 'string'
+        Expected type: 'boolean'",
             "path": Array [],
             "type": "boolean",
             "value": "hello world",

@@ -30,7 +30,11 @@ describe('Literal', () => {
             "branch": Array [
               "hello world",
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'Literal<123>' but found 'string'.
+
+        Given value: \\"hello world\\"
+        Type: 'string'
+        Expected type: 'Literal<123>'",
             "path": Array [],
             "type": "Literal<123>",
             "value": "hello world",
@@ -68,7 +72,11 @@ describe('Literal', () => {
             "branch": Array [
               "hello world",
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'Literal<123>' but found 'string'.
+
+        Given value: \\"hello world\\"
+        Type: 'string'
+        Expected type: 'Literal<123>'",
             "path": Array [],
             "type": "Literal<123>",
             "value": "hello world",

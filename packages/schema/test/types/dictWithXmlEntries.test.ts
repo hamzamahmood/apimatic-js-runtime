@@ -79,7 +79,11 @@ describe('Dictionary with XML Entries', () => {
                 ],
               },
             ],
-            "message": "Expected \\"entry\\" element to have an attribute named \\"key\\".",
+            "message": "Expected \\"entry\\" element to have an attribute named \\"key\\".
+
+        Given value: {\\"entry\\":[{\\"$\\":{\\"nokey\\":\\"key1\\"},\\"_\\":\\"hello\\"}]}
+        Type: 'object'
+        Expected type: 'Record<string,string>'",
             "path": Array [],
             "type": "Record<string,string>",
             "value": Object {
@@ -119,7 +123,12 @@ describe('Dictionary with XML Entries', () => {
               },
               undefined,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'string' but found 'undefined'.
+
+        Given value: undefined
+        Type: 'undefined'
+        Expected type: 'string'
+        Path: key1",
             "path": Array [
               "key1",
             ],
@@ -145,7 +154,11 @@ describe('Dictionary with XML Entries', () => {
                 "entry": "invalid value",
               },
             ],
-            "message": "Expected \\"entry\\" to be an XML element.",
+            "message": "Expected \\"entry\\" to be an XML element.
+
+        Given value: {\\"entry\\":\\"invalid value\\"}
+        Type: 'object'
+        Expected type: 'Record<string,string>'",
             "path": Array [],
             "type": "Record<string,string>",
             "value": Object {
@@ -168,7 +181,11 @@ describe('Dictionary with XML Entries', () => {
             "branch": Array [
               123123,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'Record<string,string>' but found 'number'.
+
+        Given value: 123123
+        Type: 'number'
+        Expected type: 'Record<string,string>'",
             "path": Array [],
             "type": "Record<string,string>",
             "value": 123123,
@@ -210,7 +227,12 @@ describe('Dictionary with XML Entries', () => {
               },
               false,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'string' but found 'boolean'.
+
+        Given value: false
+        Type: 'boolean'
+        Expected type: 'string'
+        Path: key2",
             "path": Array [
               "key2",
             ],
@@ -250,7 +272,11 @@ describe('Dictionary with XML Entries', () => {
             "branch": Array [
               123123,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'Record<string,string>' but found 'number'.
+
+        Given value: 123123
+        Type: 'number'
+        Expected type: 'Record<string,string>'",
             "path": Array [],
             "type": "Record<string,string>",
             "value": 123123,
@@ -278,7 +304,12 @@ describe('Dictionary with XML Entries', () => {
               },
               false,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'string' but found 'boolean'.
+
+        Given value: false
+        Type: 'boolean'
+        Expected type: 'string'
+        Path: key2",
             "path": Array [
               "key2",
             ],

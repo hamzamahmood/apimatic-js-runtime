@@ -29,7 +29,11 @@ describe('Optional', () => {
             "branch": Array [
               123,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'Optional<string>' but found 'number'.
+
+        Given value: 123
+        Type: 'number'
+        Expected type: 'Optional<string>'",
             "path": Array [],
             "type": "Optional<string>",
             "value": 123,
@@ -66,7 +70,11 @@ describe('Optional', () => {
             "branch": Array [
               123,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'Optional<string>' but found 'number'.
+
+        Given value: 123
+        Type: 'number'
+        Expected type: 'Optional<string>'",
             "path": Array [],
             "type": "Optional<string>",
             "value": 123,

@@ -43,7 +43,11 @@ describe('Defaults', () => {
             "branch": Array [
               123123,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'Defaults<string,\\"default value\\">' but found 'number'.
+
+        Given value: 123123
+        Type: 'number'
+        Expected type: 'Defaults<string,\\"default value\\">'",
             "path": Array [],
             "type": "Defaults<string,\\"default value\\">",
             "value": 123123,
@@ -88,7 +92,11 @@ describe('Defaults', () => {
             "branch": Array [
               123123,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'Defaults<string,\\"default value\\">' but found 'number'.
+
+        Given value: 123123
+        Type: 'number'
+        Expected type: 'Defaults<string,\\"default value\\">'",
             "path": Array [],
             "type": "Defaults<string,\\"default value\\">",
             "value": 123123,

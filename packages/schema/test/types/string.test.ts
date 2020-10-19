@@ -23,7 +23,11 @@ describe('String', () => {
             "branch": Array [
               123123,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'string' but found 'number'.
+
+        Given value: 123123
+        Type: 'number'
+        Expected type: 'string'",
             "path": Array [],
             "type": "string",
             "value": 123123,
@@ -55,7 +59,11 @@ describe('String', () => {
             "branch": Array [
               123123,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'string' but found 'number'.
+
+        Given value: 123123
+        Type: 'number'
+        Expected type: 'string'",
             "path": Array [],
             "type": "string",
             "value": 123123,

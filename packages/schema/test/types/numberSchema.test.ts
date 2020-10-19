@@ -32,7 +32,11 @@ describe('Number Enum', () => {
             "branch": Array [
               250,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'Enum<0,1,2,3>' but found 'number'.
+
+        Given value: 250
+        Type: 'number'
+        Expected type: 'Enum<0,1,2,3>'",
             "path": Array [],
             "type": "Enum<0,1,2,3>",
             "value": 250,
@@ -51,7 +55,11 @@ describe('Number Enum', () => {
             "branch": Array [
               "Hearts",
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'Enum<0,1,2,3>' but found 'string'.
+
+        Given value: \\"Hearts\\"
+        Type: 'string'
+        Expected type: 'Enum<0,1,2,3>'",
             "path": Array [],
             "type": "Enum<0,1,2,3>",
             "value": "Hearts",
@@ -91,7 +99,11 @@ describe('Number Enum', () => {
             "branch": Array [
               250,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'Enum<0,1,2,3>' but found 'number'.
+
+        Given value: 250
+        Type: 'number'
+        Expected type: 'Enum<0,1,2,3>'",
             "path": Array [],
             "type": "Enum<0,1,2,3>",
             "value": 250,
@@ -113,7 +125,11 @@ describe('Number Enum', () => {
             "branch": Array [
               "Hearts",
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'Enum<0,1,2,3>' but found 'string'.
+
+        Given value: \\"Hearts\\"
+        Type: 'string'
+        Expected type: 'Enum<0,1,2,3>'",
             "path": Array [],
             "type": "Enum<0,1,2,3>",
             "value": "Hearts",

@@ -72,7 +72,12 @@ describe('Discriminated Object', () => {
               },
               101,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'boolean' but found 'number'.
+
+        Given value: 101
+        Type: 'number'
+        Expected type: 'boolean'
+        Path: \\"child1 field\\"",
             "path": Array [
               "child1 field",
             ],
@@ -144,7 +149,12 @@ describe('Discriminated Object', () => {
               },
               101,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'boolean' but found 'number'.
+
+        Given value: 101
+        Type: 'number'
+        Expected type: 'boolean'
+        Path: child1Field",
             "path": Array [
               "child1Field",
             ],

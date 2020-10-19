@@ -67,7 +67,11 @@ describe('Strict Object', () => {
             "branch": Array [
               "not an object",
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'StrictObject<{id,age}>' but found 'string'.
+
+        Given value: \\"not an object\\"
+        Type: 'string'
+        Expected type: 'StrictObject<{id,age}>'",
             "path": Array [],
             "type": "StrictObject<{id,age}>",
             "value": "not an object",
@@ -94,7 +98,12 @@ describe('Strict Object', () => {
               },
               true,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'number' but found 'boolean'.
+
+        Given value: true
+        Type: 'boolean'
+        Expected type: 'number'
+        Path: user_age",
             "path": Array [
               "user_age",
             ],
@@ -120,7 +129,11 @@ describe('Strict Object', () => {
                 "user_id": "John Smith",
               },
             ],
-            "message": "Some properties are missing in the object: \\"user_age\\".",
+            "message": "Some properties are missing in the object: \\"user_age\\".
+
+        Given value: {\\"user_id\\":\\"John Smith\\"}
+        Type: 'object'
+        Expected type: 'StrictObject<{id,age}>'",
             "path": Array [],
             "type": "StrictObject<{id,age}>",
             "value": Object {
@@ -150,7 +163,11 @@ describe('Strict Object', () => {
                 "user_id": "John Smith",
               },
             ],
-            "message": "Some unknown properties were found in the object: \\"extra\\".",
+            "message": "Some unknown properties were found in the object: \\"extra\\".
+
+        Given value: {\\"user_id\\":\\"John Smith\\",\\"user_age\\":50,\\"extra\\":true}
+        Type: 'object'
+        Expected type: 'StrictObject<{id,age}>'",
             "path": Array [],
             "type": "StrictObject<{id,age}>",
             "value": Object {
@@ -203,7 +220,11 @@ describe('Strict Object', () => {
             "branch": Array [
               "not an object",
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'StrictObject<{id,age}>' but found 'string'.
+
+        Given value: \\"not an object\\"
+        Type: 'string'
+        Expected type: 'StrictObject<{id,age}>'",
             "path": Array [],
             "type": "StrictObject<{id,age}>",
             "value": "not an object",
@@ -230,7 +251,12 @@ describe('Strict Object', () => {
               },
               true,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'number' but found 'boolean'.
+
+        Given value: true
+        Type: 'boolean'
+        Expected type: 'number'
+        Path: age",
             "path": Array [
               "age",
             ],
@@ -256,7 +282,11 @@ describe('Strict Object', () => {
                 "id": "John Smith",
               },
             ],
-            "message": "Some properties are missing in the object: \\"age\\".",
+            "message": "Some properties are missing in the object: \\"age\\".
+
+        Given value: {\\"id\\":\\"John Smith\\"}
+        Type: 'object'
+        Expected type: 'StrictObject<{id,age}>'",
             "path": Array [],
             "type": "StrictObject<{id,age}>",
             "value": Object {
@@ -286,7 +316,11 @@ describe('Strict Object', () => {
                 "id": "John Smith",
               },
             ],
-            "message": "Some unknown properties were found in the object: \\"extra\\".",
+            "message": "Some unknown properties were found in the object: \\"extra\\".
+
+        Given value: {\\"id\\":\\"John Smith\\",\\"age\\":50,\\"extra\\":true}
+        Type: 'object'
+        Expected type: 'StrictObject<{id,age}>'",
             "path": Array [],
             "type": "StrictObject<{id,age}>",
             "value": Object {

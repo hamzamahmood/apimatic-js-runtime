@@ -25,7 +25,11 @@ describe('String Enum', () => {
             "branch": Array [
               "invalid value",
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'Enum<\\"_hearts\\",\\"_spades\\",\\"_clubs\\",\\"_diamonds\\">' but found 'string'.
+
+        Given value: \\"invalid value\\"
+        Type: 'string'
+        Expected type: 'Enum<\\"_hearts\\",\\"_spades\\",\\"_clubs\\",\\"_diamonds\\">'",
             "path": Array [],
             "type": "Enum<\\"_hearts\\",\\"_spades\\",\\"_clubs\\",\\"_diamonds\\">",
             "value": "invalid value",
@@ -55,7 +59,11 @@ describe('String Enum', () => {
             "branch": Array [
               "invalid value",
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'Enum<\\"_hearts\\",\\"_spades\\",\\"_clubs\\",\\"_diamonds\\">' but found 'string'.
+
+        Given value: \\"invalid value\\"
+        Type: 'string'
+        Expected type: 'Enum<\\"_hearts\\",\\"_spades\\",\\"_clubs\\",\\"_diamonds\\">'",
             "path": Array [],
             "type": "Enum<\\"_hearts\\",\\"_spades\\",\\"_clubs\\",\\"_diamonds\\">",
             "value": "invalid value",

@@ -134,3 +134,7 @@ export function omitKeysFromObject(
   }
   return output;
 }
+
+export function objectKeyEncode(key: string): string {
+  return key.indexOf(' ') !== -1 ? literalToString(key) : key;
+}

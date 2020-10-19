@@ -1,4 +1,5 @@
 import flatten from 'lodash.flatten';
+import { objectKeyEncode } from './utils';
 
 /**
  * Schema defines a type and its validation and mapping functions.
@@ -219,6 +220,32 @@ function createSchemaContextCreator(
     createChild: createChildContext,
     flatmapChildren: (...args) => flatten(mapChildren(...args)),
     mapChildren: mapChildren,
-    fail: message => [{ ...currentContext, message }],
+    fail: message => [
+      {
+        ...currentContext,
+        message: createErrorMessage(currentContext, message),
+      },
+    ],
   };
+}
+
+function createErrorMessage(ctxt: SchemaContext, message?: string): string {
+  message =
+    (message ??
+      `Expected value to be of type '${
+        ctxt.type
+      }' but found '${typeof ctxt.value}'.`) +
+    '\n' +
+    `\nGiven value: ${JSON.stringify(ctxt.value)}` +
+    `\nType: '${typeof ctxt.value}'` +
+    `\nExpected type: '${ctxt.type}'`;
+
+  if (ctxt.path.length > 0) {
+    const pathString = ctxt.path
+      .map(value => objectKeyEncode(value.toString()))
+      .join(' › ');
+    message += `\nPath: ${pathString}`;
+  }
+
+  return message;
 }

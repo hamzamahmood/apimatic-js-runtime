@@ -6,7 +6,12 @@ import {
   SchemaValidationError,
 } from '../schema';
 import { OptionalizeObject } from '../typeUtils';
-import { literalToString, objectEntries, omitKeysFromObject } from '../utils';
+import {
+  literalToString,
+  objectEntries,
+  objectKeyEncode,
+  omitKeysFromObject,
+} from '../utils';
 
 type AnyObjectSchema = Record<
   string,
@@ -516,8 +521,4 @@ function createReverseXmlObjectSchema(
     ),
     elementsSchema: createReverseObjectSchema(xmlObjectSchema.elementsSchema),
   };
-}
-
-function objectKeyEncode(key: string): string {
-  return key.indexOf(' ') !== -1 ? literalToString(key) : key;
 }

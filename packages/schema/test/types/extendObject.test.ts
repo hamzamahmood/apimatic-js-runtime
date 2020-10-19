@@ -78,7 +78,11 @@ describe('Extend Strict Object', () => {
             "branch": Array [
               "not an object",
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'Object<{id,age,...}>' but found 'string'.
+
+        Given value: \\"not an object\\"
+        Type: 'string'
+        Expected type: 'Object<{id,age,...}>'",
             "path": Array [],
             "type": "Object<{id,age,...}>",
             "value": "not an object",
@@ -96,24 +100,29 @@ describe('Extend Strict Object', () => {
       expect((output as any).result).toBeUndefined();
       expect(output.errors).toHaveLength(1);
       expect(output.errors).toMatchInlineSnapshot(`
-          Array [
-            Object {
-              "branch": Array [
-                Object {
-                  "user_age": true,
-                  "user_id": "John Smith",
-                },
-                true,
-              ],
-              "message": undefined,
-              "path": Array [
-                "user_age",
-              ],
-              "type": "number",
-              "value": true,
-            },
-          ]
-        `);
+        Array [
+          Object {
+            "branch": Array [
+              Object {
+                "user_age": true,
+                "user_id": "John Smith",
+              },
+              true,
+            ],
+            "message": "Expected value to be of type 'number' but found 'boolean'.
+
+        Given value: true
+        Type: 'boolean'
+        Expected type: 'number'
+        Path: user_age",
+            "path": Array [
+              "user_age",
+            ],
+            "type": "number",
+            "value": true,
+          },
+        ]
+      `);
     });
 
     it('should fail on missing properties', () => {
@@ -131,7 +140,11 @@ describe('Extend Strict Object', () => {
                 "user_id": "John Smith",
               },
             ],
-            "message": "Some properties are missing in the object: \\"user_age\\".",
+            "message": "Some properties are missing in the object: \\"user_age\\".
+
+        Given value: {\\"user_id\\":\\"John Smith\\"}
+        Type: 'object'
+        Expected type: 'Object<{id,age,...}>'",
             "path": Array [],
             "type": "Object<{id,age,...}>",
             "value": Object {
@@ -202,7 +215,11 @@ describe('Extend Strict Object', () => {
             "branch": Array [
               "not an object",
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'Object<{id,age,...}>' but found 'string'.
+
+        Given value: \\"not an object\\"
+        Type: 'string'
+        Expected type: 'Object<{id,age,...}>'",
             "path": Array [],
             "type": "Object<{id,age,...}>",
             "value": "not an object",
@@ -220,24 +237,29 @@ describe('Extend Strict Object', () => {
       expect((output as any).result).toBeUndefined();
       expect(output.errors).toHaveLength(1);
       expect(output.errors).toMatchInlineSnapshot(`
-          Array [
-            Object {
-              "branch": Array [
-                Object {
-                  "age": true,
-                  "id": "John Smith",
-                },
-                true,
-              ],
-              "message": undefined,
-              "path": Array [
-                "age",
-              ],
-              "type": "number",
-              "value": true,
-            },
-          ]
-        `);
+        Array [
+          Object {
+            "branch": Array [
+              Object {
+                "age": true,
+                "id": "John Smith",
+              },
+              true,
+            ],
+            "message": "Expected value to be of type 'number' but found 'boolean'.
+
+        Given value: true
+        Type: 'boolean'
+        Expected type: 'number'
+        Path: age",
+            "path": Array [
+              "age",
+            ],
+            "type": "number",
+            "value": true,
+          },
+        ]
+      `);
     });
 
     it('should fail on missing properties', () => {
@@ -255,7 +277,11 @@ describe('Extend Strict Object', () => {
                 "id": "John Smith",
               },
             ],
-            "message": "Some properties are missing in the object: \\"age\\".",
+            "message": "Some properties are missing in the object: \\"age\\".
+
+        Given value: {\\"id\\":\\"John Smith\\"}
+        Type: 'object'
+        Expected type: 'Object<{id,age,...}>'",
             "path": Array [],
             "type": "Object<{id,age,...}>",
             "value": Object {

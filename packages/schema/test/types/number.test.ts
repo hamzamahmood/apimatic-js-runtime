@@ -30,7 +30,11 @@ describe('Number', () => {
             "branch": Array [
               true,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'number' but found 'boolean'.
+
+        Given value: true
+        Type: 'boolean'
+        Expected type: 'number'",
             "path": Array [],
             "type": "number",
             "value": true,
@@ -68,7 +72,11 @@ describe('Number', () => {
             "branch": Array [
               true,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'number' but found 'boolean'.
+
+        Given value: true
+        Type: 'boolean'
+        Expected type: 'number'",
             "path": Array [],
             "type": "number",
             "value": true,

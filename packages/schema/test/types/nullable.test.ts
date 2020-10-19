@@ -29,7 +29,11 @@ describe('Nullable', () => {
             "branch": Array [
               123,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'Nullable<string>' but found 'number'.
+
+        Given value: 123
+        Type: 'number'
+        Expected type: 'Nullable<string>'",
             "path": Array [],
             "type": "Nullable<string>",
             "value": 123,
@@ -66,7 +70,11 @@ describe('Nullable', () => {
             "branch": Array [
               123,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'Nullable<string>' but found 'number'.
+
+        Given value: 123
+        Type: 'number'
+        Expected type: 'Nullable<string>'",
             "path": Array [],
             "type": "Nullable<string>",
             "value": 123,

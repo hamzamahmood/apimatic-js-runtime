@@ -26,7 +26,12 @@ describe('Array', () => {
               ],
               123,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'string' but found 'number'.
+
+        Given value: 123
+        Type: 'number'
+        Expected type: 'string'
+        Path: 1",
             "path": Array [
               1,
             ],
@@ -49,7 +54,11 @@ describe('Array', () => {
             "branch": Array [
               123,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'Array<string>' but found 'number'.
+
+        Given value: 123
+        Type: 'number'
+        Expected type: 'Array<string>'",
             "path": Array [],
             "type": "Array<string>",
             "value": 123,
@@ -83,7 +92,12 @@ describe('Array', () => {
               ],
               123,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'string' but found 'number'.
+
+        Given value: 123
+        Type: 'number'
+        Expected type: 'string'
+        Path: 1",
             "path": Array [
               1,
             ],
@@ -106,7 +120,11 @@ describe('Array', () => {
             "branch": Array [
               123,
             ],
-            "message": undefined,
+            "message": "Expected value to be of type 'Array<string>' but found 'number'.
+
+        Given value: 123
+        Type: 'number'
+        Expected type: 'Array<string>'",
             "path": Array [],
             "type": "Array<string>",
             "value": 123,
