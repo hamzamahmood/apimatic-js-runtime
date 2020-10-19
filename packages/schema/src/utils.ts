@@ -114,3 +114,40 @@ export function once<Args extends any[], R>(
     return memo;
   };
 }
+
+/**
+ * Returns a copy of the object with the given keys omitted.
+ */
+export function omitKeysFromObject(
+  object: Record<string, unknown>,
+  keysToOmit: string[]
+): Record<string, unknown> {
+  const omitSet = new Set(keysToOmit);
+  const output: Record<string, unknown> = {};
+  for (const key in object) {
+    if (
+      Object.prototype.hasOwnProperty.call(object, key) &&
+      !omitSet.has(key)
+    ) {
+      output[key] = object[key];
+    }
+  }
+  return output;
+}
+
+/**
+ * Returns a copy of the object with only selected keys.
+ */
+export function pickKeysFromObject(
+  object: Record<string, unknown>,
+  keysToPick: string[]
+): Record<string, unknown> {
+  const pickSet = new Set(keysToPick);
+  const output: Record<string, unknown> = {};
+  for (const key in object) {
+    if (Object.prototype.hasOwnProperty.call(object, key) && pickSet.has(key)) {
+      output[key] = object[key];
+    }
+  }
+  return output;
+}
