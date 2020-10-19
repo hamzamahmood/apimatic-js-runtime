@@ -70,9 +70,10 @@ export function strictObject<
   T extends Record<string, [V, Schema<any, any>, ObjectXmlOptions?]>
 >(objectSchema: T): StrictObjectSchema<V, T> {
   const schema = internalObject(objectSchema, false, false);
-  schema.type = `StrictObject<{${Object.keys(objectSchema)
-    .map(objectKeyEncode)
-    .join(',')}}>`;
+  schema.type = () =>
+    `StrictObject<{${Object.keys(objectSchema)
+      .map(objectKeyEncode)
+      .join(',')}}>`;
   return schema;
 }
 
@@ -136,7 +137,7 @@ function internalObject<
   const xmlObjectSchema = createXmlObjectSchema(objectSchema);
   const reverseXmlObjectSchema = createReverseXmlObjectSchema(xmlObjectSchema);
   return {
-    type: `Object<{${keys.map(objectKeyEncode).join(',')},...}>`,
+    type: () => `Object<{${keys.map(objectKeyEncode).join(',')},...}>`,
     validateBeforeMap: validateObject(
       objectSchema,
       'validateBeforeMap',
@@ -336,7 +337,7 @@ function validateValueObject({
           ctxt.createChild(propTypePrefix + key, valueObject[key], schema)
         )
       );
-    } else if (schema.type.indexOf('Optional<') !== 0) {
+    } else if (schema.type().indexOf('Optional<') !== 0) {
       // Add to missing keys if it is not an optional property
       missingProps.add(key);
     }
@@ -418,7 +419,7 @@ function mapObject<T extends AnyObjectSchema>(
 
         // Skip mapping for optional properties to avoid creating properties with value 'undefined'
         if (
-          element[1].type.indexOf('Optional<') !== 0 ||
+          element[1].type().indexOf('Optional<') !== 0 ||
           propValue !== undefined
         ) {
           output[key] = element[1][mappingFn](

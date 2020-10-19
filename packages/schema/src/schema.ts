@@ -5,7 +5,7 @@ import { objectKeyEncode } from './utils';
  * Schema defines a type and its validation and mapping functions.
  */
 export interface Schema<T, S = any> {
-  type: string;
+  type: () => string;
   validateBeforeMap: (
     value: unknown,
     ctxt: SchemaContextCreator
@@ -97,7 +97,7 @@ export function validateAndMap<T extends Schema<any, any>>(
   schema: T
 ): ValidationResult<SchemaType<T>> {
   const contextCreator = createSchemaContextCreator(
-    createNewSchemaContext(value, schema.type)
+    createNewSchemaContext(value, schema.type())
   );
   const validationResult = schema.validateBeforeMap(value, contextCreator);
   if (validationResult.length === 0) {
@@ -120,7 +120,7 @@ export function validateAndUnmap<T extends Schema<any, any>>(
   schema: T
 ): ValidationResult<SchemaMappedType<T>> {
   const contextCreator = createSchemaContextCreator(
-    createNewSchemaContext(value, schema.type)
+    createNewSchemaContext(value, schema.type())
   );
   const validationResult = schema.validateBeforeUnmap(value, contextCreator);
   if (validationResult.length === 0) {
@@ -143,7 +143,7 @@ export function validateAndMapXml<T extends Schema<any, any>>(
   schema: T
 ): ValidationResult<SchemaType<T>> {
   const contextCreator = createSchemaContextCreator(
-    createNewSchemaContext(value, schema.type)
+    createNewSchemaContext(value, schema.type())
   );
   const validationResult = schema.validateBeforeMapXml(value, contextCreator);
   if (validationResult.length === 0) {
@@ -166,7 +166,7 @@ export function validateAndUnmapXml<T extends Schema<any, any>>(
   schema: T
 ): ValidationResult<unknown> {
   const contextCreator = createSchemaContextCreator(
-    createNewSchemaContext(value, schema.type)
+    createNewSchemaContext(value, schema.type())
   );
   const validationResult = schema.validateBeforeUnmap(value, contextCreator);
   if (validationResult.length === 0) {
@@ -201,7 +201,7 @@ function createSchemaContextCreator(
   ) =>
     createSchemaContextCreator({
       value,
-      type: childSchema.type,
+      type: childSchema.type(),
       branch: [...currentContext.branch, value],
       path: [...currentContext.path, key],
     });

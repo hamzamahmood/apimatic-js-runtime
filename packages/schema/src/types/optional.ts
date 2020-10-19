@@ -10,7 +10,7 @@ export function optional<T, S>(
   schema: Schema<T, S>
 ): Schema<T | undefined, S | undefined> {
   return {
-    type: `Optional<${schema.type}>`,
+    type: () => `Optional<${schema.type()}>`,
     validateBeforeMap: (value, ctxt) =>
       value === undefined ? [] : schema.validateBeforeMap(value, ctxt),
     validateBeforeUnmap: (value, ctxt) =>

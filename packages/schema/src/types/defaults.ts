@@ -12,7 +12,7 @@ export function defaults<M, U, V extends M & U>(
   defaultValue: V
 ): Schema<M, U> {
   return {
-    type: `Defaults<${schema.type},${literalToString(defaultValue)}>`,
+    type: () => `Defaults<${schema.type()},${literalToString(defaultValue)}>`,
     validateBeforeMap: (v, ctxt) =>
       shouldDefault(v, defaultValue) ? [] : schema.validateBeforeMap(v, ctxt),
     validateBeforeUnmap: (v, ctxt) =>

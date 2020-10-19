@@ -21,4 +21,7 @@ describe('Lazy', () => {
     validateAndMap('another value', schema);
     expect(spyFn).toBeCalledTimes(1);
   });
+  it('should return type as Lazy<Type>', () => {
+    expect(schema.type()).toBe('Lazy<string>');
+  });
 });

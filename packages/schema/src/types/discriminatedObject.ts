@@ -42,11 +42,12 @@ export function discriminatedObject<
     return discriminatorMap[defaultDiscriminator];
   };
   return {
-    type: `DiscriminatedUnion<${discriminatorPropName},[${objectEntries(
-      discriminatorMap
-    )
-      .map(([_, v]) => v.type)
-      .join(',')}]>`,
+    type: () =>
+      `DiscriminatedUnion<${discriminatorPropName},[${objectEntries(
+        discriminatorMap
+      )
+        .map(([_, v]) => v.type)
+        .join(',')}]>`,
     map: (value, ctxt) =>
       schemaSelector(value, discriminatorPropName).map(value, ctxt),
     unmap: (value, ctxt) =>

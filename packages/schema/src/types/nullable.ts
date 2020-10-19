@@ -10,7 +10,7 @@ export function nullable<T, S>(
   schema: Schema<T, S>
 ): Schema<T | null, S | null> {
   return {
-    type: `Nullable<${schema.type}>`,
+    type: () => `Nullable<${schema.type()}>`,
     validateBeforeMap: (value, ctxt) =>
       value === null ? [] : schema.validateBeforeMap(value, ctxt),
     validateBeforeUnmap: (value, ctxt) =>

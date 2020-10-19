@@ -17,7 +17,7 @@ export function array<T, S>(
 ): Schema<T[], S[]> {
   let arraySchema: Schema<T[], S[]>;
   arraySchema = {
-    type: `Array<${itemsSchema.type}>`,
+    type: () => `Array<${itemsSchema.type()}>`,
     validateBeforeMap: (value, ctxt) =>
       Array.isArray(value)
         ? ctxt.flatmapChildren(

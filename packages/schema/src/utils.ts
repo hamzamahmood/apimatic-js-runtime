@@ -59,7 +59,7 @@ export function createSymmetricSchema<T>(
   schema: SymmetricSchema<T>
 ): Schema<T, T> {
   return createBasicSchema({
-    type: schema.type,
+    type: () => schema.type,
     validateBeforeMap: schema.validate,
     validateBeforeUnmap: schema.validate,
     map: schema.map,
@@ -68,7 +68,7 @@ export function createSymmetricSchema<T>(
 }
 
 interface BasicSchema<T, S = unknown> {
-  type: string;
+  type: () => string;
   validateBeforeMap: (
     value: unknown,
     ctxt: SchemaContextCreator

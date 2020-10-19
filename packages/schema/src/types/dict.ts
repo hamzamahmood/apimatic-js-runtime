@@ -29,7 +29,7 @@ export function dict<T, S>(
   };
 
   return {
-    type: `Record<string,${itemSchema.type}>`,
+    type: () => `Record<string,${itemSchema.type()}>`,
     validateBeforeMap: (...args) => validate('validateBeforeMap', ...args),
     validateBeforeUnmap: (...args) => validate('validateBeforeUnmap', ...args),
     map: (value, ctxt) => {
