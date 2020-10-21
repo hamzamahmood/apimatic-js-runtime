@@ -60,7 +60,7 @@ export interface ObjectSchema<
 }
 
 /**
- * Create strict-object type schema.
+ * Create a Strict Object type schema.
  *
  * A strict-object does not allow additional properties during mapping or
  * unmapping. Additional properties will result in a validation error.
@@ -78,17 +78,34 @@ export function strictObject<
 }
 
 /**
- * Create an object schema.
+ * Create an Expandable Object type schema.
  *
  * The object schema allows additional properties during mapping and unmapping. The
  * additional properties are copied over as is.
  */
-export function object<
+export function expandoObject<
   V extends string,
   T extends Record<string, [V, Schema<any, any>, ObjectXmlOptions?]>
 >(objectSchema: T): ObjectSchema<V, T> {
   return internalObject(objectSchema, true, true);
 }
+
+/**
+ * Create an Object Type schema.
+ *
+ * The Object schema allows additional properties during mapping and unmapping
+ * but discards them.
+ */
+export function object<
+  V extends string,
+  T extends Record<string, [V, Schema<any, any>, ObjectXmlOptions?]>
+>(objectSchema: T): StrictObjectSchema<V, T> {
+  const schema = internalObject(objectSchema, true, false);
+  schema.type = () =>
+    `Object<{${Object.keys(objectSchema)
+      .map(objectKeyEncode)
+      .join(',')}}>`;
+  return schema;}
 
 /**
  * Create a strict-object schema that extends an existing schema.
@@ -108,7 +125,7 @@ export function extendStrictObject<
 /**
  * Create an object schema that extends an existing schema.
  */
-export function extendObject<
+export function extendExpandoObject<
   V extends string,
   T extends Record<string, [V, Schema<any, any>, ObjectXmlOptions?]>,
   A extends string,
@@ -117,6 +134,21 @@ export function extendObject<
   parentObjectSchema: ObjectSchema<V, T>,
   objectSchema: B
 ): ObjectSchema<string, T & B> {
+  return expandoObject({ ...parentObjectSchema.objectSchema, ...objectSchema });
+}
+
+/**
+ * Create an Object schema that extends an existing object schema.
+ */
+export function extendObject<
+  V extends string,
+  T extends Record<string, [V, Schema<any, any>, ObjectXmlOptions?]>,
+  A extends string,
+  B extends Record<string, [A, Schema<any, any>, ObjectXmlOptions?]>
+>(
+  parentObjectSchema: StrictObjectSchema<V, T>,
+  objectSchema: B
+): StrictObjectSchema<string, T & B> {
   return object({ ...parentObjectSchema.objectSchema, ...objectSchema });
 }
 

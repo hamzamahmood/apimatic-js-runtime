@@ -1,5 +1,5 @@
 import {
-  extendObject,
+  extendExpandoObject,
   number,
   optional,
   SchemaMappedType,
@@ -15,7 +15,7 @@ describe('Extend Strict Object', () => {
     id: ['user_id', string()],
   });
 
-  const userSchema = extendObject(idObject, {
+  const userSchema = extendExpandoObject(idObject, {
     age: ['user_age', number()],
   });
 
@@ -51,7 +51,7 @@ describe('Extend Strict Object', () => {
     });
 
     it('should map object with optional properties', () => {
-      const addressSchema = extendObject(
+      const addressSchema = extendExpandoObject(
         strictObject({
           address1: ['address1', string()],
         }),
@@ -172,7 +172,7 @@ describe('Extend Strict Object', () => {
     });
 
     it('should map object with optional properties', () => {
-      const addressSchema = extendObject(
+      const addressSchema = extendExpandoObject(
         strictObject({
           address1: ['address1', string()],
         }),

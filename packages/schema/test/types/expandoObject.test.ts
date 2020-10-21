@@ -1,6 +1,6 @@
 import {
   number,
-  object,
+  expandoObject,
   optional,
   SchemaMappedType,
   SchemaType,
@@ -9,9 +9,9 @@ import {
   validateAndUnmap,
 } from '../../src';
 
-describe('Object', () => {
+describe('Expando Object', () => {
   describe('Mapping', () => {
-    const userSchema = object({
+    const userSchema = expandoObject({
       id: ['user_id', string()],
       age: ['user_age', number()],
     });
@@ -31,7 +31,7 @@ describe('Object', () => {
     });
 
     it('should map object with optional properties', () => {
-      const addressSchema = object({
+      const addressSchema = expandoObject({
         address1: ['address1', string()],
         address2: ['address2', optional(string())],
       });
@@ -53,6 +53,7 @@ describe('Object', () => {
       const expected: SchemaType<typeof userSchema> = {
         id: 'John Smith',
         age: 50,
+        user_address: 'New York',
       };
       expect(output.errors).toBeFalsy();
       expect((output as any).result).toStrictEqual(expected);
@@ -69,13 +70,13 @@ describe('Object', () => {
             "branch": Array [
               "not an object",
             ],
-            "message": "Expected value to be of type 'Object<{id,age}>' but found 'string'.
+            "message": "Expected value to be of type 'Object<{id,age,...}>' but found 'string'.
 
         Given value: \\"not an object\\"
         Type: 'string'
-        Expected type: 'Object<{id,age}>'",
+        Expected type: 'Object<{id,age,...}>'",
             "path": Array [],
-            "type": "Object<{id,age}>",
+            "type": "Object<{id,age,...}>",
             "value": "not an object",
           },
         ]
@@ -135,9 +136,9 @@ describe('Object', () => {
 
         Given value: {\\"user_id\\":\\"John Smith\\"}
         Type: 'object'
-        Expected type: 'Object<{id,age}>'",
+        Expected type: 'Object<{id,age,...}>'",
             "path": Array [],
-            "type": "Object<{id,age}>",
+            "type": "Object<{id,age,...}>",
             "value": Object {
               "user_id": "John Smith",
             },
@@ -147,7 +148,7 @@ describe('Object', () => {
     });
   });
   describe('Unmapping', () => {
-    const userSchema = object({
+    const userSchema = expandoObject({
       id: ['user_id', string()],
       age: ['user_age', number()],
     });
@@ -167,7 +168,7 @@ describe('Object', () => {
     });
 
     it('should map object with optional properties', () => {
-      const addressSchema = object({
+      const addressSchema = expandoObject({
         address1: ['address1', string()],
         address2: ['address2', optional(string())],
       });
@@ -189,6 +190,7 @@ describe('Object', () => {
       const expected: SchemaMappedType<typeof userSchema> = {
         user_id: 'John Smith',
         user_age: 50,
+        address: 'San Francisco',
       };
       expect(output.errors).toBeFalsy();
       expect((output as any).result).toStrictEqual(expected);
@@ -205,13 +207,13 @@ describe('Object', () => {
             "branch": Array [
               "not an object",
             ],
-            "message": "Expected value to be of type 'Object<{id,age}>' but found 'string'.
+            "message": "Expected value to be of type 'Object<{id,age,...}>' but found 'string'.
 
         Given value: \\"not an object\\"
         Type: 'string'
-        Expected type: 'Object<{id,age}>'",
+        Expected type: 'Object<{id,age,...}>'",
             "path": Array [],
-            "type": "Object<{id,age}>",
+            "type": "Object<{id,age,...}>",
             "value": "not an object",
           },
         ]
@@ -271,9 +273,9 @@ describe('Object', () => {
 
         Given value: {\\"id\\":\\"John Smith\\"}
         Type: 'object'
-        Expected type: 'Object<{id,age}>'",
+        Expected type: 'Object<{id,age,...}>'",
             "path": Array [],
-            "type": "Object<{id,age}>",
+            "type": "Object<{id,age,...}>",
             "value": Object {
               "id": "John Smith",
             },

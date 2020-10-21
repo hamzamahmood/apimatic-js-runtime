@@ -5,6 +5,7 @@ import {
   string,
   validateAndMapXml,
   validateAndUnmapXml,
+  expandoObject,
   object,
 } from '../src';
 
@@ -120,8 +121,8 @@ describe('XML', () => {
     });
   });
 
-  describe('Object', () => {
-    const schema = object({
+  describe('Expando Object', () => {
+    const schema = expandoObject({
       'string-attr': ['string-attr-s', string(), { isAttr: true }],
       'number-attr': [
         'number-attr',
@@ -152,7 +153,7 @@ describe('XML', () => {
       });
 
       it('should map schema with elements only', () => {
-        const schema = object({
+        const schema = expandoObject({
           element: ['an-element', string()],
         });
         const input = {
@@ -309,6 +310,195 @@ describe('XML', () => {
           Expected type: 'Object<{string-attr,number-attr,string-element,number-element,...}>'",
               "path": Array [],
               "type": "Object<{string-attr,number-attr,string-element,number-element,...}>",
+              "value": 123123,
+            },
+          ]
+        `);
+      });
+    });
+  });
+
+  describe('Object', () => {
+    const schema = object({
+      'string-attr': ['string-attr-s', string(), { isAttr: true }],
+      'number-attr': [
+        'number-attr',
+        number(),
+        { isAttr: true, xmlName: 'number' },
+      ],
+      'string-element': ['string-element', string(), { xmlName: 'string' }],
+      'number-element': ['number-element-s', number()],
+    });
+
+    describe('Mapping', () => {
+      it('should map schema with elements and attributes', () => {
+        const output = validateAndMapXml(
+          {
+            $: { 'string-attr-s': 'Attribute String', number: '321321' },
+            string: 'Element string',
+            'number-element-s': '123123',
+          },
+          schema
+        );
+        expect(output.errors).toBeFalsy();
+        expect((output as any).result).toStrictEqual({
+          'string-attr': 'Attribute String',
+          'number-attr': 321321,
+          'string-element': 'Element string',
+          'number-element': 123123,
+        });
+      });
+
+      it('should map schema with elements only', () => {
+        const schema = object({
+          element: ['an-element', string()],
+        });
+        const input = {
+          'an-element': 'test value',
+        };
+        const output = validateAndMapXml(input, schema);
+        expect(output.errors).toBeFalsy();
+        expect((output as any).result).toStrictEqual({
+          element: 'test value',
+        });
+      });
+
+      it('should map schema with additional attributes', () => {
+        const output = validateAndMapXml(
+          {
+            $: {
+              'string-attr-s': 'Attribute String',
+              number: '321321',
+            },
+            string: 'Element string',
+            'number-element-s': '123123',
+          },
+          schema
+        );
+        expect(output.errors).toBeFalsy();
+        expect((output as any).result).toStrictEqual({
+          'string-attr': 'Attribute String',
+          'number-attr': 321321,
+          'string-element': 'Element string',
+          'number-element': 123123,
+        });
+      });
+
+      it('should map schema with additional elements', () => {
+        const output = validateAndMapXml(
+          {
+            $: { 'string-attr-s': 'Attribute String', number: '321321' },
+            string: 'Element string',
+            'number-element-s': '123123',
+          },
+          schema
+        );
+        expect(output.errors).toBeFalsy();
+        expect((output as any).result).toStrictEqual({
+          'string-attr': 'Attribute String',
+          'number-attr': 321321,
+          'string-element': 'Element string',
+          'number-element': 123123,
+        });
+      });
+
+      it('should fail on invalid types', () => {
+        const output = validateAndMapXml(123123, schema);
+        expect(output.errors).toBeTruthy();
+        expect(output.errors).toMatchInlineSnapshot(`
+          Array [
+            Object {
+              "branch": Array [
+                123123,
+              ],
+              "message": "Expected value to be of type 'Object<{string-attr,number-attr,string-element,number-element}>' but found 'number'.
+
+          Given value: 123123
+          Type: 'number'
+          Expected type: 'Object<{string-attr,number-attr,string-element,number-element}>'",
+              "path": Array [],
+              "type": "Object<{string-attr,number-attr,string-element,number-element}>",
+              "value": 123123,
+            },
+          ]
+        `);
+      });
+    });
+
+    describe('Unmapping', () => {
+      it('should map with elements and attributes', () => {
+        const output = validateAndUnmapXml(
+          {
+            'string-attr': 'Attribute String',
+            'number-attr': 321321,
+            'string-element': 'Element string',
+            'number-element': 123123,
+          },
+          schema
+        );
+        expect(output.errors).toBeFalsy();
+        expect((output as any).result).toStrictEqual({
+          $: { 'string-attr-s': 'Attribute String', number: 321321 },
+          string: 'Element string',
+          'number-element-s': 123123,
+        });
+      });
+
+      it('should map schema with additional attributes', () => {
+        const output = validateAndUnmapXml(
+          {
+            'string-attr': 'Attribute String',
+            'number-attr': 321321,
+            'string-element': 'Element string',
+            'number-element': 123123,
+          },
+          schema
+        );
+        expect(output.errors).toBeFalsy();
+        expect((output as any).result).toStrictEqual({
+          $: {
+            'string-attr-s': 'Attribute String',
+            number: 321321,
+          },
+          string: 'Element string',
+          'number-element-s': 123123,
+        });
+      });
+
+      it('should map schema with additional elements', () => {
+        const output = validateAndUnmapXml(
+          {
+            'string-attr': 'Attribute String',
+            'number-attr': 321321,
+            'string-element': 'Element string',
+            'number-element': 123123,
+          },
+          schema
+        );
+        expect(output.errors).toBeFalsy();
+        expect((output as any).result).toStrictEqual({
+          $: { 'string-attr-s': 'Attribute String', number: 321321 },
+          string: 'Element string',
+          'number-element-s': 123123,
+        });
+      });
+
+      it('should fail on invalid types', () => {
+        const output = validateAndUnmapXml(123123 as any, schema);
+        expect(output.errors).toBeTruthy();
+        expect(output.errors).toMatchInlineSnapshot(`
+          Array [
+            Object {
+              "branch": Array [
+                123123,
+              ],
+              "message": "Expected value to be of type 'Object<{string-attr,number-attr,string-element,number-element}>' but found 'number'.
+
+          Given value: 123123
+          Type: 'number'
+          Expected type: 'Object<{string-attr,number-attr,string-element,number-element}>'",
+              "path": Array [],
+              "type": "Object<{string-attr,number-attr,string-element,number-element}>",
               "value": 123123,
             },
           ]
