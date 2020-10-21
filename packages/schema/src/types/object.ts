@@ -105,7 +105,8 @@ export function object<
     `Object<{${Object.keys(objectSchema)
       .map(objectKeyEncode)
       .join(',')}}>`;
-  return schema;}
+  return schema;
+}
 
 /**
  * Create a strict-object schema that extends an existing schema.
