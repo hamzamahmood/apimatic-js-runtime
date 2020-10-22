@@ -1,6 +1,6 @@
 {
   "version": "0.3.0",
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE.md",
   "sideEffects": false,
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
