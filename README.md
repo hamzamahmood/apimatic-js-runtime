@@ -8,7 +8,7 @@ They provide common runtime utilities needed by SDKs to make API calls and handl
 
 | Name | Description |
 | --- | --- |
-| `@apimatic/schema` | Validate and transform data using schema |
+| [@apimatic/schema](packages/schema) | Validate and transform data using schema definitions. |
 
 ## License
 
