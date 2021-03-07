@@ -115,7 +115,7 @@ export function once<Args extends any[], R>(
 ): (...args: Args) => R {
   let ran = false;
   let memo: R;
-  return function(this: any, ...args) {
+  return function (this: any, ...args) {
     if (ran) {
       return memo;
     }
