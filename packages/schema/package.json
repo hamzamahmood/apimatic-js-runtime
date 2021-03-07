@@ -24,7 +24,6 @@
     "build": "npm run clean && tsc && rollup -c && npm run annotate:es",
     "annotate:es": "babel es --out-dir es --no-babelrc --plugins annotate-pure-calls",
     "preversion": "npm run test",
-    "version": "npm run build",
     "prepublishOnly": "npm run build",
     "size": "size-limit",
     "analyze": "size-limit --why",
