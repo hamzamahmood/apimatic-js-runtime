@@ -16,5 +16,5 @@
     "no-unused-expression": [true, "allow-fast-null-checks"]
   },
   "rulesDirectory": [],
-  "ignorePaths": ["examples/", "editor/"]
+  "ignorePaths": ["es/", "umd/", "lib/"]
 }

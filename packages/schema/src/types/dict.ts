@@ -89,7 +89,7 @@ export function dict<T, S>(
         }
       }
       return output;
-    },
+    }
   };
 }
 
@@ -99,15 +99,15 @@ export function dictWithXmlEntries<T, S>(
   const dictSchema = dict(itemSchema);
   const modifiedSchema = { ...dictSchema };
 
-  modifiedSchema.unmapXml = (value, ctxt) => {
-    const output: Record<string, S> = dictSchema.unmapXml(value, ctxt);
+  modifiedSchema.unmapXml = (inputValue, ctxt) => {
+    const output: Record<string, S> = dictSchema.unmapXml(inputValue, ctxt);
 
     // Convert each entry to XML "entry" elements. The XML "entry" element looks
     // like this: `<entry key="key">value</entry>`. Note that the element name
     // "entry" is set later at the return.
     const entries = objectEntries(output).map(([key, value]) => ({
       $: { key },
-      _: value,
+      _: value
     }));
 
     return { entry: entries };
@@ -120,7 +120,7 @@ export function dictWithXmlEntries<T, S>(
     }
 
     let { entry: entries } = value as {
-      entry: { $: { key: string }; _: unknown }[];
+      entry: Array<{ $: { key: string }; _: unknown }>;
     };
 
     // For a single entry, the XML parser gives a single object instead of an array.
@@ -150,7 +150,7 @@ export function dictWithXmlEntries<T, S>(
       return [];
     }
 
-    let entries = (value as { entry: object[] })['entry'];
+    let entries = (value as { entry: object[] }).entry;
 
     // Non-repeating XML elements are passed as a single-object instead of an array of objects.
     // We normalize this behavior of the XML parser.
@@ -161,8 +161,7 @@ export function dictWithXmlEntries<T, S>(
     // Dictionary for all entries
     const dictObj: Record<string, unknown> = {};
 
-    for (let index = 0; index < entries.length; index++) {
-      const entry = entries[index];
+    for (const entry of entries) {
       // Fail if entry is not an XML element object.
       if (typeof entry !== 'object' || entry === null) {
         return ctxt.fail('Expected "entry" to be an XML element.');

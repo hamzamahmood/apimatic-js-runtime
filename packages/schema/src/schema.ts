@@ -42,7 +42,7 @@ export type SchemaMappedType<T extends Schema<any, any>> = ReturnType<
 export interface SchemaContext {
   readonly value: unknown;
   readonly type: string;
-  readonly branch: Array<unknown>;
+  readonly branch: unknown[];
   readonly path: Array<string | number>;
 }
 
@@ -57,12 +57,12 @@ export interface SchemaContextCreator extends SchemaContext {
     childSchema: S
   ): SchemaContextCreator;
   flatmapChildren<K extends string | number, T, S extends Schema<any, any>, R>(
-    items: [K, T][],
+    items: Array<[K, T]>,
     itemSchema: S,
     mapper: (item: [K, T], childCtxt: SchemaContextCreator) => R[]
   ): R[];
   mapChildren<K extends string | number, T, S extends Schema<any, any>, R>(
-    items: [K, T][],
+    items: Array<[K, T]>,
     itemSchema: S,
     mapper: (item: [K, T], childCtxt: SchemaContextCreator) => R
   ): R[];

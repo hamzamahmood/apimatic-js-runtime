@@ -5,7 +5,7 @@
 import { Schema, SchemaContextCreator, SchemaValidationError } from './schema';
 
 export function arrayEntries<T>(arr: T[]) {
-  const entries: [number, T][] = [];
+  const entries: Array<[number, T]> = [];
   for (let index = 0; index < arr.length; index++) {
     const element = arr[index];
     entries.push([index, element]);
@@ -15,11 +15,13 @@ export function arrayEntries<T>(arr: T[]) {
 
 export function objectEntries<T extends Record<string, unknown>>(
   obj: T
-): [Extract<keyof T, string>, T[keyof T]][] {
-  let ownProps = Object.keys(obj),
-    i = ownProps.length,
-    resArray = new Array(i); // preallocate the Array
-  while (i--) resArray[i] = [ownProps[i], obj[ownProps[i]]];
+): Array<[Extract<keyof T, string>, T[keyof T]]> {
+  const ownProps = Object.keys(obj);
+  let i = ownProps.length;
+  const resArray = new Array(i); // preallocate the Array
+  while (i--) {
+    resArray[i] = [ownProps[i], obj[ownProps[i]]];
+  }
 
   return resArray;
 }
@@ -63,7 +65,7 @@ export function createSymmetricSchema<T>(
     validateBeforeMap: schema.validate,
     validateBeforeUnmap: schema.validate,
     map: schema.map,
-    unmap: schema.map,
+    unmap: schema.map
   });
 }
 
@@ -87,7 +89,7 @@ function createBasicSchema<T, S>(basicSchema: BasicSchema<T, S>): Schema<T, S> {
     ...basicSchema,
     validateBeforeMapXml: basicSchema.validateBeforeUnmap,
     mapXml: basicSchema.map,
-    unmapXml: basicSchema.unmap,
+    unmapXml: basicSchema.unmap
   };
 }
 
@@ -111,10 +113,12 @@ export function coerceStringOrNumberToBigInt(
 export function once<Args extends any[], R>(
   func: (...args: Args) => R
 ): (...args: Args) => R {
-  var ran = false,
-    memo: R;
-  return function(this: any, ...args) {
-    if (ran) return memo;
+  let ran = false;
+  let memo: R;
+  return function (this: any, ...args) {
+    if (ran) {
+      return memo;
+    }
     ran = true;
     memo = func.apply(this, args);
     return memo;

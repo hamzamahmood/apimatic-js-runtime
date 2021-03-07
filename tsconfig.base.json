@@ -15,6 +15,9 @@
     "jsx": "react",
     "lib": ["es6", "dom"],
     "strictPropertyInitialization": true,
-    "importHelpers": true
+    "importHelpers": true,
+    "paths": {
+      "tslib": ["node_modules/tslib/tslib.d.ts"]
+    }
   }
 }
