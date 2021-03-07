@@ -3,7 +3,7 @@ import {
   toValidator,
   createSymmetricSchema,
   identityFn,
-  literalToString
+  literalToString,
 } from '../utils';
 
 function createEnumChecker<T extends string, TEnumValue extends string>(
@@ -25,6 +25,6 @@ export function stringEnum<T extends string, TEnumValue extends string>(
   return createSymmetricSchema({
     type: `Enum<${Object.values(enumVariable).map(literalToString).join(',')}>`,
     map: identityFn,
-    validate
+    validate,
   });
 }

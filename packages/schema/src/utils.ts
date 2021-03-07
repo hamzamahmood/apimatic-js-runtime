@@ -65,7 +65,7 @@ export function createSymmetricSchema<T>(
     validateBeforeMap: schema.validate,
     validateBeforeUnmap: schema.validate,
     map: schema.map,
-    unmap: schema.map
+    unmap: schema.map,
   });
 }
 
@@ -89,7 +89,7 @@ function createBasicSchema<T, S>(basicSchema: BasicSchema<T, S>): Schema<T, S> {
     ...basicSchema,
     validateBeforeMapXml: basicSchema.validateBeforeUnmap,
     mapXml: basicSchema.map,
-    unmapXml: basicSchema.unmap
+    unmapXml: basicSchema.unmap,
   };
 }
 
@@ -115,7 +115,7 @@ export function once<Args extends any[], R>(
 ): (...args: Args) => R {
   let ran = false;
   let memo: R;
-  return function (this: any, ...args) {
+  return function(this: any, ...args) {
     if (ran) {
       return memo;
     }

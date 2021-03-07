@@ -89,7 +89,7 @@ export function dict<T, S>(
         }
       }
       return output;
-    }
+    },
   };
 }
 
@@ -107,7 +107,7 @@ export function dictWithXmlEntries<T, S>(
     // "entry" is set later at the return.
     const entries = objectEntries(output).map(([key, value]) => ({
       $: { key },
-      _: value
+      _: value,
     }));
 
     return { entry: entries };

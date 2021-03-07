@@ -5,7 +5,7 @@ import {
   isNumericString,
   toValidator,
   coerceNumericStringToNumber,
-  coerceStringOrNumberToBigInt
+  coerceStringOrNumberToBigInt,
 } from '../utils';
 
 function isValidStringValue(value: unknown): value is string {
@@ -17,7 +17,7 @@ export function string(): Schema<string, string> {
   return createSymmetricSchema({
     type: 'string',
     validate: toValidator(isValidStringValue),
-    map: identityFn
+    map: identityFn,
   });
 }
 
@@ -26,7 +26,7 @@ export function number(): Schema<number, number> {
   return createSymmetricSchema({
     type: 'number',
     validate: toValidator(isNumericString),
-    map: coerceNumericStringToNumber as (arg: number) => number
+    map: coerceNumericStringToNumber as (arg: number) => number,
   });
 }
 
@@ -42,7 +42,7 @@ export function boolean(): Schema<boolean, boolean> {
   return createSymmetricSchema({
     type: 'boolean',
     validate: toValidator(isValidBooleanValue),
-    map: (value) => (typeof value === 'boolean' ? value : value === 'true')
+    map: (value) => (typeof value === 'boolean' ? value : value === 'true'),
   });
 }
 
@@ -59,6 +59,6 @@ export function bigint(): Schema<bigint, bigint> {
   return createSymmetricSchema({
     type: 'bigint',
     validate: toValidator(isValidBigIntValue),
-    map: coerceStringOrNumberToBigInt as (arg: bigint) => bigint
+    map: coerceStringOrNumberToBigInt as (arg: bigint) => bigint,
   });
 }

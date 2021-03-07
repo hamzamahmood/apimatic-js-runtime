@@ -3,14 +3,14 @@ import {
   SchemaContextCreator,
   SchemaMappedType,
   SchemaType,
-  SchemaValidationError
+  SchemaValidationError,
 } from '../schema';
 import { OptionalizeObject } from '../typeUtils';
 import {
   literalToString,
   objectEntries,
   objectKeyEncode,
-  omitKeysFromObject
+  omitKeysFromObject,
 } from '../utils';
 
 type AnyObjectSchema = Record<
@@ -187,7 +187,7 @@ function internalObject<
     ),
     mapXml: mapObjectFromXml(xmlObjectSchema, mapAdditionalProps),
     unmapXml: unmapObjectToXml(reverseXmlObjectSchema, mapAdditionalProps),
-    objectSchema
+    objectSchema,
   };
 }
 
@@ -222,7 +222,7 @@ function validateObjectBeforeMapXml(
         objectSchema,
         valueObject: elements,
         ctxt,
-        allowAdditionalProperties
+        allowAdditionalProperties,
       }),
       ...validateValueObject({
         validationMethod: 'validateBeforeMapXml',
@@ -233,8 +233,8 @@ function validateObjectBeforeMapXml(
         objectSchema,
         valueObject: attributes,
         ctxt,
-        allowAdditionalProperties
-      })
+        allowAdditionalProperties,
+      }),
     ];
   };
 }
@@ -267,7 +267,7 @@ function mapObjectFromXml(
 
     const output: Record<string, unknown> = {
       ...mapAttributes(attributes, ctxt),
-      ...mapElements(elements, ctxt)
+      ...mapElements(elements, ctxt),
     };
 
     if (allowAdditionalProps) {
@@ -322,7 +322,7 @@ function unmapObjectToXml(
 
     return {
       ...mapElements(omitKeysFromObject(rest, attributeKeys), ctxt),
-      $: { ...additionalAttributes, ...mapAttributes(value, ctxt) }
+      $: { ...additionalAttributes, ...mapAttributes(value, ctxt) },
     };
   };
 }
@@ -336,7 +336,7 @@ function validateValueObject({
   objectSchema,
   valueObject,
   ctxt,
-  allowAdditionalProperties
+  allowAdditionalProperties,
 }: {
   validationMethod:
     | 'validateBeforeMap'
@@ -424,7 +424,7 @@ function validateObject(
       objectSchema,
       valueObject: value as Record<string, unknown>,
       ctxt,
-      allowAdditionalProperties
+      allowAdditionalProperties,
     });
   };
 }
@@ -538,7 +538,7 @@ function createXmlObjectSchema(objectSchema: AnyObjectSchema): XmlObjectSchema {
       xmlObjectSchema[key] = [
         xmlOptions?.xmlName ?? serializedName,
         schema,
-        xmlOptions
+        xmlOptions,
       ];
     }
   }
@@ -552,6 +552,6 @@ function createReverseXmlObjectSchema(
     attributesSchema: createReverseObjectSchema(
       xmlObjectSchema.attributesSchema
     ),
-    elementsSchema: createReverseObjectSchema(xmlObjectSchema.elementsSchema)
+    elementsSchema: createReverseObjectSchema(xmlObjectSchema.elementsSchema),
   };
 }

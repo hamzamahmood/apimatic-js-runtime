@@ -3,7 +3,7 @@ import {
   coerceNumericStringToNumber,
   createSymmetricSchema,
   isNumericString,
-  toValidator
+  toValidator,
 } from '../utils';
 
 function createEnumChecker<T extends string, TEnumValue extends number>(
@@ -28,6 +28,6 @@ export function numberEnum<T extends string, TEnumValue extends number>(
       .filter((v) => typeof v === 'number')
       .join(',')}>`,
     map: coerceNumericStringToNumber as (value: TEnumValue) => TEnumValue,
-    validate
+    validate,
   });
 }

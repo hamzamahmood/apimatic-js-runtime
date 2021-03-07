@@ -183,7 +183,7 @@ function createNewSchemaContext(value: unknown, type: string): SchemaContext {
     value,
     type,
     branch: [value],
-    path: []
+    path: [],
   };
 }
 
@@ -202,7 +202,7 @@ function createSchemaContextCreator(
       value,
       type: childSchema.type(),
       branch: [...currentContext.branch, value],
-      path: [...currentContext.path, key]
+      path: [...currentContext.path, key],
     });
 
   const mapChildren: SchemaContextCreator['mapChildren'] = (
@@ -222,9 +222,9 @@ function createSchemaContextCreator(
     fail: (message) => [
       {
         ...currentContext,
-        message: createErrorMessage(currentContext, message)
-      }
-    ]
+        message: createErrorMessage(currentContext, message),
+      },
+    ],
   };
 }
 

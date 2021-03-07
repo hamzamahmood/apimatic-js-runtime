@@ -75,7 +75,7 @@ export function discriminatedObject<
         value,
         xmlOptions?.xmlName ?? discriminatorPropName,
         xmlOptions?.isAttr
-      ).validateBeforeMapXml(value, ctxt)
+      ).validateBeforeMapXml(value, ctxt),
   };
 }
 

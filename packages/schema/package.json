@@ -29,7 +29,9 @@
     "size": "size-limit",
     "analyze": "size-limit --why",
     "lint": "tslint --project .",
-    "lint:fix": "tslint --project . --fix"
+    "lint:fix": "tslint --project . --fix",
+    "check-style": "prettier --check \"{src,test}/**/*.ts\"",
+    "check-style:fix": "prettier --write \"{src,test}/**/*.ts\""
   },
   "size-limit": [
     {
