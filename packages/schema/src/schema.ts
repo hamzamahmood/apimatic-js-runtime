@@ -1,4 +1,3 @@
-import flatten from 'lodash.flatten';
 import { objectKeyEncode } from './utils';
 
 /**
@@ -184,7 +183,7 @@ function createNewSchemaContext(value: unknown, type: string): SchemaContext {
     value,
     type,
     branch: [value],
-    path: [],
+    path: []
   };
 }
 
@@ -203,7 +202,7 @@ function createSchemaContextCreator(
       value,
       type: childSchema.type(),
       branch: [...currentContext.branch, value],
-      path: [...currentContext.path, key],
+      path: [...currentContext.path, key]
     });
 
   const mapChildren: SchemaContextCreator['mapChildren'] = (
@@ -211,7 +210,7 @@ function createSchemaContextCreator(
     itemSchema,
     mapper
   ) =>
-    items.map(item =>
+    items.map((item) =>
       mapper(item, createChildContext(item[0], item[1], itemSchema))
     );
 
@@ -219,13 +218,13 @@ function createSchemaContextCreator(
     ...currentContext,
     createChild: createChildContext,
     flatmapChildren: (...args) => flatten(mapChildren(...args)),
-    mapChildren: mapChildren,
-    fail: message => [
+    mapChildren,
+    fail: (message) => [
       {
         ...currentContext,
-        message: createErrorMessage(currentContext, message),
-      },
-    ],
+        message: createErrorMessage(currentContext, message)
+      }
+    ]
   };
 }
 
@@ -245,10 +244,20 @@ function createErrorMessage(ctxt: SchemaContext, message?: string): string {
 
   if (ctxt.path.length > 0) {
     const pathString = ctxt.path
-      .map(value => objectKeyEncode(value.toString()))
+      .map((value) => objectKeyEncode(value.toString()))
       .join(' › ');
     message += `\nPath: ${pathString}`;
   }
 
   return message;
+}
+
+function flatten<T>(array: T[][]): T[] {
+  const output: T[] = [];
+  for (const ele of array) {
+    for (const x of ele) {
+      output.push(x);
+    }
+  }
+  return output;
 }
