@@ -18,7 +18,7 @@ const createNpmConfig = ({ input, output, external }) => ({
   input,
   output,
   preserveModules: true,
-  plugins: [createTsPlugin()],
+  plugins: [createTsPlugin({ declaration: false })],
   external
 });
 
