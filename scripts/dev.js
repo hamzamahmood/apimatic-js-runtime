@@ -9,7 +9,7 @@ spawnCommand('npm run build', {
     process.exit(exitCode);
   }
 
-  const build = spawnCommand('npm run build -- -w');
+  const build = spawnCommand('npm run build:dev -- -w');
 
   const test = spawnCommand('npm test -- --watch', {
     stdio: 'inherit'

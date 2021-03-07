@@ -8,8 +8,11 @@
   },
   "scripts": {
     "preinstall": "node ./scripts/ensure-yarn.js",
-    "clean:packages": "yarn workspaces run clean",
-    "build": "tsc -b ./tsconfig.monorepo.json",
+    "clean": "yarn workspaces run clean",
+    "build": "yarn workspaces run build",
+    "lint": "yarn workspaces run lint",
+    "check-style": "yarn workspaces run check-style",
+    "build:dev": "tsc -b ./tsconfig.monorepo.json",
     "test": "jest",
     "dev": "node ./scripts/dev.js",
     "ci": "npm run build && npm run test",
@@ -37,8 +40,9 @@
     }
   },
   "lint-staged": {
-    "*.{ts,tsx,js,json,md}": [
+    "packages/*/{src,test}/**/*.{ts,tsx,js,json}": [
       "prettier --write",
+      "tslint --fix",
       "git add"
     ]
   }
