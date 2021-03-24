@@ -2,6 +2,7 @@ import typescript from 'rollup-plugin-typescript2';
 import { terser } from 'rollup-plugin-terser';
 import rollupReplace from 'rollup-plugin-replace';
 import fileSize from 'rollup-plugin-filesize';
+const packageJson = require('./package.json');
 
 const createTsPlugin = ({ declaration = true, target } = {}) =>
   typescript({
@@ -52,7 +53,7 @@ export default [
         format: 'esm'
       }
     ],
-    external: ['tslib']
+    external: Object.keys(packageJson.dependencies)
   }),
   createUmdConfig({
     input: 'src/index.ts',
