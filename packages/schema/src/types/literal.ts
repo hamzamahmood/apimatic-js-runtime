@@ -17,6 +17,6 @@ export function literal<T>(literalValue: T): Schema<T, T> {
   return createSymmetricSchema({
     type: `Literal<${literalToString(literalValue)}>`,
     validate: toValidator(validate),
-    map: map,
+    map,
   });
 }

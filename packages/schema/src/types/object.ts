@@ -51,8 +51,7 @@ export interface StrictObjectSchema<
 export interface ObjectSchema<
   V extends string,
   T extends Record<string, [V, Schema<any, any>, ObjectXmlOptions?]>
->
-  extends Schema<
+> extends Schema<
     ObjectType<T> & { [key: string]: unknown },
     MappedObjectType<T> & { [key: string]: unknown }
   > {
@@ -102,9 +101,7 @@ export function object<
 >(objectSchema: T): StrictObjectSchema<V, T> {
   const schema = internalObject(objectSchema, true, false);
   schema.type = () =>
-    `Object<{${Object.keys(objectSchema)
-      .map(objectKeyEncode)
-      .join(',')}}>`;
+    `Object<{${Object.keys(objectSchema).map(objectKeyEncode).join(',')}}>`;
   return schema;
 }
 
@@ -190,7 +187,7 @@ function internalObject<
     ),
     mapXml: mapObjectFromXml(xmlObjectSchema, mapAdditionalProps),
     unmapXml: unmapObjectToXml(reverseXmlObjectSchema, mapAdditionalProps),
-    objectSchema: objectSchema,
+    objectSchema,
   };
 }
 
@@ -211,8 +208,8 @@ function validateObjectBeforeMapXml(
       $?: Record<string, unknown>;
       [key: string]: unknown;
     };
-    let { $: attributes, ...elements } = valueObject;
-    attributes = attributes ?? {};
+    const { $: attrs, ...elements } = valueObject;
+    const attributes = attrs ?? {};
 
     // Validate all known elements and attributes using the schema
     return [
@@ -265,8 +262,8 @@ function mapObjectFromXml(
       $?: Record<string, unknown>;
       [key: string]: unknown;
     };
-    let { $: attributes, ...elements } = valueObject;
-    attributes = attributes ?? {};
+    const { $: attrs, ...elements } = valueObject;
+    const attributes = attrs ?? {};
 
     const output: Record<string, unknown> = {
       ...mapAttributes(attributes, ctxt),
@@ -278,7 +275,7 @@ function mapObjectFromXml(
       const additionalAttrs = omitKeysFromObject(attributes, attributeKeys);
       if (Object.keys(additionalAttrs).length > 0) {
         // These additional attrs are set in the '$' property by convention.
-        output['$'] = additionalAttrs;
+        output.$ = additionalAttrs;
       }
     }
 
@@ -360,19 +357,21 @@ function validateValueObject({
 
   // Validate all known properties using the schema
   for (const key in propMapping) {
-    const propName = propMapping[key];
-    const schema = objectSchema[propName][1];
-    unknownProps.delete(key);
-    if (key in valueObject) {
-      errors.push(
-        ...schema[validationMethod](
-          valueObject[key],
-          ctxt.createChild(propTypePrefix + key, valueObject[key], schema)
-        )
-      );
-    } else if (schema.type().indexOf('Optional<') !== 0) {
-      // Add to missing keys if it is not an optional property
-      missingProps.add(key);
+    if (Object.prototype.hasOwnProperty.call(propMapping, key)) {
+      const propName = propMapping[key];
+      const schema = objectSchema[propName][1];
+      unknownProps.delete(key);
+      if (key in valueObject) {
+        errors.push(
+          ...schema[validationMethod](
+            valueObject[key],
+            ctxt.createChild(propTypePrefix + key, valueObject[key], schema)
+          )
+        );
+      } else if (schema.type().indexOf('Optional<') !== 0) {
+        // Add to missing keys if it is not an optional property
+        missingProps.add(key);
+      }
     }
   }
 
@@ -465,7 +464,7 @@ function mapObject<T extends AnyObjectSchema>(
 
     // Copy unknown properties over if additional properties flag is set
     if (allowAdditionalProperties) {
-      unknownKeys.forEach(unknownKey => {
+      unknownKeys.forEach((unknownKey) => {
         output[unknownKey] = objectValue[unknownKey];
       });
     }
@@ -520,10 +519,10 @@ function createReverseObjectSchema<T extends AnyObjectSchema>(
   return reverseObjectSchema;
 }
 
-type XmlObjectSchema = {
+interface XmlObjectSchema {
   elementsSchema: AnyObjectSchema;
   attributesSchema: AnyObjectSchema;
-};
+}
 
 function createXmlObjectSchema(objectSchema: AnyObjectSchema): XmlObjectSchema {
   const elementsSchema: AnyObjectSchema = {};

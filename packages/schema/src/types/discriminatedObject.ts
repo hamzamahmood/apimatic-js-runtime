@@ -26,7 +26,7 @@ export function discriminatedObject<
         (!isAttr && (discriminatorProp as string) in value))
     ) {
       const discriminatorValue = isAttr
-        ? (value as { $: Record<string, unknown> })['$'][
+        ? (value as { $: Record<string, unknown> }).$[
             discriminatorProp as string
           ]
         : (value as Record<typeof discriminatorProp, unknown>)[
@@ -82,7 +82,7 @@ export function discriminatedObject<
 function xmlObjectHasAttribute(value: object, prop: string): boolean {
   return (
     '$' in value &&
-    typeof (value as { $: unknown })['$'] === 'object' &&
-    (prop as string) in (value as { $: Record<string, unknown> })['$']
+    typeof (value as { $: unknown }).$ === 'object' &&
+    (prop as string) in (value as { $: Record<string, unknown> }).$
   );
 }

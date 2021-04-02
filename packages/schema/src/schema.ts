@@ -1,4 +1,3 @@
-import flatten from 'lodash.flatten';
 import { objectKeyEncode } from './utils';
 
 /**
@@ -43,7 +42,7 @@ export type SchemaMappedType<T extends Schema<any, any>> = ReturnType<
 export interface SchemaContext {
   readonly value: unknown;
   readonly type: string;
-  readonly branch: Array<unknown>;
+  readonly branch: unknown[];
   readonly path: Array<string | number>;
 }
 
@@ -58,12 +57,12 @@ export interface SchemaContextCreator extends SchemaContext {
     childSchema: S
   ): SchemaContextCreator;
   flatmapChildren<K extends string | number, T, S extends Schema<any, any>, R>(
-    items: [K, T][],
+    items: Array<[K, T]>,
     itemSchema: S,
     mapper: (item: [K, T], childCtxt: SchemaContextCreator) => R[]
   ): R[];
   mapChildren<K extends string | number, T, S extends Schema<any, any>, R>(
-    items: [K, T][],
+    items: Array<[K, T]>,
     itemSchema: S,
     mapper: (item: [K, T], childCtxt: SchemaContextCreator) => R
   ): R[];
@@ -211,7 +210,7 @@ function createSchemaContextCreator(
     itemSchema,
     mapper
   ) =>
-    items.map(item =>
+    items.map((item) =>
       mapper(item, createChildContext(item[0], item[1], itemSchema))
     );
 
@@ -219,8 +218,8 @@ function createSchemaContextCreator(
     ...currentContext,
     createChild: createChildContext,
     flatmapChildren: (...args) => flatten(mapChildren(...args)),
-    mapChildren: mapChildren,
-    fail: message => [
+    mapChildren,
+    fail: (message) => [
       {
         ...currentContext,
         message: createErrorMessage(currentContext, message),
@@ -245,10 +244,20 @@ function createErrorMessage(ctxt: SchemaContext, message?: string): string {
 
   if (ctxt.path.length > 0) {
     const pathString = ctxt.path
-      .map(value => objectKeyEncode(value.toString()))
+      .map((value) => objectKeyEncode(value.toString()))
       .join(' › ');
     message += `\nPath: ${pathString}`;
   }
 
   return message;
+}
+
+function flatten<T>(array: T[][]): T[] {
+  const output: T[] = [];
+  for (const ele of array) {
+    for (const x of ele) {
+      output.push(x);
+    }
+  }
+  return output;
 }

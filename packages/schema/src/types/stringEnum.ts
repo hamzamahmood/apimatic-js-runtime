@@ -23,10 +23,8 @@ export function stringEnum<T extends string, TEnumValue extends string>(
   const validate = toValidator(createEnumChecker(enumVariable));
 
   return createSymmetricSchema({
-    type: `Enum<${Object.values(enumVariable)
-      .map(literalToString)
-      .join(',')}>`,
+    type: `Enum<${Object.values(enumVariable).map(literalToString).join(',')}>`,
     map: identityFn,
-    validate: validate,
+    validate,
   });
 }

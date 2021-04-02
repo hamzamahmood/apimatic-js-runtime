@@ -25,9 +25,9 @@ export function numberEnum<T extends string, TEnumValue extends number>(
 
   return createSymmetricSchema({
     type: `Enum<${Object.values(enumVariable)
-      .filter(v => typeof v === 'number')
+      .filter((v) => typeof v === 'number')
       .join(',')}>`,
-    map: coerceNumericStringToNumber as (value: unknown) => TEnumValue,
-    validate: validate,
+    map: coerceNumericStringToNumber as (value: TEnumValue) => TEnumValue,
+    validate,
   });
 }

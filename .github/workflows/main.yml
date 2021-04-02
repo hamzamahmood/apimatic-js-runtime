@@ -20,19 +20,17 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: Install deps and build (with cache)
-        uses: bahmutov/npm-install@v1
-        with:
-          working-directory: ./packages/schema
-
-      - name: Lint
-        run: yarn lint
-        working-directory: ./packages/schema
-
-      - name: Test
-        run: yarn test --ci --coverage --maxWorkers=2
-        working-directory: ./packages/schema
+      - name: Install deps
+        uses: bahmutov/npm-install@v1.4.5
 
       - name: Build
         run: yarn build
-        working-directory: ./packages/schema
+
+      - name: Test
+        run: yarn test --ci --coverage --maxWorkers=2
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Code formatting
+        run: yarn check-style
