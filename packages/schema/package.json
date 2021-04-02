@@ -1,7 +1,7 @@
 {
   "name": "@apimatic/schema",
   "author": "Mehdi Jaffery",
-  "version": "0.5.2-alpha.1",
+  "version": "0.6.0",
   "license": "SEE LICENSE IN LICENSE.md",
   "sideEffects": false,
   "main": "lib/index.js",
