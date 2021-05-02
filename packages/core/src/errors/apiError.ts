@@ -38,7 +38,7 @@ export class ApiError<T = {}>
       try {
         this.result = JSON.parse(response.body);
       } catch (error) {
-        if (__DEV__) {
+        if (process.env.NODE_ENV !== 'production') {
           if (console) {
             // tslint:disable-next-line:no-console
             console.warn(

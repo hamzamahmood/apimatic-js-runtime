@@ -67,5 +67,7 @@ export function deprecated(methodName: string, notice?: string): void {
     return;
   }
   deprecatedHits[message] = true;
-  warning(false, message);
+  if (process.env.NODE_ENV !== 'production') {
+    warning(false, message);
+  }
 }
