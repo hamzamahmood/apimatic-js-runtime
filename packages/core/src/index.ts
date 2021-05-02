@@ -4,7 +4,6 @@
 export * from './apiHelper';
 export * from './apiResponse';
 export * from './fileWrapper';
-export * from './schema';
 export * from './errors/abortError';
 export * from './errors/argumentsValidationError';
 export * from './errors/responseValidationError';
