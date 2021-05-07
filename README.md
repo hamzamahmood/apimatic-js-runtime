@@ -9,6 +9,7 @@ They provide common runtime utilities needed by SDKs to make API calls and handl
 | Name | Description |
 | --- | --- |
 | [@apimatic/schema](packages/schema) | Validate and transform data using schema definitions. |
+| [@apimatic/core](packages/core) | Provides core http logic, file wrapper, api response and validation error classes. |
 
 ## License
 
