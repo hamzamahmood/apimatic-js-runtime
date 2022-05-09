@@ -1,7 +1,7 @@
 {
   "name": "@apimatic/core",
   "author": "Wajahat Iqbal",
-  "version": "0.7.4",
+  "version": "0.7.5",
   "license": "SEE LICENSE IN LICENSE.md",
   "sideEffects": false,
   "main": "lib/index.js",
@@ -58,6 +58,7 @@
     "typescript": "^4.1.2"
   },
   "dependencies": {
+    "@apimatic/convert-to-stream": "0.0.0",
     "@apimatic/json-bigint": "^1.2.0",
     "@apimatic/schema": "^0.6.0",
     "axios": "^0.21.1",
