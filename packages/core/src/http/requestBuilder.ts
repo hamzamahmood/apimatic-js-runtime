@@ -1,7 +1,19 @@
 import JSONBig from '@apimatic/json-bigint';
-import { FileWrapper } from '../fileWrapper';
+import { FileWrapper } from '@apimatic/file-wrapper';
 import { deprecated, sanitizeUrl } from '../apiHelper';
-import { ApiResponse } from '../apiResponse';
+import {
+  ApiResponse,
+  AuthenticatorInterface,
+  HttpContext,
+  HttpMethod,
+  HttpRequest,
+  HttpRequestMultipartFormBody,
+  HttpRequestUrlEncodedFormBody,
+  HttpResponse,
+  HttpInterceptorInterface,
+  RequestOptions,
+  RetryConfiguration,
+} from '../coreInterfaces';
 import { ArgumentsValidationError } from '../errors/argumentsValidationError';
 import { ResponseValidationError } from '../errors/responseValidationError';
 import {
@@ -10,7 +22,6 @@ import {
   validateAndMapXml,
   validateAndUnmapXml,
 } from '../schema';
-import { HttpContext } from './httpContext';
 import {
   ACCEPT_HEADER,
   CONTENT_LENGTH_HEADER,
@@ -22,17 +33,7 @@ import {
   TEXT_CONTENT_TYPE,
   XML_CONTENT_TYPE,
 } from './httpHeaders';
-import {
-  callHttpInterceptors,
-  HttpInterceptorInterface,
-} from './httpInterceptor';
-import {
-  HttpMethod,
-  HttpRequest,
-  HttpRequestMultipartFormBody,
-  HttpRequestUrlEncodedFormBody,
-} from './httpRequest';
-import { HttpResponse } from './httpResponse';
+import { callHttpInterceptors } from './httpInterceptor';
 import {
   pathTemplate,
   PathTemplatePrimitiveTypes,
@@ -47,12 +48,12 @@ import {
 } from './queryString';
 import { prepareArgs } from './validate';
 import {
-  RetryConfiguration,
   getRetryWaitTime,
   shouldRetryRequest,
   RequestRetryOption,
 } from './retryConfiguration';
 import { convertToStream } from '@apimatic/convert-to-stream';
+import { XmlSerializerInterface, XmlSerialization } from '../xml/xmlSerializer';
 
 export type RequestBuilderFactory<BaseUrlParamType, AuthParams> = (
   httpMethod: HttpMethod,
@@ -79,25 +80,6 @@ export function skipEncode<T extends PathTemplatePrimitiveTypes>(
   return new SkipEncode(value);
 }
 
-/** Optional API call options such as the Abort Signal. */
-export interface RequestOptions {
-  /**
-   * Allows cancelling the API call using an Abort Signal.
-   *
-   * This must be set to an instance compatible with the
-   * [WHATWG AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal). The
-   * AbortSignal comes built-in in modern browsers and can be polyfilled for older browser versions
-   * and Node.js using the
-   * [abort-controller](https://github.com/mysticatea/abort-controller) package.
-   */
-  abortSignal?: AbortSignal;
-}
-
-export interface XmlSerializerInterface {
-  xmlSerialize: (rootName: string, value: unknown) => string;
-  xmlDeserialize: (rootName: string, xmlString: string) => Promise<any>;
-}
-
 export type HttpClientInterface = (
   request: HttpRequest,
   requestOptions?: RequestOptions
@@ -107,10 +89,6 @@ export type ApiErrorConstructor = new (
   response: HttpContext,
   message: string
 ) => any;
-
-export type AuthenticatorInterface<AuthParams> = (
-  authParams?: AuthParams
-) => HttpInterceptorInterface<RequestOptions | undefined>;
 
 export interface RequestBuilder<BaseUrlParamType, AuthParams> {
   deprecated(methodName: string, message?: string): void;
@@ -628,8 +606,8 @@ export function createRequestBuilderFactory<BaseUrlParamType, AuthParams>(
   baseUrlProvider: (arg?: BaseUrlParamType) => string,
   apiErrorFactory: ApiErrorConstructor,
   authenticationProvider: AuthenticatorInterface<AuthParams>,
-  xmlSerializer: XmlSerializerInterface,
-  retryConfig: RetryConfiguration
+  retryConfig: RetryConfiguration,
+  xmlSerializer: XmlSerializerInterface = new XmlSerialization()
 ): RequestBuilderFactory<BaseUrlParamType, AuthParams> {
   return (httpMethod, path?) => {
     return new DefaultRequestBuilder(

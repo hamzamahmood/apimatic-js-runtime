@@ -1,5 +1,4 @@
-import { FileWrapper } from '../fileWrapper';
-
+import { FileWrapper } from '@apimatic/file-wrapper';
 /**
  * Represents an HTTP request
  */
@@ -15,6 +14,22 @@ export interface HttpRequest {
   /** HTTP request body */
   body?: HttpRequestBody;
   responseType?: 'text' | 'stream';
+}
+
+export type HttpMethod =
+  | 'GET'
+  | 'DELETE'
+  | 'HEAD'
+  | 'OPTIONS'
+  | 'POST'
+  | 'PUT'
+  | 'PATCH'
+  | 'LINK'
+  | 'UNLINK';
+
+export interface HttpBasicAuthCredentials {
+  username: string;
+  password?: string;
 }
 
 export type HttpRequestBody =
@@ -43,18 +58,16 @@ export interface HttpRequestStreamBody {
   content: FileWrapper;
 }
 
-export type HttpMethod =
-  | 'GET'
-  | 'DELETE'
-  | 'HEAD'
-  | 'OPTIONS'
-  | 'POST'
-  | 'PUT'
-  | 'PATCH'
-  | 'LINK'
-  | 'UNLINK';
-
-export interface HttpBasicAuthCredentials {
-  username: string;
-  password?: string;
+/** Optional API call options such as the Abort Signal. */
+export interface RequestOptions {
+  /**
+   * Allows cancelling the API call using an Abort Signal.
+   *
+   * This must be set to an instance compatible with the
+   * [WHATWG AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal). The
+   * AbortSignal comes built-in in modern browsers and can be polyfilled for older browser versions
+   * and Node.js using the
+   * [abort-controller](https://github.com/mysticatea/abort-controller) package.
+   */
+  abortSignal?: AbortSignal;
 }

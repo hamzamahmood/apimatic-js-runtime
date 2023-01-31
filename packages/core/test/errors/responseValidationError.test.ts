@@ -1,9 +1,6 @@
-import {
-  SchemaValidationError,
-  SchemaContext,
-} from '../../../schema/lib/schema';
-import { ResponseValidationError } from '../../../core/src/errors/responseValidationError';
-import { ApiResponse } from '../../src/apiResponse';
+import { SchemaValidationError, SchemaContext } from '../../src/schema';
+import { ResponseValidationError } from '../../src/errors/responseValidationError';
+import { ApiResponse } from '../../src/coreInterfaces';
 describe('Test Response Validation Instance', () => {
   it('tests ResponseValidationError with a single argument', () => {
     const context = {

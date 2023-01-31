@@ -9,6 +9,30 @@
     },
     {
       "path": "./packages/convert-to-stream"
+    },
+    {
+      "path": "./packages/axios-client-adapter"
+    },
+    {
+      "path": "./packages/core-interfaces"
+    },
+    {
+      "path": "./packages/file-wrapper"
+    },
+    {
+      "path": "./packages/http-headers"
+    },
+    {
+      "path": "./packages/http-query"
+    },
+    {
+      "path": "./packages/xml-adapter"
+    },
+    {
+      "path": "./packages/authentication-adapters"
+    },
+    {
+      "path": "./packages/oauth-adapters"
     }
   ]
 }

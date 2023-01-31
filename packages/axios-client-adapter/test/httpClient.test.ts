@@ -1,4 +1,4 @@
-import { DEFAULT_TIMEOUT, HttpClient } from '../../src/http/httpClient';
+import { DEFAULT_TIMEOUT, HttpClient, isBlob } from '../src/httpClient';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import {
   HttpRequest,
@@ -6,16 +6,16 @@ import {
   HttpRequestStreamBody,
   HttpRequestTextBody,
   HttpRequestUrlEncodedFormBody,
-} from '../../src/http/httpRequest';
-import { FileWrapper } from '../../src/fileWrapper';
+  HttpResponse,
+} from '@apimatic/core-interfaces';
+import { FileWrapper } from '@apimatic/file-wrapper';
 import FormData from 'form-data';
 import fs from 'fs';
-import path from 'path';
-import { HttpResponse } from '../../lib/http/httpResponse';
+import { AbortError } from './abortError';
 
 describe('HTTP Client', () => {
   it('converts request with http text body and http get method', () => {
-    const httpClient = new HttpClient();
+    const httpClient = new HttpClient(AbortError);
     const textBody: HttpRequestTextBody = {
       content: 'testBody',
       type: 'text',
@@ -23,7 +23,7 @@ describe('HTTP Client', () => {
 
     const request: HttpRequest = {
       method: 'GET',
-      url: 'url',
+      url: 'http://apimatic.hopto.org:3000/test/requestBuilder',
       headers: { 'test-header': 'test-value' },
       body: textBody,
       responseType: 'text',
@@ -31,7 +31,7 @@ describe('HTTP Client', () => {
     };
 
     const expectedAxiosRequestConfig: AxiosRequestConfig = {
-      url: 'url',
+      url: 'http://apimatic.hopto.org:3000/test/requestBuilder',
       method: 'GET',
       headers: { 'test-header': 'test-value' },
       data: 'testBody',
@@ -43,7 +43,7 @@ describe('HTTP Client', () => {
   });
 
   it('converts request with http form body and http get method', async () => {
-    const httpClient = new HttpClient();
+    const httpClient = new HttpClient(AbortError);
     const formBody: HttpRequestUrlEncodedFormBody = {
       type: 'form',
       content: [
@@ -54,14 +54,14 @@ describe('HTTP Client', () => {
 
     const request: HttpRequest = {
       method: 'GET',
-      url: 'url',
+      url: 'http://apimatic.hopto.org:3000/test/requestBuilder',
       headers: { 'test-header': 'test-value' },
       body: formBody,
       responseType: 'text',
       auth: { username: 'test-username', password: 'test-password' },
     };
     const expectedAxiosRequestConfig: AxiosRequestConfig = {
-      url: 'url',
+      url: 'http://apimatic.hopto.org:3000/test/requestBuilder',
       method: 'GET',
       headers: {
         'test-header': 'test-value',
@@ -78,9 +78,9 @@ describe('HTTP Client', () => {
   });
 
   it('converts request with http form-data(file-stream) body and http get method', async () => {
-    const httpClient = new HttpClient();
+    const httpClient = new HttpClient(AbortError);
     const fileWrapper = new FileWrapper(
-      fs.createReadStream(path.join(__dirname, '../dummy_file.txt')),
+      fs.createReadStream('test/dummy_file.txt'),
       {
         contentType: 'application/x-www-form-urlencoded',
         filename: 'dummy_file',
@@ -97,7 +97,7 @@ describe('HTTP Client', () => {
 
     const request: HttpRequest = {
       method: 'GET',
-      url: 'url',
+      url: 'http://apimatic.hopto.org:3000/test/requestBuilder',
       headers: { 'test-header': 'test-value' },
       body: formDataBody,
       responseType: 'text',
@@ -106,7 +106,7 @@ describe('HTTP Client', () => {
 
     const axiosRequestConfig = httpClient.convertHttpRequest(request);
     expect(axiosRequestConfig).toMatchObject({
-      url: 'url',
+      url: 'http://apimatic.hopto.org:3000/test/requestBuilder',
       method: 'GET',
       headers: {
         'test-header': 'test-value',
@@ -122,22 +122,19 @@ describe('HTTP Client', () => {
   });
 
   it('converts request with http stream body(file stream) and http get method', async () => {
-    const httpClient = new HttpClient();
+    const httpClient = new HttpClient(AbortError);
     const streamBody: HttpRequestStreamBody = {
       type: 'stream',
-      content: new FileWrapper(
-        fs.createReadStream(path.join(__dirname, '../dummy_file.txt')),
-        {
-          contentType: 'application/x-www-form-urlencoded',
-          filename: 'dummy_file',
-          headers: { 'test-header': 'test-value' },
-        }
-      ),
+      content: new FileWrapper(fs.createReadStream('test/dummy_file.txt'), {
+        contentType: 'application/x-www-form-urlencoded',
+        filename: 'dummy_file',
+        headers: { 'test-header': 'test-value' },
+      }),
     };
 
     const request: HttpRequest = {
       method: 'GET',
-      url: 'url',
+      url: 'http://apimatic.hopto.org:3000/test/requestBuilder',
       headers: { 'test-header': 'test-value' },
       body: streamBody,
       responseType: 'stream',
@@ -146,7 +143,7 @@ describe('HTTP Client', () => {
 
     const axiosRequestConfig = httpClient.convertHttpRequest(request);
     expect(axiosRequestConfig).toMatchObject({
-      url: 'url',
+      url: 'http://apimatic.hopto.org:3000/test/requestBuilder',
       method: 'GET',
       headers: {
         'test-header': 'test-value',
@@ -160,7 +157,7 @@ describe('HTTP Client', () => {
   });
 
   it('converts request with http stream body(blob) and http get method', async () => {
-    const httpClient = new HttpClient();
+    const httpClient = new HttpClient(AbortError);
     const blob = new Blob(['I have dummy data'], {
       type: 'text/plain;charset=utf-8',
     });
@@ -178,7 +175,7 @@ describe('HTTP Client', () => {
 
     const request: HttpRequest = {
       method: 'GET',
-      url: 'url',
+      url: 'http://apimatic.hopto.org:3000/test/requestBuilder',
       headers: { 'test-header': 'test-value' },
       body: streamBody,
       responseType: 'stream',
@@ -187,7 +184,7 @@ describe('HTTP Client', () => {
 
     const axiosRequestConfig = httpClient.convertHttpRequest(request);
     expect(axiosRequestConfig).toMatchObject({
-      url: 'url',
+      url: 'http://apimatic.hopto.org:3000/test/requestBuilder',
       method: 'GET',
       headers: {
         'test-header': 'test-value',
@@ -201,7 +198,7 @@ describe('HTTP Client', () => {
   });
 
   it('converts response to HTTPResponse', async () => {
-    const httpClient = new HttpClient();
+    const httpClient = new HttpClient(AbortError);
     const config: AxiosRequestConfig = {
       url: 'url',
       method: 'GET',
@@ -227,5 +224,20 @@ describe('HTTP Client', () => {
 
     const httpResponse = httpClient.convertHttpResponse(response);
     expect(httpResponse).toMatchObject(expectedHttpResponse);
+  });
+});
+
+describe('test blob type', () => {
+  test.each([
+    [
+      'test blob type',
+      new Blob([JSON.stringify({ isBlob: true })], {
+        type: 'application/json',
+      }),
+      true,
+    ],
+    ['test undefined type', undefined, false],
+  ])('%s', (_: string, value: unknown, expectedResult: boolean) => {
+    expect(isBlob(value)).toStrictEqual(expectedResult);
   });
 });

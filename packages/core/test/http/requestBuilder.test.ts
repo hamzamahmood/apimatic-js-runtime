@@ -1,19 +1,22 @@
 import {
   HttpClientInterface,
-  AuthenticatorInterface,
-  XmlSerializerInterface,
   createRequestBuilderFactory,
-  RequestOptions,
   skipEncode,
 } from '../../src/http/requestBuilder';
-import { passThroughInterceptor } from '../../src/http/httpInterceptor';
-import { RetryConfiguration } from '../../src/http/retryConfiguration';
-import { HttpMethod, HttpRequest } from '../../src/http/httpRequest';
+import {
+  AuthenticatorInterface,
+  HttpContext,
+  HttpMethod,
+  HttpRequest,
+  HttpResponse,
+  passThroughInterceptor,
+  RequestOptions,
+  RetryConfiguration,
+} from '../../src/coreInterfaces';
 import { ApiError } from '../../src/errors/apiError';
 import { RequestRetryOption } from '../../src/http/retryConfiguration';
 import { employeeSchema, Employee } from '../../../schema/test/employeeSchema';
 import { array, number, string } from '../../../schema';
-import { HttpResponse } from '../../src/http/httpResponse';
 import {
   FORM_URLENCODED_CONTENT_TYPE,
   TEXT_CONTENT_TYPE,
@@ -22,7 +25,6 @@ import { FileWrapper } from '../../src/fileWrapper';
 import fs from 'fs';
 import path from 'path';
 import { bossSchema } from '../../../schema/test/bossSchema';
-import { HttpContext } from '../../src/http/httpContext';
 
 describe('test default request builder behavior with succesful responses', () => {
   const authParams = {
@@ -44,7 +46,6 @@ describe('test default request builder behavior with succesful responses', () =>
     (server) => mockBaseURIProvider(server),
     ApiError,
     basicAuth,
-    mockXmlSerializerInterface(),
     retryConfig
   );
 
@@ -611,7 +612,6 @@ describe('test default request builder behavior to test retries', () => {
     (server) => mockBaseURIProvider(server),
     ApiError,
     noneAuthenticationProvider,
-    mockXmlSerializerInterface(),
     retryConfig
   );
 
@@ -681,17 +681,4 @@ function mockBaseURIProvider(server: string | undefined) {
     return 'http://apimaticauth.hopto.org:3000/';
   }
   return '';
-}
-
-function mockXmlSerializerInterface(): XmlSerializerInterface {
-  const xmlSerialize = (_rootName: string, _value: unknown): string => {
-    throw new Error('XML serialization is not available.');
-  };
-  const xmlDeserialize = (
-    _rootName: string,
-    _xmlString: string
-  ): Promise<any> => {
-    throw new Error('XML deserialization is not available.');
-  };
-  return { xmlSerialize, xmlDeserialize };
 }

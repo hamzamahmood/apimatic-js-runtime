@@ -1,4 +1,4 @@
-import { FileWrapper, isFileWrapper } from '../../src/fileWrapper';
+import { FileWrapper, isFileWrapper } from '@apimatic/file-wrapper';
 import fs from 'fs';
 import path from 'path';
 import {
@@ -13,7 +13,7 @@ import {
   filterFileWrapperFromKeyValuePairs,
   FormKeyValuePairList,
   formDataEncodeObject,
-} from '../../src/http/queryString';
+} from '../src/queryString';
 
 const dependent1 = {
   name: 'rehan',
@@ -704,7 +704,7 @@ describe('test file wrapper filter', () => {
         {
           key: 'file-param',
           value: new FileWrapper(
-            fs.createReadStream(path.join(__dirname, '../dummy_file.txt'))
+            fs.createReadStream(path.join(__dirname, './dummy_file.txt'))
           ),
         },
         { key: 'string-param', value: 'string' },
@@ -730,7 +730,7 @@ describe('test file wrapper form encoding', () => {
       'test file wrapper indexed prefix format',
       {
         param: new FileWrapper(
-          fs.createReadStream(path.join(__dirname, '..//dummy_file.txt'))
+          fs.createReadStream(path.join(__dirname, './dummy_file.txt'))
         ),
       },
     ],

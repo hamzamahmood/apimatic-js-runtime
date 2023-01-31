@@ -1,20 +1,20 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import isNode from 'detect-node';
 import FormData from 'form-data';
-import { isBlob } from '../apiHelper';
-import { AbortError } from '../errors/abortError';
-import { isFileWrapper } from '../fileWrapper';
+import { isFileWrapper } from '@apimatic/file-wrapper';
 import {
   CONTENT_TYPE_HEADER,
   FORM_URLENCODED_CONTENT_TYPE,
   mergeHeaders,
   setHeader,
   setHeaderIfNotSet,
-} from './httpHeaders';
-import { HttpRequest } from './httpRequest';
-import { HttpResponse } from './httpResponse';
-import { urlEncodeKeyValuePairs } from './queryString';
-import { RetryConfiguration } from './retryConfiguration';
+} from '@apimatic/http-headers';
+import {
+  HttpRequest,
+  HttpResponse,
+  RetryConfiguration,
+} from '@apimatic/core-interfaces';
+import { urlEncodeKeyValuePairs } from '@apimatic/http-query';
 
 export const DEFAULT_AXIOS_CONFIG_OVERRIDES: AxiosRequestConfig = {
   transformResponse: [],
@@ -30,24 +30,29 @@ export const DEFAULT_TIMEOUT = 30 * 1000;
 export class HttpClient {
   private _axiosInstance: AxiosInstance;
   private _timeout: number;
+  private _abortErrorFactory: AbortErrorConstructor;
 
-  constructor({
-    clientConfigOverrides,
-    timeout = DEFAULT_TIMEOUT,
-    httpAgent,
-    httpsAgent,
-  }: {
-    clientConfigOverrides?: AxiosRequestConfig;
-    timeout?: number;
-    httpAgent?: any;
-    httpsAgent?: any;
-  } = {}) {
+  constructor(
+    abortErrorFactory: AbortErrorConstructor,
+    {
+      clientConfigOverrides,
+      timeout = DEFAULT_TIMEOUT,
+      httpAgent,
+      httpsAgent,
+    }: {
+      clientConfigOverrides?: AxiosRequestConfig;
+      timeout?: number;
+      httpAgent?: any;
+      httpsAgent?: any;
+    } = {}
+  ) {
     this._timeout = timeout;
     this._axiosInstance = axios.create({
       ...DEFAULT_AXIOS_CONFIG_OVERRIDES,
       ...clientConfigOverrides,
       ...{ httpAgent, httpsAgent },
     });
+    this._abortErrorFactory = abortErrorFactory;
   }
 
   /** Converts an HttpRequest object to an Axios request. */
@@ -179,7 +184,7 @@ export class HttpClient {
   }
 
   private abortError() {
-    return new AbortError('The HTTP call was aborted.');
+    return new this._abortErrorFactory('The HTTP call was aborted.');
   }
 }
 
@@ -193,4 +198,26 @@ export interface HttpClientOptions {
   httpsAgent?: any;
   /** Configurations to retry requests */
   retryConfig: Partial<RetryConfiguration>;
+}
+
+export type AbortErrorConstructor = new (message?: string) => any;
+
+/**
+ * Check whether value is an instance of Blob
+ *
+ * @remark
+ * Reference: https://github.com/sindresorhus/is-blob/blob/master/index.js
+ *
+ * @param value Value to check
+ * @returns True if the value is a Blob instance
+ */
+export function isBlob(value: unknown): value is Blob {
+  if (typeof Blob === 'undefined') {
+    return false;
+  }
+
+  return (
+    value instanceof Blob ||
+    Object.prototype.toString.call(value) === '[object Blob]'
+  );
 }

@@ -1,6 +1,6 @@
 import { ApiError } from '../../src/errors/apiError';
-import { HttpRequest } from '../../lib/http/httpRequest';
-import { HttpResponse } from '../../lib/http/httpResponse';
+import { HttpRequest, HttpResponse } from '../../src/coreInterfaces';
+
 describe('Test API Error Instance', () => {
   const deprecationSpy = jest.spyOn(console, 'warn');
   test.each([
