@@ -1,6 +1,6 @@
 import JSONBig from '@apimatic/json-bigint';
 import { FileWrapper } from '@apimatic/file-wrapper';
-import { deprecated, sanitizeUrl } from '../apiHelper';
+import { deprecated, sanitizeUrl, updateErrorMessage } from '../apiHelper';
 import {
   ApiResponse,
   AuthenticatorInterface,
@@ -90,6 +90,11 @@ export type ApiErrorConstructor = new (
   message: string
 ) => any;
 
+export interface ApiErrorFactory {
+  apiErrorCtor: ApiErrorConstructor;
+  message?: string | undefined;
+}
+
 export interface RequestBuilder<BaseUrlParamType, AuthParams> {
   deprecated(methodName: string, message?: string): void;
   prepareArgs: typeof prepareArgs;
@@ -139,7 +144,7 @@ export interface RequestBuilder<BaseUrlParamType, AuthParams> {
   ): void;
   interceptRequest(interceptor: (request: HttpRequest) => HttpRequest): void;
   interceptResponse(interceptor: (response: HttpContext) => HttpContext): void;
-  defaultToError(apiErrorCtor: ApiErrorConstructor): void;
+  defaultToError(apiErrorCtor: ApiErrorConstructor, message?: string): void;
   validateResponse(validate: boolean): void;
   throwOn<ErrorCtorArgs extends any[]>(
     statusCode: number | [number, number],
@@ -147,6 +152,15 @@ export interface RequestBuilder<BaseUrlParamType, AuthParams> {
       response: HttpContext,
       ...args: ErrorCtorArgs
     ) => any,
+    ...args: ErrorCtorArgs
+  ): void;
+  throwOn<ErrorCtorArgs extends any[]>(
+    statusCode: number | [number, number],
+    errorConstructor: new (
+      response: HttpContext,
+      ...args: ErrorCtorArgs
+    ) => any,
+    isTemplate: boolean,
     ...args: ErrorCtorArgs
   ): void;
   call(requestOptions?: RequestOptions): Promise<ApiResponse<void>>;
@@ -190,12 +204,13 @@ export class DefaultRequestBuilder<BaseUrlParamType, AuthParams>
   >;
   protected _authParams?: AuthParams;
   protected _retryOption: RequestRetryOption;
+  protected _apiErrorFactory: ApiErrorFactory;
   public prepareArgs: typeof prepareArgs;
 
   constructor(
     protected _httpClient: HttpClientInterface,
     protected _baseUrlProvider: (arg?: BaseUrlParamType) => string,
-    protected _apiErrorFactory: ApiErrorConstructor,
+    protected _apiErrorCtr: ApiErrorConstructor,
     protected _authenticationProvider: AuthenticatorInterface<AuthParams>,
     protected _httpMethod: HttpMethod,
     protected _xmlSerializer: XmlSerializerInterface,
@@ -206,6 +221,7 @@ export class DefaultRequestBuilder<BaseUrlParamType, AuthParams>
     this._query = [];
     this._interceptors = [];
     this._validateResponse = true;
+    this._apiErrorFactory = { apiErrorCtor: _apiErrorCtr };
     this._addResponseValidator();
     this._addAuthentication();
     this._addRetryInterceptor();
@@ -385,8 +401,11 @@ export class DefaultRequestBuilder<BaseUrlParamType, AuthParams>
   ): void {
     this.intercept(async (req, opt, next) => interceptor(await next(req, opt)));
   }
-  public defaultToError(apiErrorCtor: ApiErrorConstructor): void {
-    this._apiErrorFactory = apiErrorCtor;
+  public defaultToError(
+    apiErrorCtor: ApiErrorConstructor,
+    message?: string
+  ): void {
+    this._apiErrorFactory = { apiErrorCtor, message };
   }
   public validateResponse(validate: boolean): void {
     this._validateResponse = validate;
@@ -398,9 +417,21 @@ export class DefaultRequestBuilder<BaseUrlParamType, AuthParams>
       ...args: ErrorCtorArgs
     ) => any,
     ...args: ErrorCtorArgs
+  ): void;
+  public throwOn<ErrorCtorArgs extends any[]>(
+    statusCode: number | [number, number],
+    errorConstructor: new (
+      response: HttpContext,
+      ...args: ErrorCtorArgs
+    ) => any,
+    isTemplate?: boolean,
+    ...args: ErrorCtorArgs
   ): void {
     this.interceptResponse((context) => {
       const { response } = context;
+      if (isTemplate && args.length > 0) {
+        args[0] = updateErrorMessage(args[0], response);
+      }
       if (
         (typeof statusCode === 'number' &&
           response.statusCode === statusCode) ||
@@ -540,9 +571,12 @@ export class DefaultRequestBuilder<BaseUrlParamType, AuthParams>
         this._validateResponse &&
         (response.statusCode < 200 || response.statusCode >= 300)
       ) {
-        throw new this._apiErrorFactory(
+        if (typeof this._apiErrorFactory?.message === 'undefined') {
+          this._apiErrorFactory.message = `Response status code was not ok: ${response.statusCode}.`;
+        }
+        throw new this._apiErrorFactory.apiErrorCtor(
           context,
-          `Response status code was not ok: ${response.statusCode}.`
+          this._apiErrorFactory.message
         );
       }
       return context;
@@ -604,7 +638,7 @@ export class DefaultRequestBuilder<BaseUrlParamType, AuthParams>
 export function createRequestBuilderFactory<BaseUrlParamType, AuthParams>(
   httpClient: HttpClientInterface,
   baseUrlProvider: (arg?: BaseUrlParamType) => string,
-  apiErrorFactory: ApiErrorConstructor,
+  apiErrorConstructor: ApiErrorConstructor,
   authenticationProvider: AuthenticatorInterface<AuthParams>,
   retryConfig: RetryConfiguration,
   xmlSerializer: XmlSerializerInterface = new XmlSerialization()
@@ -613,7 +647,7 @@ export function createRequestBuilderFactory<BaseUrlParamType, AuthParams>(
     return new DefaultRequestBuilder(
       httpClient,
       baseUrlProvider,
-      apiErrorFactory,
+      apiErrorConstructor,
       authenticationProvider,
       httpMethod,
       xmlSerializer,

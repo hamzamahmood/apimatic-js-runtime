@@ -1,7 +1,7 @@
 {
   "name": "@apimatic/core",
   "author": "APIMatic Ltd.",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "license": "MIT",
   "sideEffects": false,
   "main": "lib/index.js",
@@ -69,6 +69,7 @@
     "detect-browser": "^5.3.0",
     "detect-node": "^2.0.4",
     "form-data": "^3.0.0",
+    "json-ptr": "^3.1.0",
     "lodash.flatmap": "^4.5.0",
     "tiny-warning": "^1.0.3",
     "tslib": "^2.1.0"
