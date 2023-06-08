@@ -1,6 +1,6 @@
 {
   "name": "@apimatic/convert-to-stream",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "converts the content to stream",
   "main": "lib/index.js",
   "module": "lib/index.js",
@@ -25,8 +25,8 @@
   "author": "APIMatic Ltd.",
   "license": "ISC",
   "devDependencies": {
-    "@babel/cli": "^7.10.5",
-    "@babel/core": "^7.10.5",
+    "@babel/cli": "^7.21.5",
+    "@babel/core": "^7.22.1",
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.29",
     "lerna-alias": "3.0.3-0",
