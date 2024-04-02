@@ -34,19 +34,23 @@ jobs:
 
       - name: Code formatting
         run: yarn check-style
-        
-      - name: Upload coverage reports
-        uses: paambaati/codeclimate-action@v3.0.0
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.TEST_REPORTER_ID }}
+      
+      - uses: JS-DevTools/npm-publish@v1
         with:
-          debug: true
-          coverageLocations: |
-            ${{github.workspace}}/packages/core/coverage/lcov.info:lcov
-            ${{github.workspace}}/packages/authentication-adapters/coverage/lcov.info:lcov
-            ${{github.workspace}}/packages/axios-client-adapter/coverage/lcov.info:lcov
-            ${{github.workspace}}/packages/file-wrapper/coverage/lcov.info:lcov
-            ${{github.workspace}}/packages/http-headers/coverage/lcov.info:lcov
-            ${{github.workspace}}/packages/http-query/coverage/lcov.info:lcov
-            ${{github.workspace}}/packages/oauth-adapters/coverage/lcov.info:lcov
-            ${{github.workspace}}/packages/schema/coverage/lcov.info:lcov
+          token: ${{ secrets.NPM_TOKEN }}
+
+      # - name: Upload coverage reports
+      #   uses: paambaati/codeclimate-action@v3.0.0
+      #   env:
+      #     CC_TEST_REPORTER_ID: ${{ secrets.TEST_REPORTER_ID }}
+      #   with:
+      #     debug: true
+      #     coverageLocations: |
+      #       ${{github.workspace}}/packages/core/coverage/lcov.info:lcov
+      #       ${{github.workspace}}/packages/authentication-adapters/coverage/lcov.info:lcov
+      #       ${{github.workspace}}/packages/axios-client-adapter/coverage/lcov.info:lcov
+      #       ${{github.workspace}}/packages/file-wrapper/coverage/lcov.info:lcov
+      #       ${{github.workspace}}/packages/http-headers/coverage/lcov.info:lcov
+      #       ${{github.workspace}}/packages/http-query/coverage/lcov.info:lcov
+      #       ${{github.workspace}}/packages/oauth-adapters/coverage/lcov.info:lcov
+      #       ${{github.workspace}}/packages/schema/coverage/lcov.info:lcov
