@@ -1,6 +1,6 @@
 {
-  "name": "@apimatic/oauth-adapters",
-  "author": "APIMatic Ltd.",
+  "name": "@hamzamahmood/oauth-adapters",
+  "author": "Hamza Mahmood",
   "version": "0.4.0",
   "license": "MIT",
   "sideEffects": false,

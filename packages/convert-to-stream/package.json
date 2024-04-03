@@ -1,5 +1,5 @@
 {
-  "name": "@apimatic/convert-to-stream",
+  "name": "@hamzamahmood/convert-to-stream",
   "version": "0.1.1",
   "description": "converts the content to stream",
   "main": "lib/index.js",
@@ -22,7 +22,7 @@
     "check-style": "prettier --check \"{src,test}/**/*.ts\"",
     "check-style:fix": "prettier --write \"{src,test}/**/*.ts\""
   },
-  "author": "APIMatic Ltd.",
+  "author": "Hamza Mahmood",
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.21.5",
