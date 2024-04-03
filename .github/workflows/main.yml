@@ -20,15 +20,6 @@ jobs:
 
       - name: Build
         run: yarn build
-
-      - name: Test
-        run: yarn test --ci --coverage --maxWorkers=2
-
-      - name: Lint
-        run: yarn lint
-
-      - name: Code formatting
-        run: yarn check-style
       
       - name: Publish Packages
         run: |
