@@ -27,6 +27,12 @@ jobs:
           yarn install --frozen-lockfile
           yarn build
 
+      - name: NPM Identity
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+
       - name: Publish Packages
         run: |
           ./node_modules/.bin/lerna publish from-package --registry https://registry.npmjs.org/ --yes
