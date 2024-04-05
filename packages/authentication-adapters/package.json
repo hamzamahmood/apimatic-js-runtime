@@ -1,7 +1,7 @@
 {
   "name": "@hamzamahmood/authentication-adapters",
   "author": "Hamza Mahmood",
-  "version": "0.5.3",
+  "version": "0.5.2",
   "license": "MIT",
   "sideEffects": false,
   "main": "lib/index.js",
