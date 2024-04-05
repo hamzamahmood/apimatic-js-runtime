@@ -1,5 +1,12 @@
 name: CI
-on: [push]
+
+on:
+  workflow_dispatch:
+    inputs:
+      Version:
+        description: "This input field requires version in format: x.y.z, where x => major version, y => minor version and z => patch version"
+        required: true
+
 jobs:
   build:
     name: Build, lint, and test
