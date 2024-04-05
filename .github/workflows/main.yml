@@ -76,6 +76,10 @@ jobs:
       - name: Create and switch to new branch
         run: |
           git checkout -b release-npm-packages
+      - name: Install dependencies and build
+        run: |
+          yarn install --frozen-lockfile
+          yarn build
       - name: Bump authentication-adapters package version
         if: "${{ github.event.inputs.authentication-adapters-version != '' }}"
         run: |
@@ -135,10 +139,6 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "ci: bump package version"
-      - name: Install dependencies and build
-        run: |
-          yarn install --frozen-lockfile
-          yarn build
       # - name: Create Pull Request
       #   uses: peter-evans/create-pull-request@v3
       #   with:
