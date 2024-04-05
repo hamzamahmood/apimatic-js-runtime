@@ -22,7 +22,7 @@ jobs:
 
       - name: Install dependencies and build
         run: |
-          yarn install
+          yarn install --frozen-lockfile
           yarn run build
 
       - name: Bump axios-client-adapter version
