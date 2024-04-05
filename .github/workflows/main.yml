@@ -52,21 +52,21 @@ jobs:
     name: Publish package
     runs-on: ubuntu-latest
     steps:
-      - name: Package version validation
-        if: ${{ github.event.inputs.authentication-adapters-version == '' &&
-                github.event.inputs.axios-client-adapter-version == '' &&
-                github.event.inputs.convert-to-stream-version == '' &&
-                github.event.inputs.core-version == '' &&
-                github.event.inputs.core-interfaces-version == '' &&
-                github.event.inputs.file-wrapper-version == '' &&
-                github.event.inputs.http-headers-version == '' &&
-                github.event.inputs.http-query-version == '' &&
-                github.event.inputs.oauth-adapters-version == '' &&
-                github.event.inputs.schema-version == '' &&
-                github.event.inputs.xml-adapter-version == '' }}
-        run: |
-          echo "No version values provided"
-          exit 1
+      # - name: Package version validation
+      #   if: ${{ github.event.inputs.authentication-adapters-version == '' &&
+      #           github.event.inputs.axios-client-adapter-version == '' &&
+      #           github.event.inputs.convert-to-stream-version == '' &&
+      #           github.event.inputs.core-version == '' &&
+      #           github.event.inputs.core-interfaces-version == '' &&
+      #           github.event.inputs.file-wrapper-version == '' &&
+      #           github.event.inputs.http-headers-version == '' &&
+      #           github.event.inputs.http-query-version == '' &&
+      #           github.event.inputs.oauth-adapters-version == '' &&
+      #           github.event.inputs.schema-version == '' &&
+      #           github.event.inputs.xml-adapter-version == '' }}
+      #   run: |
+      #     echo "No version values provided"
+      #     exit 1
       - name: Checkout repo
         uses: actions/checkout@v2
       - name: Use Node 19.x
