@@ -22,8 +22,21 @@ jobs:
         with:
           node-version: "19.x"
 
+      - name: Install deps
+        run: yarn
+
+      - name: Build
+        run: yarn build
+
       - name: Publish Packages
         run: |
           ./node_modules/.bin/lerna publish from-package --yes
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release Version ${{ github.event.inputs.Version }}
+          body: ${{ steps.tag_version.outputs.changelog }}
