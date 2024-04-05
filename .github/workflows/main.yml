@@ -73,9 +73,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "19.x"
-      - name: Create and switch to new branch
-        run: |
-          git checkout -b release-npm-packages
+      # - name: Create and switch to new branch
+      #   run: |
+      #     git checkout -b release-npm-packages
       - name: Install dependencies and build
         run: |
           yarn install --frozen-lockfile
@@ -84,7 +84,7 @@ jobs:
         if: "${{ github.event.inputs.authentication-adapters-version != '' }}"
         run: |
           cd packages/authentication-adapters
-          ../../node_modules/.bin/lerna version ${{ github.event.inputs.authentication-adapters-version }}
+          npm version ${{ github.event.inputs.authentication-adapters-version }}
       # - name: Bump axios-client-adapter package version
       #   if: "${{ github.event.inputs.axios-client-adapter-version != '' }}"
       #   run: |
@@ -135,10 +135,10 @@ jobs:
       #   run: |
       #     cd packages/xml-adapter
       #     ../../node_modules/.bin/lerna version ${{ github.event.inputs.xml-adapter-version }}
-      - name: Commit and push
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "ci: bump package version"
+      # - name: Commit and push
+      #   uses: stefanzweifel/git-auto-commit-action@v5
+      #   with:
+      #     commit_message: "ci: bump package version"
       # - name: Create Pull Request
       #   uses: peter-evans/create-pull-request@v3
       #   with:
@@ -153,6 +153,12 @@ jobs:
       #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       #   run: |
       #     echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+      - name: Publish Packages
+        run: |
+          cd packages/authentication-adapters 
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       # - name: Publish Packages
       #   run: |
       #     ./node_modules/.bin/lerna publish from-package --registry https://registry.npmjs.org/ --yes
