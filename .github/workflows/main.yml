@@ -55,7 +55,7 @@ jobs:
       - name: Run commands in a specific directory
         run: |
           ls -al   # Listing files in the root directory
-          cd path/to/directory   # Changing to a specific directory
+          cd packages/authentication-adapters   # Changing to a specific directory
           ls -al   # Listing files in the specified directory
       # - name: Package version validation
       #   if: ${{ github.event.inputs.authentication-adapters-version == '' &&
