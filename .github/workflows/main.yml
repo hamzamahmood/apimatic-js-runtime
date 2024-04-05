@@ -76,24 +76,15 @@ jobs:
       - name: Create and switch to new branch
         run: |
           git checkout -b release-npm-packages
-      - name: Run commands in a specific directory
+      - name: Bump authentication-adapters package version
+        if: "${{ github.event.inputs.authentication-adapters-version != '' }}"
         run: |
-          ls -al   # Listing files in the root directory
-          cd packages/authentication-adapters   # Changing to a specific directory
-          ls -al   # Listing files in the specified directory
-      # - name: Install dependencies and build
-      #   run: |
-      #     yarn install --frozen-lockfile
-      #     yarn build
-      # - name: Bump authentication-adapters package version
-      #   if: "${{ github.event.inputs.authentication-adapters-version != '' }}"
-      #   run: |
-      #     cd packages/authentication-adapters 
-      #     ../../node_modules/.bin/lerna version ${{ github.event.inputs.authentication-adapters-version }}
+          cd packages/authentication-adapters
+          ../../node_modules/.bin/lerna version ${{ github.event.inputs.authentication-adapters-version }}
       # - name: Bump axios-client-adapter package version
       #   if: "${{ github.event.inputs.axios-client-adapter-version != '' }}"
       #   run: |
-      #     cd packages/axios-client-adapter 
+      #     cd packages/axios-client-adapter
       #     ../../node_modules/.bin/lerna version ${{ github.event.inputs.axios-client-adapter-version }}
       # - name: Bump convert-to-stream package version
       #   if: "${{ github.event.inputs.convert-to-stream-version != '' }}"
@@ -103,7 +94,7 @@ jobs:
       # - name: Bump core package version
       #   if: "${{ github.event.inputs.core-version != '' }}"
       #   run: |
-      #     cd packages/core 
+      #     cd packages/core
       #     ../../node_modules/.bin/lerna version ${{ github.event.inputs.core-version }}
       # - name: Bump core-interfaces package version
       #   if: "${{ github.event.inputs.core-interfaces-version != '' }}"
@@ -118,7 +109,7 @@ jobs:
       # - name: Bump http-headers package version
       #   if: "${{ github.event.inputs.http-headers-version != '' }}"
       #   run: |
-      #     cd packages/http-headers 
+      #     cd packages/http-headers
       #     ../../node_modules/.bin/lerna version ${{ github.event.inputs.http-headers-version }}
       # - name: Bump http-query package version
       #   if: "${{ github.event.inputs.http-query-version != '' }}"
@@ -140,10 +131,14 @@ jobs:
       #   run: |
       #     cd packages/xml-adapter
       #     ../../node_modules/.bin/lerna version ${{ github.event.inputs.xml-adapter-version }}
-      # - name: Commit and push
-      #   uses: stefanzweifel/git-auto-commit-action@v5
-      #   with:
-      #     commit_message: "ci: bump package version"
+      - name: Commit and push
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "ci: bump package version"
+      - name: Install dependencies and build
+        run: |
+          yarn install --frozen-lockfile
+          yarn build
       # - name: Create Pull Request
       #   uses: peter-evans/create-pull-request@v3
       #   with:
