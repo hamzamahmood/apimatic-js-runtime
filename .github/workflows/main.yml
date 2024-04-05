@@ -52,11 +52,6 @@ jobs:
     name: Publish package
     runs-on: ubuntu-latest
     steps:
-      - name: Run commands in a specific directory
-        run: |
-          ls -al   # Listing files in the root directory
-          cd packages/authentication-adapters   # Changing to a specific directory
-          ls -al   # Listing files in the specified directory
       # - name: Package version validation
       #   if: ${{ github.event.inputs.authentication-adapters-version == '' &&
       #           github.event.inputs.axios-client-adapter-version == '' &&
@@ -72,15 +67,20 @@ jobs:
       #   run: |
       #     echo "No version values provided"
       #     exit 1
-      # - name: Checkout repo
-      #   uses: actions/checkout@v2
-      # - name: Use Node 19.x
-      #   uses: actions/setup-node@v1
-      #   with:
-      #     node-version: "19.x"
-      # - name: Create and switch to new branch
-      #   run: |
-      #     git checkout -b release-npm-packages
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Use Node 19.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: "19.x"
+      - name: Create and switch to new branch
+        run: |
+          git checkout -b release-npm-packages
+      - name: Run commands in a specific directory
+        run: |
+          ls -al   # Listing files in the root directory
+          cd packages/authentication-adapters   # Changing to a specific directory
+          ls -al   # Listing files in the specified directory
       # - name: Install dependencies and build
       #   run: |
       #     yarn install --frozen-lockfile
