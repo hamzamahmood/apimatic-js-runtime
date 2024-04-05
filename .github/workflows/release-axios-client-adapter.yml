@@ -19,7 +19,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "19.x"
-          registry-url: "https://registry.npmjs.org"
 
       - name: Install dependencies and build
         run: |
@@ -29,13 +28,13 @@ jobs:
       - name: Bump axios-client-adapter version
         run: |
           cd packages/axios-client-adapter
-          npm version ${{ github.event.inputs.Version }}
+          ../../node_modules/.bin/lerna version ${{ github.event.inputs.Version }}
 
       - name: Release to npm
         id: release
         run: |
           cd packages/axios-client-adapter
-          npm publish
+          ../../node_modules/.bin/lerna publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
