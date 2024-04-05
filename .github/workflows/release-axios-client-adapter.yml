@@ -1,4 +1,4 @@
-name: Release Authentication Adapters Package
+name: Release Axios Client Adapter Package
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: Build and publish Authentication Adapters Package
+    name: Build and publish Axios Client Adapter Package
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -26,15 +26,15 @@ jobs:
           yarn install --frozen-lockfile
           yarn run build
 
-      - name: Bump authentication-adapters version
+      - name: Bump axios-client-adapter version
         run: |
-          cd packages/authentication-adapters
+          cd packages/axios-client-adapter
           npm version ${{ github.event.inputs.Version }}
 
       - name: Release to npm
         id: release
         run: |
-          cd packages/authentication-adapters 
+          cd packages/axios-client-adapter
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -44,7 +44,7 @@ jobs:
         uses: devops-infra/action-commit-push@master
         with:
             github_token: "${{ secrets.GITHUB_TOKEN }}"
-            commit_message: "ci(authentication-adapters): update package version"
+            commit_message: "ci(axios-client-adapter): update package version"
             force: false
             target_branch: project-version-update
 
@@ -77,7 +77,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with: 
           tag: ${{ steps.tag_version.outputs.new_tag }}
-          name: Release Authentication Adapters Version ${{ github.event.inputs.Version }}
+          name: Release Axios Client Adapter Version ${{ github.event.inputs.Version }}
           body: ${{ steps.tag_version.outputs.changelog }}
 
       # - name: Send slack notification
