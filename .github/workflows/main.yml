@@ -1,4 +1,4 @@
-name: CI
+name: Publish npm package
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: Build, lint, and test
+    name: Publish package
 
     runs-on: ubuntu-latest
 
@@ -21,11 +21,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "19.x"
-
-      - name: Install dependencies and build
-        run: |
-          yarn install --frozen-lockfile
-          yarn build
 
       - name: Publish Packages
         run: |
