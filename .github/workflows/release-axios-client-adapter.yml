@@ -28,7 +28,7 @@ jobs:
       - name: Bump axios-client-adapter version
         run: |
           cd packages/axios-client-adapter
-          ../../node_modules/.bin/lerna version ${{ github.event.inputs.Version }}
+          yarn version ${{ github.event.inputs.Version }}
       
       - name: Setup npm configuration file
         env:

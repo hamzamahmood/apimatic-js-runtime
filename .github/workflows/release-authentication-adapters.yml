@@ -28,7 +28,7 @@ jobs:
       - name: Bump authentication-adapters version
         run: |
           cd packages/authentication-adapters
-          ../../node_modules/.bin/lerna version ${{ github.event.inputs.Version }}
+          yarn version ${{ github.event.inputs.Version }}
 
       - name: Setup npm configuration file
         env:
