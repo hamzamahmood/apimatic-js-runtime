@@ -28,7 +28,7 @@ jobs:
       - name: Bump authentication-adapters version
         run: |
           cd packages/authentication-adapters
-          yarn version ${{ github.event.inputs.Version }}
+          yarn version --new-version ${{ github.event.inputs.Version }}
 
       - name: Setup npm configuration file
         env:
