@@ -19,6 +19,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "19.x"
+          registry-url: "https://registry.npmjs.org"
 
       - name: Install dependencies and build
         run: |
@@ -34,7 +35,7 @@ jobs:
         id: release
         run: |
           cd packages/authentication-adapters 
-          npm publish --@myscope:registry=https://registry.npmjs.org
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 

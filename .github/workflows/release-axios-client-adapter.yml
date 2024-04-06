@@ -34,7 +34,7 @@ jobs:
         id: release
         run: |
           cd packages/axios-client-adapter
-          npm publish --@myscope:registry=https://registry.npmjs.org
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
