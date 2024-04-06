@@ -30,11 +30,15 @@ jobs:
           cd packages/axios-client-adapter
           yarn version --no-git-tag-version --new-version ${{ github.event.inputs.Version }}
 
+      - name: NPM Identity
+        run: |
+          echo "//registry.npmjs.org/:_authToken=dummyToken" > .npmrc
+
       - name: Release to npm
         id: release
         run: |
           cd packages/axios-client-adapter
-          npm publish --registry=https://registry.npmjs.org/
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
