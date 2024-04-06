@@ -30,7 +30,7 @@ jobs:
           cd packages/axios-client-adapter
           ../../node_modules/.bin/lerna version ${{ github.event.inputs.Version }}
       
-      - name: NPM Identity
+      - name: Setup npm configuration file
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
