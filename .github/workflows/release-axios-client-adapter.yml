@@ -29,18 +29,12 @@ jobs:
         run: |
           cd packages/axios-client-adapter
           yarn version --no-git-tag-version --new-version ${{ github.event.inputs.Version }}
-      
-      - name: Setup npm configuration file
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
 
       - name: Release to npm
         id: release
         run: |
           cd packages/axios-client-adapter
-          npm publish
+          npm publish --@myscope:registry=https://registry.npmjs.org
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
