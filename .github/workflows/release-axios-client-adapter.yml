@@ -31,8 +31,10 @@ jobs:
           yarn version --no-git-tag-version --new-version ${{ github.event.inputs.Version }}
 
       - name: NPM Identity
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          echo "//registry.npmjs.org/:_authToken=dummyToken" > .npmrc
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
 
       - name: Release to npm
         id: release
@@ -43,7 +45,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Discard npm configuration
-        run: git clean -f ../../.npmrc
+        run: rm -f .npmrc
 
       - name: Commit the version change
         if: steps.release.outputs.exit_code == 0
