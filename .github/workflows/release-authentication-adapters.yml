@@ -30,6 +30,12 @@ jobs:
           cd packages/authentication-adapters
           ../../node_modules/.bin/lerna version ${{ github.event.inputs.Version }}
 
+      - name: NPM Identity
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+
       - name: Release to npm
         id: release
         run: |
