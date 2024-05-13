@@ -42,24 +42,24 @@ jobs:
         if: steps.release.outputs.exit_code == 0
         uses: devops-infra/action-commit-push@master
         with:
-            github_token: "${{ secrets.GITHUB_TOKEN }}"
-            commit_message: "ci(authentication-adapters): update package version"
-            force: false
-            target_branch: project-version-update
+          github_token: "${{ secrets.GITHUB_TOKEN }}"
+          commit_message: "ci(authentication-adapters): update package version"
+          force: false
+          target_branch: project-version-update
 
       - name: Push the version change
         if: steps.release.outputs.exit_code == 0
         uses: CasperWA/push-protected@v2
         with:
-            # token: ${{ secrets.PAT }}
-            token: ${{ secrets.GITHUB_TOKEN }}
-            branch: ${{ github.ref_name }}
+          # token: ${{ secrets.PAT }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref_name }}
 
       - name: Delete the intermediate branch
         if: steps.release.outputs.exit_code == 0
         run: |
-            git branch -D project-version-update &>/dev/null || true
-            git push origin :project-version-update &>/dev/null || true
+          git branch -D project-version-update &>/dev/null || true
+          git push origin :project-version-update &>/dev/null || true
 
       - name: Create tag
         if: steps.release.outputs.exit_code == 0
@@ -78,6 +78,7 @@ jobs:
           tag: ${{ steps.tag_version.outputs.new_tag }}
           name: Release Authentication Adapters Version ${{ github.event.inputs.Version }}
           body: ${{ steps.tag_version.outputs.changelog }}
+          path: 'packages/authentication-adapters'
 
       # - name: Send slack notification
       #   id: slack
