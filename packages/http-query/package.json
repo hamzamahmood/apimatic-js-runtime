@@ -2,6 +2,7 @@
   "name": "@hamzamahmood/http-query",
   "author": "APIMatic Ltd.",
   "version": "0.3.1",
+  "private": false,
   "license": "MIT",
   "sideEffects": false,
   "main": "lib/index.js",
