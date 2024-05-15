@@ -38,5 +38,5 @@
   "browser": {
     "./lib/convertToStream.js": "./lib/convertToBlob.js"
   },
-  "gitHead": "13fddfca5d179e629073a851105e48f4ee67d5fa"
+  "gitHead": "a3c2578b9768529177d78c5a80e7c26648fee4d8"
 }
