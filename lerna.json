@@ -5,5 +5,10 @@
     "packages/*"
   ],
   "version": "independent",
+  "command": {
+    "publish": {
+      "access": "public"
+    }
+  },
   "$schema": "node_modules/lerna/schemas/lerna-schema.json"
 }
