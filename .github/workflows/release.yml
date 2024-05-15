@@ -44,16 +44,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
+      - name: Request approval to push to main branch
+        if: github.event.approvals[0].conclusion == 'success'
+        run: |
+          echo "Requesting approval to push changes to main branch..."
+
       - name: Push changes to main branch
         run: |
           git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Publish to NPM
-        run: node_modules/.bin/lerna publish from-package --yes
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   publish_to_npm:
     needs: release_version
