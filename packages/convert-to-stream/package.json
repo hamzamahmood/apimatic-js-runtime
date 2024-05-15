@@ -1,6 +1,6 @@
 {
   "name": "@hamzamahmood/convert-to-stream",
-  "version": "0.1.5",
+  "version": "0.1.8",
   "private": false,
   "description": "converts the content to stream",
   "main": "lib/index.js",
@@ -38,5 +38,5 @@
   "browser": {
     "./lib/convertToStream.js": "./lib/convertToBlob.js"
   },
-  "gitHead": "6d40a441b8573957dc96cef09a93938a376bc8eb"
+  "gitHead": "13fddfca5d179e629073a851105e48f4ee67d5fa"
 }
