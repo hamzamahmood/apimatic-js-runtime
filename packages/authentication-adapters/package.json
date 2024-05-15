@@ -68,5 +68,5 @@
     "url": "git@github.com:apimatic/apimatic-js-runtime.git",
     "directory": "packages/authentication-adapter"
   },
-  "gitHead": "b7b3e0d6860e568e7cd21c3a18bc1b6de6c796db"
+  "gitHead": "6d40a441b8573957dc96cef09a93938a376bc8eb"
 }
