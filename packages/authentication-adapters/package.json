@@ -55,8 +55,8 @@
   },
   "dependencies": {
     "@apimatic/core-interfaces": "^0.2.0",
-    "@apimatic/http-query": "^0.3.0",
     "@apimatic/http-headers": "^0.3.0",
+    "@apimatic/http-query": "^0.3.0",
     "tslib": "^2.1.0"
   },
   "publishConfig": {
@@ -66,5 +66,6 @@
     "type": "git",
     "url": "git@github.com:apimatic/apimatic-js-runtime.git",
     "directory": "packages/authentication-adapter"
-  }
+  },
+  "gitHead": "d6e5edf90c86123f08ce7f71a807a45dfb81afd7"
 }

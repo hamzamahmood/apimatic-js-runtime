@@ -65,5 +65,6 @@
     "type": "git",
     "url": "git@github.com:apimatic/apimatic-js-runtime.git",
     "directory": "packages/http-query"
-  }
+  },
+  "gitHead": "d6e5edf90c86123f08ce7f71a807a45dfb81afd7"
 }
