@@ -44,14 +44,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Request approval to push to main branch
+      - name: Request approval to push to master branch
         if: github.event.approvals[0].conclusion == 'success'
         run: |
-          echo "Requesting approval to push changes to main branch..."
+          echo "Requesting approval to push changes to master branch..."
 
-      - name: Push changes to main branch
+      - name: Push changes to master branch
         run: |
-          git push origin main
+          git push origin master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
