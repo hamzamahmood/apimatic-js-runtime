@@ -1,6 +1,6 @@
 {
   "name": "@hamzamahmood/convert-to-stream",
-  "version": "0.1.1",
+  "version": "0.1.5",
   "private": false,
   "description": "converts the content to stream",
   "main": "lib/index.js",
