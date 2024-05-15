@@ -1,5 +1,5 @@
 {
-  "name": "@apimatic/convert-to-stream",
+  "name": "@hamzamahmood/convert-to-stream",
   "version": "0.1.1",
   "description": "converts the content to stream",
   "main": "lib/index.js",
