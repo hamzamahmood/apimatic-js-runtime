@@ -1,6 +1,5 @@
 {
-  "name": "@hamzamahmood/authentication-adapters",
-  "author": "Hamza Mahmood",
+  "name": "@hamzamahmood/axios-client-adapter",
   "version": "0.5.2",
   "license": "MIT",
   "sideEffects": false,
