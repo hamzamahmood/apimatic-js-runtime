@@ -66,8 +66,10 @@ jobs:
         with:
           node-version: '19'
 
-      - name: Get lerna package
-        run: npm install lerna@6.5.1 -g
+      - name: Install dependencies and build
+        run: |
+          yarn install --frozen-lockfile
+          yarn build
 
       - name: Publish to NPM
         run: lerna publish from-package --yes
