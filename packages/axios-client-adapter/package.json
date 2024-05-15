@@ -1,6 +1,6 @@
 {
   "name": "@hamzamahmood/axios-client-adapter",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "license": "MIT",
   "private": false,
   "sideEffects": false,
