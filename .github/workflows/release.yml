@@ -67,7 +67,7 @@ jobs:
           node-version: '19'
 
       - name: Get lerna package
-        run: npm install lerna@6.2.1 -g
+        run: npm install lerna@6.5.1 -g
 
       - name: Publish to NPM
         run: lerna publish from-package --yes
