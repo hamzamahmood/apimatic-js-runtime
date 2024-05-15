@@ -68,6 +68,6 @@ jobs:
           node-version: '19'
 
       - name: Publish to NPM
-        run: node_modules/.bin/lerna publish from-package --yes
+        run: npx lerna publish from-package --yes
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
