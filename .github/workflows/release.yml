@@ -38,16 +38,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Generate Changelog
-        run: |
-          node_modules/.bin/lerna version ${{ github.event.inputs.version_type }} --yes --conventional-commits --changelog-preset angular
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Generate Changelog
+      #   run: |
+      #     node_modules/.bin/lerna version ${{ github.event.inputs.version_type }} --yes --conventional-commits --changelog-preset angular
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Request approval to push to master branch
-        if: github.event.approvals[0].conclusion == 'success'
-        run: |
-          echo "Requesting approval to push changes to master branch..."
+      - name: Request approval to push to main branch
+          run: |
+            echo "Requesting approval to push changes to main branch..."
 
       - name: Push changes to master branch
         run: |
