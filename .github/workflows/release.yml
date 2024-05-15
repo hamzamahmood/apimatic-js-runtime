@@ -45,8 +45,8 @@ jobs:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Request approval to push to main branch
-          run: |
-            echo "Requesting approval to push changes to main branch..."
+        run: |
+          echo "Requesting approval to push changes to main branch..."
 
       - name: Push changes to master branch
         run: |
