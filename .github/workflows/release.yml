@@ -37,13 +37,7 @@ jobs:
           node_modules/.bin/lerna version ${{ github.event.inputs.version_type }} --yes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # - name: Generate Changelog
-      #   run: |
-      #     node_modules/.bin/lerna version ${{ github.event.inputs.version_type }} --yes --conventional-commits --changelog-preset angular
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+  
       - name: Push changes to master branch
         run: |
           git push origin master
@@ -72,9 +66,3 @@ jobs:
         run: node_modules/.bin/lerna publish from-package --yes
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      
-      - name: Generate Release Changelog
-        run: |
-          node_modules/.bin/lerna version ${{ github.event.inputs.version_type }} --yes --conventional-commits --changelog-preset angular
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
