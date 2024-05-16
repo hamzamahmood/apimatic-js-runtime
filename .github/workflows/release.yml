@@ -72,6 +72,6 @@ jobs:
           yarn build
 
       - name: Publish to NPM
-        run: lerna publish from-package --yes
+        run: node_modules/.bin/lerna publish from-package --yes
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
