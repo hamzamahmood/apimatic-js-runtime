@@ -44,12 +44,6 @@ jobs:
       #   env:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Manual approval
-        if: always()
-        uses: wei/gh-approval@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Push changes to master branch
         run: |
           git push origin master
