@@ -37,12 +37,6 @@ jobs:
           node_modules/.bin/lerna version ${{ github.event.inputs.version_type }} --yes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
-      - name: Push changes to master branch
-        run: |
-          git push origin master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   publish_to_npm:
     needs: release_versioning
