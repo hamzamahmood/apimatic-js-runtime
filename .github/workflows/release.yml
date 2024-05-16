@@ -15,6 +15,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
+          ref: ${{ github.ref_name }}
           fetch-depth: 0  # Ensure the full history is fetched to push changes back
 
       - name: Set up Node.js
@@ -27,25 +28,36 @@ jobs:
           yarn install --frozen-lockfile
           yarn build
       
-      - name: Configure Git
+      - name: Configure Git and create release branch for version update
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b ci-version-update
+          git push origin ci-version-update
       
-      - name: Create new version
+      - name: Lerna version
         run: |
-          node_modules/.bin/lerna version ${{ github.event.inputs.version_type }} --yes --no-push
+          node_modules/.bin/lerna version ${{ github.event.inputs.version_type }} --yes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Commit the version change
-        if: steps.release.outputs.exit_code == 0
-        uses: devops-infra/action-commit-push@master
+      # - name: Commit the version change
+      #   if: steps.release.outputs.exit_code == 0
+      #   uses: devops-infra/action-commit-push@master
+      #   with:
+      #      github_token: "${{ secrets.GITHUB_TOKEN }}"
+      #      commit_message: "ci(release-version) update pom.xml [ci skip]"
+      #      force: false
+      #      target_branch: ci-version-update
+
+  publish_to_npm:
+    needs: release_versioning
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
         with:
-           github_token: "${{ secrets.GITHUB_TOKEN }}"
-           commit_message: "ci(release-version) update pom.xml [ci skip]"
-           force: false
-           target_branch: ci-version-update
+          ref: ci-version-update
 
       - name: Push the version change
         if: steps.release.outputs.exit_code == 0
@@ -60,13 +72,6 @@ jobs:
         run: |
            git branch -D ci-version-update &>/dev/null || true
            git push origin :ci-version-update &>/dev/null || true
-
-  publish_to_npm:
-    needs: release_versioning
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
