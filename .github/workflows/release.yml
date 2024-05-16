@@ -34,9 +34,32 @@ jobs:
       
       - name: Create new version
         run: |
-          node_modules/.bin/lerna version ${{ github.event.inputs.version_type }} --yes
+          node_modules/.bin/lerna version ${{ github.event.inputs.version_type }} --yes --no-push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Commit the version change
+        if: steps.release.outputs.exit_code == 0
+        uses: devops-infra/action-commit-push@master
+        with:
+           github_token: "${{ secrets.GITHUB_TOKEN }}"
+           commit_message: "ci(release-version) update pom.xml [ci skip]"
+           force: false
+           target_branch: ci-version-update
+
+      - name: Push the version change
+        if: steps.release.outputs.exit_code == 0
+        uses: CasperWA/push-protected@v2
+        with:
+          #  token: ${{ secrets.PAT }}
+           token: ${{ secrets.GITHUB_TOKEN }}
+           branch: ${{ github.ref_name }}
+
+      - name: Delete the intermediate branch
+        if: steps.release.outputs.exit_code == 0
+        run: |
+           git branch -D ci-version-update &>/dev/null || true
+           git push origin :ci-version-update &>/dev/null || true
 
   publish_to_npm:
     needs: release_versioning
