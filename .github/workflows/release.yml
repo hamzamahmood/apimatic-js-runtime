@@ -40,15 +40,6 @@ jobs:
           node_modules/.bin/lerna version ${{ github.event.inputs.version_type }} --yes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-      # - name: Commit the version change
-      #   if: steps.release.outputs.exit_code == 0
-      #   uses: devops-infra/action-commit-push@master
-      #   with:
-      #      github_token: "${{ secrets.GITHUB_TOKEN }}"
-      #      commit_message: "ci(release-version) update pom.xml [ci skip]"
-      #      force: false
-      #      target_branch: ci-version-update
 
   publish_to_npm:
     needs: release_versioning
@@ -58,6 +49,23 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ci-version-update
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '19'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies and build
+        run: |
+          yarn install --frozen-lockfile
+          yarn build
+
+      - name: Publish to NPM
+        id: release
+        run: node_modules/.bin/lerna publish from-package --yes
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Push the version change
         if: steps.release.outputs.exit_code == 0
@@ -72,19 +80,3 @@ jobs:
         run: |
            git branch -D ci-version-update &>/dev/null || true
            git push origin :ci-version-update &>/dev/null || true
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '19'
-          registry-url: 'https://registry.npmjs.org'
-
-      - name: Install dependencies and build
-        run: |
-          yarn install --frozen-lockfile
-          yarn build
-
-      - name: Publish to NPM
-        run: node_modules/.bin/lerna publish from-package --yes
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
