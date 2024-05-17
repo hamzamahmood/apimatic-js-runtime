@@ -37,10 +37,9 @@ jobs:
         with:
           node-version: "19.x"
 
-      - name: Install dependencies and build
+      - name: Install dependencies
         run: |
-          yarn install --frozen-lockfile
-          yarn run build
+          npm install lerna@6.5.1 -g
 
       - name: Bump ${{ github.event.inputs.Package }} version
         run: |
