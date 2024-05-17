@@ -1,6 +1,6 @@
 {
   "name": "@hamzamahmood/axios-client-adapter",
-  "version": "0.3.6",
+  "version": "0.4.0",
   "license": "MIT",
   "private": false,
   "sideEffects": false,
@@ -62,7 +62,7 @@
     "@hamzamahmood/core-interfaces": "^0.2.0",
     "@hamzamahmood/file-wrapper": "^0.3.0",
     "@hamzamahmood/http-headers": "^0.3.0",
-    "@hamzamahmood/http-query": "^0.3.0",
+    "@hamzamahmood/http-query": "^0.4.0",
     "@hamzamahmood/json-bigint": "^1.2.0",
     "@hamzamahmood/schema": "^0.7.0",
     "axios": "^1.6.0",
