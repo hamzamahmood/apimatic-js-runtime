@@ -56,7 +56,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Generate changelog
-        if: steps.release.conclusion == 'success'
+        if: steps.release.conclusion == 'success' && steps.release.outputs.packages_changed == 'true'
         run: npx conventional-changelog -p angular -i CHANGELOG.md -s -r 0
 
       - name: Create GitHub Releases
@@ -70,14 +70,14 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push tags to origin
-        if: steps.release.conclusion == 'success'
+        if: steps.release.conclusion == 'success' && steps.release.outputs.packages_changed == 'true'
         run: |
           git add CHANGELOG.md
           git commit -m "ci(release): update packages.json and changelog [ci skip]"
           git push origin ci-version-update --follow-tags
 
       - name: Push the version change
-        if: steps.release.conclusion == 'success'
+        if: steps.release.conclusion == 'success' && steps.release.outputs.packages_changed == 'true'
         uses: CasperWA/push-protected@v2
         with:
           token: ${{ secrets.PAT }}
