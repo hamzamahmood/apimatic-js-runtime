@@ -36,34 +36,16 @@ jobs:
           git push origin ci-version-update
       
       - name: Lerna version
+        id: version
         run: |
           node_modules/.bin/lerna version ${{ github.event.inputs.version_type }} --yes --no-push --create-release=github
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  publish_to_npm:
-    needs: release_versioning
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          ref: ci-version-update
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '19'
-          registry-url: 'https://registry.npmjs.org'
-
-      - name: Install dependencies and build
-        run: |
-          yarn install --frozen-lockfile
-          yarn build
-
       - name: Publish to NPM
+        if: steps.version.outputs.exit_code == 0
         id: release
-        run: node_modules/.bin/lerna publish from-package --yes
+        run: node_modules/.bin/lerna publish from-package --yes --registry https://registry.npmjs.org
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
