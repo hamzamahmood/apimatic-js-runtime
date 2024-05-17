@@ -29,7 +29,7 @@ jobs:
       #     yarn build
       - name: Install lerna
         run: |
-          yarn add global lerna@6.5.1
+          npm install lerna@6.5.1 -g
 
 
       - name: Configure Git and create release branch for version update
