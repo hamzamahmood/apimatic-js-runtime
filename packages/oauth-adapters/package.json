@@ -1,6 +1,6 @@
 {
   "name": "@hamzamahmood/oauth-adapters",
-  "version": "0.5.0",
+  "version": "0.4.3",
   "license": "MIT",
   "private": false,
   "sideEffects": false,
