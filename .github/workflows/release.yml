@@ -59,7 +59,6 @@ jobs:
         uses: CasperWA/push-protected@v2
         with:
           token: ${{ secrets.PAT }}
-          #token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref_name }}
 
       - name: Delete the intermediate branch
