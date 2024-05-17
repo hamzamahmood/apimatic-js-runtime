@@ -56,12 +56,10 @@ jobs:
         id: release
         run: |
           cd packages/${{ github.event.inputs.Package }}
+          yarn install --frozen-lockfile
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Discard npm configuration
-        run: rm -f .npmrc
 
       - name: Commit the version change
         if: steps.release.outputs.exit_code == 0
