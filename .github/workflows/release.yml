@@ -42,10 +42,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Configure NPM registry
+        run: npm config set registry https://registry.npmjs.org/
+
+      - name: Authenticate with NPM
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
       - name: Publish to NPM
         if: steps.version.conclusion == 'success'
         id: release
-        run: node_modules/.bin/lerna publish from-package --yes --registry https://registry.npmjs.org
+        run: node_modules/.bin/lerna publish from-package --yes
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
