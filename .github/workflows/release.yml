@@ -38,7 +38,7 @@ jobs:
       - name: Lerna version
         id: version
         run: |
-          node_modules/.bin/lerna version ${{ github.event.inputs.version_type }} --conventional-commits --create-release github -m '[skip ci] chore(release): publish' --yes
+          node_modules/.bin/lerna version ${{ github.event.inputs.version_type }} --yes --conventional-commits --create-release=github
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
