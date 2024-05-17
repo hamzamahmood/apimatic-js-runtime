@@ -48,12 +48,12 @@ jobs:
       - name: Authenticate with NPM
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
-      - name: Publish to NPM
-        if: steps.version.conclusion == 'success'
-        id: release
-        run: node_modules/.bin/lerna publish from-package --yes
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # - name: Publish to NPM
+      #   if: steps.version.conclusion == 'success'
+      #   id: release
+      #   run: node_modules/.bin/lerna publish from-package --yes
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       # - name: Push tags to origin
       #   if: steps.release.conclusion == 'success'
