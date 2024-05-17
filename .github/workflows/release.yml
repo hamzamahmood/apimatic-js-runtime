@@ -23,11 +23,15 @@ jobs:
         with:
           node-version: '19'
       
-      - name: Install dependencies and build
+      # - name: Install dependencies and build
+      #   run: |
+      #     yarn install --frozen-lockfile
+      #     yarn build
+      - name: Install lerna
         run: |
-          yarn install --frozen-lockfile
-          yarn build
-      
+          yarn add global lerna@6.5.1
+
+
       - name: Configure Git and create release branch for version update
         run: |
           git config --global user.name "github-actions[bot]"
