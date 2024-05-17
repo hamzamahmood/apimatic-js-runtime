@@ -63,7 +63,7 @@
     "@hamzamahmood/file-wrapper": "^0.3.0",
     "@hamzamahmood/http-headers": "^0.3.0",
     "@hamzamahmood/http-query": "^0.3.0",
-    "@hamzamahmood/json-bigint": "^1.2.0",
+    "@apiamtic/json-bigint": "^1.2.0",
     "@hamzamahmood/schema": "^0.7.0",
     "axios": "^1.6.0",
     "detect-browser": "^5.3.0",
