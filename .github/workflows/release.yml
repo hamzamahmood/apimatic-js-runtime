@@ -62,10 +62,12 @@ jobs:
       - name: Create GitHub Releases
         if: steps.release.conclusion == 'success'
         run: |
-          PACKAGE=$(npx lerna changed --json | jq -r '.[0].name')
-          PACKAGE_VERSION=$(npx lerna ls --json | jq -r --arg PACKAGE "$PACKAGE" '.[] | select(.name == $PACKAGE) | .version')
+          PACKAGE=$(node_modules/.bin/lerna changed --json | jq -r '.[0].name')
+          PACKAGE_VERSION=$(node_modules/.bin/lerna ls --json | jq -r --arg PACKAGE "$PACKAGE" '.[] | select(.name == $PACKAGE) | .version')
           echo "Creating release for $PACKAGE@$PACKAGE_VERSION"
           gh release create "$PACKAGE@$PACKAGE_VERSION" --title "$PACKAGE@$PACKAGE_VERSION" --notes-file CHANGELOG.md --target main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push tags to origin
         if: steps.release.conclusion == 'success'
