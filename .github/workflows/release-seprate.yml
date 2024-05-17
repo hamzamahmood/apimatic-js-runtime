@@ -101,3 +101,4 @@ jobs:
           tag: ${{ steps.tag_version.outputs.new_tag }}
           name: Release ${{ github.event.inputs.Package }} Version ${{ github.event.inputs.Version }}
           body: ${{ steps.tag_version.outputs.changelog }}
+          path: 'packages/${{ github.event.inputs.Package }}'
