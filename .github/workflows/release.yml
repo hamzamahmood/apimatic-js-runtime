@@ -60,7 +60,7 @@ jobs:
         run: npx conventional-changelog -p angular -i CHANGELOG.md -s -r 0
 
       - name: Create GitHub Releases
-        if: steps.release.conclusion == 'success'
+        if: steps.release.conclusion == 'success' && steps.release.outputs.packages_changed == 'true'
         run: |
           PACKAGE=$(node_modules/.bin/lerna changed --json | jq -r '.[0].name')
           PACKAGE_VERSION=$(node_modules/.bin/lerna ls --json | jq -r --arg PACKAGE "$PACKAGE" '.[] | select(.name == $PACKAGE) | .version')
