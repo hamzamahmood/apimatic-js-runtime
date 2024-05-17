@@ -40,6 +40,8 @@ jobs:
       - name: Install dependencies
         run: |
           npm install lerna@6.5.1 -g
+          yarn install --frozen-lockfile
+          yarn run build
 
       - name: Bump ${{ github.event.inputs.Package }} version
         run: |
@@ -56,7 +58,6 @@ jobs:
         id: release
         run: |
           cd packages/${{ github.event.inputs.Package }}
-          yarn install --frozen-lockfile
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
