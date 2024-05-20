@@ -46,6 +46,7 @@ jobs:
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
       - name: Bump versions and publish packages
+        id: release
         run: |
           yarn version:ci
           yarn publish:ci
