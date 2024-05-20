@@ -5,11 +5,5 @@
     "packages/*"
   ],
   "version": "independent",
-  "command": {
-    "publish": {
-      "conventionalCommits": true,
-      "createRelease": "github"
-    }
-  },
   "$schema": "node_modules/lerna/schemas/lerna-schema.json"
 }
