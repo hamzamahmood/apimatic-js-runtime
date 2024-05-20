@@ -62,6 +62,13 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      - name: Create GitHub Release
+        if: steps.release.conclusion == 'success'
+        run: |
+          yarn lerna exec -- gh release create ${{ github.ref_name }} --title "Release ${{ github.ref_name }}" --notes "Automated release by GitHub Actions."
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+
       - name: Push the version change
         if: steps.release.conclusion == 'success'
         uses: CasperWA/push-protected@v2
