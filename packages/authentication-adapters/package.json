@@ -1,6 +1,6 @@
 {
   "name": "@hamzamahmood/authentication-adapters",
-  "version": "0.5.7",
+  "version": "0.6.0",
   "license": "MIT",
   "private": false,
   "sideEffects": false,
@@ -57,7 +57,7 @@
   "dependencies": {
     "@hamzamahmood/core-interfaces": "^0.2.0",
     "@hamzamahmood/http-headers": "^0.3.0",
-    "@hamzamahmood/http-query": "^0.3.3",
+    "@hamzamahmood/http-query": "^0.4.0",
     "tslib": "^2.1.0"
   },
   "publishConfig": {
