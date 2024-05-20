@@ -37,16 +37,18 @@ jobs:
         with:
           node-version: "19.x"
 
-      - name: Install dependencies
-        run: |
-          npm install lerna@6.5.1 -g
-          yarn install --frozen-lockfile
-          yarn run build
+      # - name: Install dependencies
+      #   run: |
+      #     npm install lerna@6.5.1 -g
+      #     yarn install --frozen-lockfile
+      #     yarn run build
 
       - name: Bump ${{ github.event.inputs.Package }} version
         run: |
           cd packages/${{ github.event.inputs.Package }}
           yarn version --no-git-tag-version --new-version ${{ github.event.inputs.Version }}
+          cd ..
+          cd ..
 
       - name: Configure NPM registry
         run: npm config set registry 'https://registry.npmjs.org/'
@@ -61,6 +63,12 @@ jobs:
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Update dependencies
+        run: yarn upgrade ${{ github.event.inputs.Package }}@^${{ github.event.inputs.Version }}
+
+      - name: Update package lock file
+        run: yarn install
 
       - name: Commit the version change
         if: steps.release.outputs.exit_code == 0
@@ -91,7 +99,7 @@ jobs:
         with:
           github_token: ${{ secrets.PAT }}
           custom_tag: ${{ github.event.inputs.Version }}
-          tag_prefix: ${{ github.event.inputs.Package }}
+          tag_prefix: ${{ github.event.inputs.Package }}@
 
       - name: Create changelog for the release
         if: steps.release.outputs.exit_code == 0
