@@ -2,8 +2,8 @@ import { OAuthToken } from './oAuthToken';
 import {
   AuthenticatorInterface,
   passThroughInterceptor,
-} from '@apimatic/core-interfaces';
-import { AUTHORIZATION_HEADER, setHeader } from '@apimatic/http-headers';
+} from '@hamzamahmood/core-interfaces';
+import { AUTHORIZATION_HEADER, setHeader } from '@hamzamahmood/http-headers';
 
 export const requestAuthenticationProvider = (
   initialOAuthToken?: OAuthToken,

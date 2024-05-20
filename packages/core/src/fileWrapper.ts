@@ -1,1 +1,1 @@
-export * from '@apimatic/file-wrapper';
+export * from '@hamzamahmood/file-wrapper';

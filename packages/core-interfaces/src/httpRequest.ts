@@ -1,4 +1,4 @@
-import { FileWrapper } from '@apimatic/file-wrapper';
+import { FileWrapper } from '@hamzamahmood/file-wrapper';
 /**
  * Represents an HTTP request
  */

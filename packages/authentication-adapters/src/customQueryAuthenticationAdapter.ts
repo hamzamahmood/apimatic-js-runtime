@@ -1,7 +1,7 @@
 import {
   AuthenticatorInterface,
   passThroughInterceptor,
-} from '@apimatic/core-interfaces';
+} from '@hamzamahmood/core-interfaces';
 
 export const customQueryAuthenticationProvider = (
   customQueryParams: Record<string, string>

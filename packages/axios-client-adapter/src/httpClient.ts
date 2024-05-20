@@ -12,14 +12,14 @@ import FormData from 'form-data';
 import {
   CONTENT_TYPE_HEADER,
   FORM_URLENCODED_CONTENT_TYPE,
-} from '@apimatic/http-headers';
+} from '@hamzamahmood/http-headers';
 import {
   HttpRequest,
   HttpResponse,
   RetryConfiguration,
-} from '@apimatic/core-interfaces';
-import { urlEncodeKeyValuePairs } from '@apimatic/http-query';
-import { isFileWrapper } from '@apimatic/file-wrapper';
+} from '@hamzamahmood/core-interfaces';
+import { urlEncodeKeyValuePairs } from '@hamzamahmood/http-query';
+import { isFileWrapper } from '@hamzamahmood/file-wrapper';
 
 export const DEFAULT_AXIOS_CONFIG_OVERRIDES: AxiosRequestConfig = {
   transformResponse: [],

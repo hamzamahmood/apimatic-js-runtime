@@ -1,1 +1,1 @@
-export * from '@apimatic/http-headers';
+export * from '@hamzamahmood/http-headers';

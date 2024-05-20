@@ -2,7 +2,7 @@ import {
   FileWrapper,
   isFileWrapper,
   cloneFileWrapper,
-} from '@apimatic/file-wrapper';
+} from '@hamzamahmood/file-wrapper';
 
 /**
  * Type for Key-value pair for form-urlencoded serialization

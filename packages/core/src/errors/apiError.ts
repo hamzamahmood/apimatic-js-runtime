@@ -3,7 +3,7 @@ import {
   ApiResponse,
   HttpContext,
   HttpRequest,
-} from '@apimatic/core-interfaces';
+} from '@hamzamahmood/core-interfaces';
 
 /**
  * Thrown when the HTTP status code is not okay.

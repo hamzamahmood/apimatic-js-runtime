@@ -1,4 +1,4 @@
-import { FileWrapper, isFileWrapper } from '@apimatic/file-wrapper';
+import { FileWrapper, isFileWrapper } from '@hamzamahmood/file-wrapper';
 import fs from 'fs';
 import path from 'path';
 import {

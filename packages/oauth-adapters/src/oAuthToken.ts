@@ -1,4 +1,4 @@
-import { bigint, object, optional, Schema, string } from '@apimatic/schema';
+import { bigint, object, optional, Schema, string } from '@hamzamahmood/schema';
 
 /** OAuth 2 Authorization endpoint response */
 export interface OAuthToken {

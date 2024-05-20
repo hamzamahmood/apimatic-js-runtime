@@ -1,1 +1,1 @@
-export * from '@apimatic/schema';
+export * from '@hamzamahmood/schema';

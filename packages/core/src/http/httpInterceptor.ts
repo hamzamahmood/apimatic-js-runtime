@@ -2,7 +2,7 @@ import {
   HttpInterceptorInterface,
   HttpCallExecutor,
   combineHttpInterceptors,
-} from '@apimatic/core-interfaces';
+} from '@hamzamahmood/core-interfaces';
 /**
  * Calls HTTP interceptor chain
  *

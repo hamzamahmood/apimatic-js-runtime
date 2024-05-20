@@ -1,1 +1,1 @@
-export * from '@apimatic/core-interfaces';
+export * from '@hamzamahmood/core-interfaces';

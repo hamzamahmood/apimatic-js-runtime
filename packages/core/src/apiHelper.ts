@@ -1,5 +1,5 @@
-import { HttpResponse } from '@apimatic/core-interfaces';
-import { getHeader } from '@apimatic/http-headers';
+import { HttpResponse } from '@hamzamahmood/core-interfaces';
+import { getHeader } from '@hamzamahmood/http-headers';
 import { detect } from 'detect-browser';
 import warning from 'tiny-warning';
 import { JsonPointer } from 'json-ptr';

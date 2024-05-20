@@ -1,4 +1,4 @@
-import { LogLevel } from '@apimatic/core-interfaces';
+import { LogLevel } from '@hamzamahmood/core-interfaces';
 import {
   DEFAULT_LOGGING_OPTIONS,
   mergeLoggingOptions,

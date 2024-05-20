@@ -12,8 +12,8 @@ import {
   HttpRequestTextBody,
   HttpRequestUrlEncodedFormBody,
   HttpResponse,
-} from '@apimatic/core-interfaces';
-import { FileWrapper } from '@apimatic/file-wrapper';
+} from '@hamzamahmood/core-interfaces';
+import { FileWrapper } from '@hamzamahmood/file-wrapper';
 import FormData from 'form-data';
 import fs from 'fs';
 import { AbortError } from './abortError';

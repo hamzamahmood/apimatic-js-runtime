@@ -1,4 +1,4 @@
-import { LogLevel, LoggingOptions } from '@apimatic/core-interfaces';
+import { LogLevel, LoggingOptions } from '@hamzamahmood/core-interfaces';
 import { ConsoleLogger } from './defaultLogger';
 import defaultsDeep from 'lodash.defaultsdeep';
 import { PartialLoggingOptions } from './loggingOptions';

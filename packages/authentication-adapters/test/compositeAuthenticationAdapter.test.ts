@@ -4,7 +4,7 @@ import { compositeAuthenticationProvider } from '../src/compositeAuthenticationA
 import { customQueryAuthenticationProvider } from '../src/customQueryAuthenticationAdapter';
 import { customHeaderAuthenticationProvider } from '../src/customHeaderAuthenticationAdapter';
 import { callHttpInterceptors } from '../../core/src/http/httpInterceptor';
-import { HttpRequest, HttpResponse } from '@apimatic/core-interfaces';
+import { HttpRequest, HttpResponse } from '@hamzamahmood/core-interfaces';
 import { requestAuthenticationProvider } from '../../oauth-adapters/src/oauthAuthenticationAdapter';
 import { OAuthToken } from '../../oauth-adapters/src/oAuthToken';
 

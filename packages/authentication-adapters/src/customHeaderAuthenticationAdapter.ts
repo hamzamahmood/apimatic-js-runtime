@@ -1,8 +1,8 @@
 import {
   AuthenticatorInterface,
   passThroughInterceptor,
-} from '@apimatic/core-interfaces';
-import { mergeHeaders } from '@apimatic/http-headers';
+} from '@hamzamahmood/core-interfaces';
+import { mergeHeaders } from '@hamzamahmood/http-headers';
 
 export const customHeaderAuthenticationProvider = (
   customHeaderParams: Record<string, string>

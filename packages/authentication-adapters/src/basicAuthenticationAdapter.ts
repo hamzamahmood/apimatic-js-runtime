@@ -1,7 +1,7 @@
 import {
   AuthenticatorInterface,
   passThroughInterceptor,
-} from '@apimatic/core-interfaces';
+} from '@hamzamahmood/core-interfaces';
 
 export const basicAuthenticationProvider = (
   basicAuthUserName: string,

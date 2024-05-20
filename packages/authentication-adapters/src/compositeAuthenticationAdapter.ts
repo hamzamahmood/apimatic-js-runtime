@@ -4,7 +4,7 @@ import {
   RequestOptions,
   combineHttpInterceptors,
   passThroughInterceptor,
-} from '@apimatic/core-interfaces';
+} from '@hamzamahmood/core-interfaces';
 
 /**
  * Composite auth provider configuration

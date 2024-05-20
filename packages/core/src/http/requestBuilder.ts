@@ -1,5 +1,5 @@
 import JSONBig from '@apimatic/json-bigint';
-import { FileWrapper } from '@apimatic/file-wrapper';
+import { FileWrapper } from '@hamzamahmood/file-wrapper';
 import { deprecated, sanitizeUrl, updateErrorMessage } from '../apiHelper';
 import {
   ApiResponse,
@@ -53,7 +53,7 @@ import {
   shouldRetryRequest,
   RequestRetryOption,
 } from './retryConfiguration';
-import { convertToStream } from '@apimatic/convert-to-stream';
+import { convertToStream } from '@hamzamahmood/convert-to-stream';
 import { XmlSerializerInterface, XmlSerialization } from '../xml/xmlSerializer';
 
 export type RequestBuilderFactory<BaseUrlParamType, AuthParams> = (

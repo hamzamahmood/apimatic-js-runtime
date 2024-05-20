@@ -1,4 +1,4 @@
-import { LogLevel, LoggerInterface } from '@apimatic/core-interfaces';
+import { LogLevel, LoggerInterface } from '@hamzamahmood/core-interfaces';
 
 /**
  * Represents a logger implementation that logs messages to the console.
