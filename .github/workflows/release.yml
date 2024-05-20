@@ -53,23 +53,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Lerna version
-      #   id: version
-      #   run: |
-      #     node_modules/.bin/lerna version ${{ github.event.inputs.version_type }} --yes --no-push --no-git-tag-version
-      #     git add .
-      #     git commit -m "ci(release): update packages.json and changelog [ci skip]"
-      #     git push origin ci-version-update
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # - name: Publish to NPM
-      #   if: steps.version.conclusion == 'success'
-      #   id: release
-      #   run: node_modules/.bin/lerna publish from-package --yes
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
       - name: Push the version change
         if: steps.release.conclusion == 'success'
         uses: CasperWA/push-protected@v2
