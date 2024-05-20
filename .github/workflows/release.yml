@@ -48,7 +48,9 @@ jobs:
       - name: Lerna version
         id: version
         run: |
-          node_modules/.bin/lerna version ${{ github.event.inputs.version_type }} --yes --no-git-tag-version
+          node_modules/.bin/lerna version ${{ github.event.inputs.version_type }} --yes --no-push --no-git-tag-version
+          git commit -m "ci(release): update packages.json and changelog [ci skip]"
+          git push origin ci-version-update
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
