@@ -48,8 +48,8 @@ jobs:
       - name: Bump versions and publish packages
         id: release
         run: |
-          yarn version:ci
-          yarn publish:ci
+          lerna version ${{ github.event.inputs.version_type }} --yes --conventional-commits --create-release github --message 'chore(release): version bump and publish'
+          lerna publish from-package --yes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

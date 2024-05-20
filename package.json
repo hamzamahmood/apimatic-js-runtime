@@ -18,9 +18,7 @@
     "test": "lerna run test -- --ci --coverage --maxWorkers=2 --passWithNoTests",
     "dev": "node ./scripts/dev.js",
     "ci": "npm run build && npm run test",
-    "prerelease": "npm run build && npm run test",
-    "version:ci": "lerna version --yes --conventional-commits --create-release github --message 'chore(release): version bump and publish'",
-    "publish:ci": "lerna publish from-package --yes"
+    "prerelease": "npm run build && npm run test"
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",
