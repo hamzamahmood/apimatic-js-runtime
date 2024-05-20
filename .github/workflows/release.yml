@@ -55,7 +55,7 @@ jobs:
       - name: Publish to NPM
         # if: steps.version.conclusion == 'success'
         id: release
-        run: lerna publish from-package --yes
+        run: node_modules/.bin/lerna publish from-package --yes
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
