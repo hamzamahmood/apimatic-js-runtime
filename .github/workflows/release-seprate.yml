@@ -65,7 +65,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Update dependencies
-        run: yarn upgrade @hamzamahmood/${{ github.event.inputs.Package }}@^${{ github.event.inputs.Version }}
+        run: yarn workspaces foreach exec yarn upgrade @hamzamahmood/${{ github.event.inputs.Package }}@^${{ github.event.inputs.Version }}
 
       - name: Update package lock file
         run: yarn install
