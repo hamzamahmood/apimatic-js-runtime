@@ -6,7 +6,11 @@ on:
       version_type:
         description: 'Version type to bump (patch, minor, major)'
         required: true
-        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
 
 jobs:
   release:
@@ -23,14 +27,10 @@ jobs:
         with:
           node-version: '19'
       
-      # - name: Install dependencies and build
-      #   run: |
-      #     yarn install --frozen-lockfile
-      #     yarn build
-      - name: Install lerna
+      - name: Install dependencies and build
         run: |
-          npm install lerna@6.5.1 -g
-
+          yarn install --frozen-lockfile
+          yarn build
 
       - name: Configure Git and create release branch for version update
         run: |
@@ -39,12 +39,12 @@ jobs:
           git checkout -b ci-version-update
           git push origin ci-version-update
       
-      # - name: Lerna version
-      #   id: version
-      #   run: |
-      #     node_modules/.bin/lerna version ${{ github.event.inputs.version_type }} --yes --no-push
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Lerna version
+        id: version
+        run: |
+          node_modules/.bin/lerna version ${{ github.event.inputs.version_type }} --yes --no-push --no-git-tag-version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configure NPM registry
         run: npm config set registry 'https://registry.npmjs.org/'
@@ -65,14 +65,14 @@ jobs:
       #     git push --tags
 
       - name: Push the version change
-        # if: steps.release.conclusion == 'success'
+        if: steps.release.conclusion == 'success'
         uses: CasperWA/push-protected@v2
         with:
           token: ${{ secrets.PAT }}
           branch: ${{ github.ref_name }}
 
       - name: Delete the intermediate branch
-        # if: steps.release.conclusion == 'success'
+        if: steps.release.conclusion == 'success'
         run: |
            git branch -D ci-version-update &>/dev/null || true
            git push origin :ci-version-update &>/dev/null || true
