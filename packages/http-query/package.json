@@ -1,7 +1,7 @@
 {
   "name": "@hamzamahmood/http-query",
   "author": "APIMatic Ltd.",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "private": false,
   "license": "MIT",
   "sideEffects": false,
