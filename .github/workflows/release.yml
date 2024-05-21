@@ -17,7 +17,7 @@ jobs:
   release:
     name: Publish the npm package
     runs-on: ubuntu-latest
-    environment: Production
+    # environment: Production
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
