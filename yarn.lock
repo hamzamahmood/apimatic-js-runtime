@@ -10,13 +10,6 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@apimatic/file-wrapper@^0.3.0":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@apimatic/file-wrapper/-/file-wrapper-0.3.1.tgz#2c7582abde7a9c26e71f292dc7703cc346d71144"
-  integrity sha512-RUJe0fNO/b7vgH0jFjMgyRqBILNQ4kYZcZz8cxd3DODjKBT0R+jS6IU1KIDOTj2lJFdvPmIuPUOJbilKI2eAmA==
-  dependencies:
-    tslib "^2.1.0"
-
 "@apimatic/json-bigint@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@apimatic/json-bigint/-/json-bigint-1.2.0.tgz#05223455ec135976fe7a55456c2d21a3bbde56d8"
@@ -571,14 +564,6 @@
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
-
-"@hamzamahmood/core-interfaces@^0.2.0":
-  version "0.2.10"
-  resolved "https://registry.yarnpkg.com/@hamzamahmood/core-interfaces/-/core-interfaces-0.2.10.tgz#ea563d9d80c57bc88847a53e95141fb2624d2731"
-  integrity sha512-M6666PhsRuSa8CT3VW9DpB838UtBslld9r2DoE/qdpD3hL2I3LX+/N8uZhwpOJgEnHR0+gftLZTbR6pRSlJRnQ==
-  dependencies:
-    "@apimatic/file-wrapper" "^0.3.0"
-    tslib "^2.1.0"
 
 "@hutson/parse-repository-url@^3.0.0":
   version "3.0.2"
