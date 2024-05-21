@@ -1,5 +1,5 @@
 name: Release
-run-name: Publishing Package Version ${{ version_type }}
+run-name: Publishing Package Version ${{ github.event.inputs.version_type }}
 
 on:
   workflow_dispatch:
