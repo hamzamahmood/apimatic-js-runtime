@@ -11,6 +11,7 @@
     "clean": "lerna run clean",
     "build": "lerna run build",
     "lint": "lerna run lint",
+    "changelog": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s -r 0",
     "check-style": "lerna run check-style",
     "check-style:fix": "lerna run check-style:fix",
     "build:dev": "tsc -b ./tsconfig.monorepo.json",
@@ -18,11 +19,13 @@
     "test": "lerna run test -- --ci --coverage --maxWorkers=2 --passWithNoTests",
     "dev": "node ./scripts/dev.js",
     "ci": "npm run build && npm run test",
-    "prerelease": "npm run build && npm run test"
+    "prerelease": "npm run build && npm run test",
+    "postversion": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s -r 0"
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",
     "conventional-changelog": "^6.0.0",
+    "conventional-changelog-cli": "^5.0.0",
     "husky": "^4.3.0",
     "jest": "^26.4.2",
     "jest-watch-typeahead": "^0.6.1",
