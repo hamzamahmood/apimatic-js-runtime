@@ -1,7 +1,7 @@
 {
   "name": "@hamzamahmood/core",
   "author": "APIMatic Ltd.",
-  "version": "0.12.12",
+  "version": "0.12.13",
   "license": "MIT",
   "sideEffects": false,
   "main": "lib/index.js",
@@ -61,7 +61,7 @@
   "dependencies": {
     "@apimatic/json-bigint": "^1.2.0",
     "@hamzamahmood/convert-to-stream": "^0.1.0",
-    "@hamzamahmood/core-interfaces": "^0.8.0",
+    "@hamzamahmood/core-interfaces": "^0.8.1",
     "@hamzamahmood/file-wrapper": "^0.3.0",
     "@hamzamahmood/http-headers": "^0.3.0",
     "@hamzamahmood/http-query": "^0.4.0",
