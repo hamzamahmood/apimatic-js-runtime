@@ -5,13 +5,5 @@
     "packages/*"
   ],
   "version": "independent",
-  "$schema": "node_modules/lerna/schemas/lerna-schema.json",
-  "command": {
-    "publish": {
-      "conventionalCommits": true,
-      "changelogPreset": {
-        "name": "conventional-changelog-conventionalcommits"
-      }
-    }
-  }
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json"
 }
