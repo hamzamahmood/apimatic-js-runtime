@@ -43,10 +43,6 @@ export class ApiLogger implements ApiLoggerInterface {
       ? request.url
       : this._removeQueryParams(request.url);
 
-    if (logLevel !== LogLevel.NoneTest) {
-      return;
-    }
-
     this._logger.log(logLevel, 'Request ${method} ${url} ${contentType}', {
       method: request.method,
       url,
