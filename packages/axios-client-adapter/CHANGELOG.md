@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.15](https://github.com/apimatic/apimatic-js-runtime/compare/@hamzamahmood/axios-client-adapter@0.4.14...@hamzamahmood/axios-client-adapter@0.4.15) (2024-05-23)
+
+**Note:** Version bump only for package @hamzamahmood/axios-client-adapter
+
 ## [0.4.14](https://github.com/apimatic/apimatic-js-runtime/compare/@hamzamahmood/axios-client-adapter@0.4.13...@hamzamahmood/axios-client-adapter@0.4.14) (2024-05-22)
 
 **Note:** Version bump only for package @hamzamahmood/axios-client-adapter

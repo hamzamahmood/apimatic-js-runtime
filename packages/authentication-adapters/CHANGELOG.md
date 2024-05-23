@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.9](https://github.com/apimatic/apimatic-js-runtime/compare/@hamzamahmood/authentication-adapters@0.6.8...@hamzamahmood/authentication-adapters@0.6.9) (2024-05-23)
+
+**Note:** Version bump only for package @hamzamahmood/authentication-adapters
+
 ## [0.6.8](https://github.com/apimatic/apimatic-js-runtime/compare/@hamzamahmood/authentication-adapters@0.6.7...@hamzamahmood/authentication-adapters@0.6.8) (2024-05-22)
 
 **Note:** Version bump only for package @hamzamahmood/authentication-adapters
