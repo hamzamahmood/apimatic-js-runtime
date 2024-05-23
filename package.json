@@ -21,11 +21,10 @@
     "prerelease": "npm run build && npm run test"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.3.0",
-    "@commitlint/config-conventional": "^19.2.2",
+    "@commitlint/cli": "^17.0.0",
+    "@commitlint/config-conventional": "^17.0.0",
     "@types/jest": "^24.0.23",
     "conventional-changelog": "^6.0.0",
-    "conventional-changelog-cli": "^5.0.0",
     "conventional-changelog-conventionalcommits": "^4.6.3",
     "husky": "^4.3.0",
     "jest": "^26.4.2",
