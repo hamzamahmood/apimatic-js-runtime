@@ -128,9 +128,4 @@ export enum LogLevel {
    * Trace log level.
    */
   Trace = 'trace',
-
-  /**
-   * None log level.
-   */
-  NoneTest = 'noneTest',
 }
