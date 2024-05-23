@@ -5,10 +5,5 @@
     "packages/*"
   ],
   "version": "independent",
-  "$schema": "node_modules/lerna/schemas/lerna-schema.json",
-  "command": {
-    "version": {
-      "conventionalCommits": true
-    }
-  }
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json"
 }
