@@ -6,10 +6,10 @@
   ],
   "version": "independent",
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
+  "changelogPreset": "./custom-conventional-changelog.js",
   "command": {
     "version": {
-      "conventionalCommits": true,
-      "changelogPreset": "custom-conventional-changelog.js"
+      "conventionalCommits": true
     }
   }
 }
