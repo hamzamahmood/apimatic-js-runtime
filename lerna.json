@@ -8,7 +8,7 @@
   "command": {
     "version": {
       "conventionalCommits": true,
-      "changelogPreset": "./custom-conventional-changelog/index.js"
+      "changelogPreset": ".\\custom-conventional-changelog/index.js"
     }
   }
 }
