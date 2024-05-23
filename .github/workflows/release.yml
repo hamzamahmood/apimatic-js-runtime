@@ -21,6 +21,7 @@ on:
 jobs:
   release:
     name: Publish the npm package
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     environment: Production
     steps:
