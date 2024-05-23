@@ -9,7 +9,7 @@
   "command": {
     "version": {
       "conventionalCommits": true,
-      "changelogPreset": "conventional-changelog-conventionalcommits"
+      "changelogPreset": "./custom-conventional-changelog.js"
     }
   }
 }
