@@ -8,15 +8,15 @@ on:
         description: |
           Version type to bump:
           - patch: for fixes with non-breaking changes (bumps 0.0.X)
-          - minor: for new features with non-breaking changes (bumps 0.X.0)
+          - minor: for new features with breaking changes (bumps 0.X.0)
           - major: for bumping major version with breaking changes (bumps X.0.0)
         required: true
         type: choice
         options:
-          - patch (non-breaking changes 0.0.X)
-          - minor (non-breaking changes 0.X.0)
-          - major (breaking changes X.0.0)
-        default: patch (non-breaking changes 0.0.X)
+          - patch (fixes with non-breaking changes 0.0.X)
+          - minor (features with breaking changes 0.X.0)
+          - major (major version bump for breaking changes X.0.0)
+        default: patch (fixes with non-breaking changes 0.0.X)
 
 jobs:
   release:
@@ -28,13 +28,13 @@ jobs:
         id: version_type
         run: |
           case "${{ github.event.inputs.version_type }}" in
-            "patch (non-breaking changes 0.0.X)")
+            "patch (fixes with non-breaking changes 0.0.X)")
               echo "version=patch" >> $GITHUB_ENV
               ;;
-            "minor (non-breaking changes 0.X.0)")
+            "minor (features with breaking changes 0.X.0)")
               echo "version=minor" >> $GITHUB_ENV
               ;;
-            "major (breaking changes X.0.0)")
+            "major (major version bump for breaking changes X.0.0)")
               echo "version=major" >> $GITHUB_ENV
               ;;
           esac
@@ -72,7 +72,7 @@ jobs:
       - name: Bump versions and publish packages
         id: release
         run: |
-          node_modules/.bin/lerna version ${{ env.version }} --yes --conventional-commits --create-release github --message 'chore(release): update version and publish package(s)'
+          node_modules/.bin/lerna version ${{ env.version }} --yes --conventional-commits --changelog-preset conventionalcommits --create-release github --message 'chore(release): update version and publish package(s)'
           node_modules/.bin/lerna publish from-package --yes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
