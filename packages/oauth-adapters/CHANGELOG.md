@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.0](https://github.com/apimatic/apimatic-js-runtime/compare/@hamzamahmood/oauth-adapters@0.5.15...@hamzamahmood/oauth-adapters@0.6.0) (2024-05-23)
+
+**Note:** Version bump only for package @hamzamahmood/oauth-adapters
+
 ## [0.5.15](https://github.com/apimatic/apimatic-js-runtime/compare/@hamzamahmood/oauth-adapters@0.5.14...@hamzamahmood/oauth-adapters@0.5.15) (2024-05-23)
 
 **Note:** Version bump only for package @hamzamahmood/oauth-adapters
