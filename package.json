@@ -21,8 +21,12 @@
     "prerelease": "npm run build && npm run test"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
     "@types/jest": "^24.0.23",
     "conventional-changelog": "^6.0.0",
+    "conventional-changelog-cli": "^5.0.0",
+    "conventional-changelog-conventionalcommits": "^8.0.0",
     "husky": "^4.3.0",
     "jest": "^26.4.2",
     "jest-watch-typeahead": "^0.6.1",
@@ -40,7 +44,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint --edit $1"
     }
   },
   "lint-staged": {
@@ -48,6 +53,11 @@
       "prettier --write",
       "tslint --fix",
       "git add"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
     ]
   }
 }
