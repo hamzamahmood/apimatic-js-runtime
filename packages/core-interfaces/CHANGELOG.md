@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.10.1](https://github.com/apimatic/apimatic-js-runtime/compare/@hamzamahmood/core-interfaces@0.10.0...@hamzamahmood/core-interfaces@0.10.1) (2024-05-23)
+
+### Bug Fixes
+
+- **logging:** remove none log level ([b8330d0](https://github.com/apimatic/apimatic-js-runtime/commit/b8330d07940333760321279b4837198aa46527e4))
+
 ## [0.10.0](https://github.com/apimatic/apimatic-js-runtime/compare/@hamzamahmood/core-interfaces@0.9.0...@hamzamahmood/core-interfaces@0.10.0) (2024-05-23)
 
 ### Bug Fixes
