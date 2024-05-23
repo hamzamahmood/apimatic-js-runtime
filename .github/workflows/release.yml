@@ -5,13 +5,18 @@ on:
   workflow_dispatch:
     inputs:
       version_type:
-        description: 'Version type to bump (patch, minor, major)'
+        description: >
+          Version type to bump:
+          - patch: Patch - for fixes with non-breaking changes (bumps 0.0.X)
+          - minor: Minor - for new features with breaking changes (bumps 0.X.0)
+          - major: Major - for bumping major version with breaking changes (bumps X.0.0)
         required: true
         type: choice
         options:
-          - patch
-          - minor
-          - major
+          - patch # Patch - for fixes with non-breaking changes (bumps 0.0.X)
+          - minor # Minor - for new features with breaking changes (bumps 0.X.0)
+          - major # Major - for bumping major version with breaking changes (bumps X.0.0)
+        default: patch
 
 jobs:
   release:
