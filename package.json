@@ -33,7 +33,7 @@
     "jsdom-global": "^3.0.2",
     "lerna": "^6.5.1",
     "lint-staged": "^12.5.0",
-    "prettier": "^2.0.2",
+    "prettier": "^3.4.2",
     "spawn-command": "0.0.2-1",
     "ts-jest": "^26.4.0",
     "tslib": "^2.1.0",
